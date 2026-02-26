@@ -1,0 +1,10 @@
+:root {
+    --background-primary-color: #050505;
+    --background-secondary-color: #24003A;
+    --backgrond-tertiary-color: #FFAA00;
+
+    --title-weight: 700;
+    --title-secondary-weight: 600;
+    --text-weight: 400;
+    --text-secondary-weight: 500;
+}

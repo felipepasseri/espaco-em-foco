@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://kit.fontawesome.com/435aada87a.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/ba3a2b6127.js" crossorigin="anonymous"></script>
+    <title>Espaço em Foco</title>
+    <style type="text/css">
+
+        .navbar-dark .navbar-nav .nav-link {
+            color:  #f0f0f0;
+            text-shadow: 1px 1px 20px black;
+        }
+
+        .menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center; 
+        }
+
+        .menu li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        .menu a {
+            font-size: 22px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .menu a::before {
+            content: "";
+            width: 100%;
+            height: 4px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background: #fff;
+            transition: 0.5s transform ease;
+            transform: scale3d(0, 1, 1);
+            transform-origin: 0 50%;
+        }
+
+        .menu a:hover::before {
+            transform: scale3d(1, 1, 1);
+        }
+
+        .menu a::before {
+            transform-origin: 50% 50%;
+        }
+
+        #nav{
+            box-shadow: 0px 1px 5px black;
+        }
+
+        #nav-bar {
+            margin-right: 5%;
+
+        }
+
+        #logo {
+            margin: auto;
+        }
+
+        .telalogin a {
+            color: #f0f0f0;
+            
+        }
+
+        .telalogin a:hover {
+            color: rgb(131, 122, 122);
+        }
+
+        #pesquisar {
+            position: relative;
+            width: 300px;
+            left: 40px;
+            border-radius: 50px;
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding-bottom: 8px;
+        }
+
+        #pesquisar::placeholder {
+            color: white;
+            opacity: 0.8;
+            /* Firefox */
+        }
+
+        #lupapesquisar {
+            background: none;
+            border: none;
+            position: relative;
+            right: 10px;
+            padding-bottom: 8px;
+        }
+
+        .nav-item {
+            padding: 1px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bolder;
+            font-size: 25pt;
+            margin-right: 10px;
+            color: white;
+        }
+
+        .parallax {
+            background-image: url('https://i.imgur.com/JpDjDV3.jpeg');
+            min-height: 850px;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .texto {
+            font-family: "Anton";
+            font-size: 25pt;
+            color: #e0e0e0;
+            position: absolute;
+            top: 44%;
+            text-shadow: 6px 6px 10px black;
+            user-select: none;
+        }
+
+        #espaco {
+            position: absolute;
+            top: -93%;
+            width: auto;
+            height: auto;
+            clip: rect(100px, auto, 376px, 0px);
+        }
+
+
+
+        @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500,700&display=swap");
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #d9d9d9;
+        }
+
+
+
+        input[type=radio] {
+            display: none;
+        }
+
+        .card {
+            position: absolute;
+            width: 60%;
+            height: 113%;
+            border-radius: 10px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            transition: transform .4s ease;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            max-height: 600px;
+            height: 100%;
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cards {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin-bottom: 20px;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        #item-1:checked~.cards #planet-9,
+        #item-2:checked~.cards #planet-1,
+        #item-3:checked~.cards #planet-2,
+        #item-4:checked~.cards #planet-3,
+        #item-5:checked~.cards #planet-4,
+        #item-6:checked~.cards #planet-5,
+        #item-7:checked~.cards #planet-6,
+        #item-8:checked~.cards #planet-7,
+        #item-9:checked~.cards #planet-8 {
+            transform: translatex(-50%) scale(.8);
+            opacity: 1;
+            z-index: 0;
+        }
+        #item-1:checked~.cards #planet-8,
+        #item-2:checked~.cards #planet-9,
+        #item-3:checked~.cards #planet-1,
+        #item-4:checked~.cards #planet-2,
+        #item-5:checked~.cards #planet-3,
+        #item-6:checked~.cards #planet-4,
+        #item-7:checked~.cards #planet-5,
+        #item-8:checked~.cards #planet-6,
+        #item-9:checked~.cards #planet-7 {
+            transform: translatex(-100%) scale(.6);
+            opacity: .4;
+            z-index: -1;
+        }
+
+        #item-1:checked~.cards #planet-2,
+        #item-2:checked~.cards #planet-3,
+        #item-3:checked~.cards #planet-4,
+        #item-4:checked~.cards #planet-5,
+        #item-5:checked~.cards #planet-6,
+        #item-6:checked~.cards #planet-7,
+        #item-7:checked~.cards #planet-8,
+        #item-8:checked~.cards #planet-9,
+        #item-9:checked~.cards #planet-1 {
+            transform: translatex(50%) scale(.8);
+            opacity: 1;
+            z-index: 0;
+        }
+        #item-1:checked~.cards #planet-3,
+        #item-2:checked~.cards #planet-4,
+        #item-3:checked~.cards #planet-5,
+        #item-4:checked~.cards #planet-6,
+        #item-5:checked~.cards #planet-7,
+        #item-6:checked~.cards #planet-8,
+        #item-7:checked~.cards #planet-9,
+        #item-8:checked~.cards #planet-1,
+        #item-9:checked~.cards #planet-2 {
+            transform: translatex(100%) scale(.6);
+            opacity: .4;
+            z-index: -1;
+        }
+
+        #item-1:checked~.cards #planet-4,
+        #planet-5,
+        #planet-6,
+        #planet-7,
+        #item-2:checked~.cards #planet-5,
+        #planet-6,
+        #planet-7,
+        #planet-8,
+        #item-3:checked~.cards #planet-9,
+        #planet-6,
+        #planet-7,
+        #planet-8,
+        #item-4:checked~.cards #planet-1,
+        #planet-9,
+        #planet-7,
+        #planet-8,
+        #item-5:checked~.cards #planet-1,
+        #planet-2,
+        #planet-9,
+        #planet-8,
+        #item-6:checked~.cards #planet-3,
+        #planet-1,
+        #planet-9,
+        #planet-2,
+        #item-7:checked~.cards #planet-3,
+        #planet-4,
+        #planet-1,
+        #planet-2,
+        #item-8:checked~.cards #planet-3,
+        #planet-4,
+        #planet-5,
+        #planet-2,
+        #item-9:checked~.cards #planet-3,
+        #planet-4,
+        #planet-5,
+        #planet-6 {
+            transform: translatex(0) scale(0);
+            opacity: 0;
+            z-index: 0;
+        }
+
+        #item-1:checked~.cards #planet-1,
+        #item-2:checked~.cards #planet-2,
+        #item-3:checked~.cards #planet-3,
+        #item-4:checked~.cards #planet-4,
+        #item-5:checked~.cards #planet-5,
+        #item-6:checked~.cards #planet-6,
+        #item-7:checked~.cards #planet-7,
+        #item-8:checked~.cards #planet-8,
+        #item-9:checked~.cards #planet-9 {
+            transform: translatex(0) scale(1);
+            opacity: 1;
+            z-index: 1;
+
+            img {
+                box-shadow: 0px 0px 5px 0px rgba(81, 81, 81, 0.47);
+            }
+        }
+        .imagem{
+            width: 100%;
+            height: 100%;
+        }
+        .cardsTexts{
+            position: relative;
+            top: 80%;
+            left: 13%;
+            font-size: 45pt;
+        }
+        .arrows{
+            z-index: 1;
+            width: 47px;
+            height: 47px;
+            padding-left: 7.5px;
+            padding-top: 5.15px;
+            border-radius: 50%;
+            background-color: rgb(54, 98, 233);
+            font-size: 28pt;
+            position: relative;
+            top: 70%;
+            left: 78%;
+            color: whitesmoke;
+        }
+        .arrows:hover{
+            background-color: rgb(11, 61, 147);
+        }
+
+       
+    </style>
+    <script>
+        let ultimoSelecionado = null
+        let item1 = 0;
+        function navegar(radio) {
+            item1++
+            if(radio == document.querySelector('input[id="item-1"]:checked')){
+                if(item1 == 1){
+                    ultimoSelecionado = radio;
+                }
+            }
+            if (radio.checked && radio === ultimoSelecionado) {
+                // Se o botão de rádio já estava selecionado, redireciona
+                window.location.href = radio.value;
+            } else {
+                // Atualiza o último botão selecionado
+                ultimoSelecionado = radio;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark p-1 fixed-top" id="nav">
+
+
+
+        <ul id="nav-bar" class="navbar-nav menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link">Início</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">Notícias</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">Curiosidades</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">Sobre Nós</a>
+            </li>
+
+        </ul>
+        <a href="#" id="logo" class="navbar-brand" style="margin-left: 10px; text-shadow: 1px 1px 10px black;">
+            <img class="rounded-circle" src="https://i.imgur.com/4L7G7YK.jpeg" alt="logo" style="width: 60px; box-shadow: 0px 1px 5px black;">
+        </a>
+
+
+        <form action="/action_page.php" class="form-inline my-2 my-lg-0 mr-sm-3">
+            <input type="text" id="pesquisar" class="form-control mr-sm-2" placeholder="Pesquisar...">
+            <button class="btn btn-success my-2 my-sm-0" id="lupapesquisar" type="submit"><i
+                    class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+
+        <div class="telalogin">
+            <a href="E:\TelaLogin.html">
+                <i class="fa-solid fa-user" style="font-size: 40px; margin-right: 15px; margin-left: 5px; "></i>
+                </a>
+        </div>
+    </nav>
+
+    <div class="parallax">
+        <div class="texto" style="margin-left: 25px;">
+            <div id="espaco">
+                <p style="position: relative; top:170px ;font-size: 120pt;">ESPAÇO</p><br>
+            </div>
+            <p style="position: relative; top:40px; font-size: 100pt;">EM FOCO</p>
+            Explorando o universo. <br>Nosso sistema solar e fora dele
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <h1 style="font-weight: bolder; font-size: 45pt; margin-left: 100px;">Planetas</h1>
+
+
+
+
+    <div class="container">
+
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-1" checked>
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-2">
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-3">
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-4">
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-5">
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-6">
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-7">
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-8">
+        <input type="radio" name="slider" value="https://www.exemplo1.com" onclick="navegar(this)" id="item-9">
+
+        <div class="cards">
+
+            <label class="card" for="item-1" id="planet-1">
+                <div class="card imagem">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrVUHsjnUpu53rwXAyWQqtU6MMsTDqZGZSjQ&s"
+                        alt="Mercurio" class="imagens">
+                </div>
+                <div class="texto cardsTexts" >Mercúrio </div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-2" id="planet-2">
+                <div class="card imagem">
+                    <img src="https://static.mundoeducacao.uol.com.br/mundoeducacao/conteudo_legenda/f5c821353c57b50225cda29678232840.jpg"
+                        alt="Venus" class="imagens">
+                </div>
+                <div class="texto cardsTexts">Vênus</div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-3" id="planet-3">
+                <div class="card imagem">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2msybVS8W4_wwZNAsZAqEw-i9919qwny0DQ&s"
+                        alt="Terra" class="imagens">
+                </div>
+                <div class="texto cardsTexts">Terra</div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-4" id="planet-4">
+                <div class="card imagem">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/280px-OSIRIS_Mars_true_color.jpg"
+                        alt="Marte" class="imagens">
+                </div>
+                <div class="texto cardsTexts">Marte</div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-5" id="planet-5">
+                <div class="card imagem">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg"
+                        alt="Jupiter" class="images">
+                </div>
+                <div class="texto cardsTexts">Júpiter</div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-6" id="planet-6">
+                <div class="card imagem">
+                    <img src="https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/08/10353_8A5CCF09AC979AF1.jpg?w=1200&h=1200&crop=1"
+                        alt="Saturno" class="imagens">
+                </div>
+                <div class="texto cardsTexts">Saturno</div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-7" id="planet-7">
+                <div class="card imagem">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Uranus_Voyager2_color_calibrated.png/310px-Uranus_Voyager2_color_calibrated.png"
+                        alt="Urano" class="imagens">
+                </div>
+                <div class="texto cardsTexts">Urano</div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-8" id="planet-8">
+                <div class="card imagem">
+                    <img src="https://t3.gstatic.com/licensed-image?q=tbn:ANd9GcRtKh0tUZ3Zd8QPq_o-Ft0lvQmgOZDuTBQcCKKCKJoDPjw3c_TsPJeAv6eblwxcG12q"
+                        alt="Netuno" class="imagens">
+                </div>
+                <div class="texto cardsTexts">Netuno</div>
+                <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+            <label class="card" for="item-9" id="planet-9">
+                <div class="card imagem">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pluto_in_True_Color_-_High-Res.jpg/220px-Pluto_in_True_Color_-_High-Res.jpg"
+                        alt="Plutao" class="imagens">
+                </div>
+                <div class="texto cardsTexts">Plutão</div>
+              <i class="arrows fa-solid fa-arrow-right"></i>
+            </label>
+
+        </div>
+
+    </div>
+    </div>
+
+   
+
+
+</body>
+
+</html>
