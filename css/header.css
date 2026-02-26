@@ -1,0 +1,45 @@
+.main-header {
+    width: 100%;
+    background-color: var(--background-primary-color);
+    color: var(--text-primary-color);
+    padding: 27px 64px;
+    position: relative;
+    display: flex;
+}
+
+.main-header h1 {
+    font-size: 1.125rem;
+    font-weight: var(--title-secondary-weight);
+}
+
+.main-header .header-logo img {
+    width: 45px;
+    border-radius: 50%;
+}
+
+.main-header .header-menu, .main-header .header-menu ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.main-header input[type="checkbox"] {
+    visibility: hidden;
+}
+
+.main-header label img {
+    width: 38px;
+}
+
+ .main-header .header-menu nav {
+    display: none;
+}
+
+input[type="checkbox"]:checked ~ .header-menu nav {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--background-primary-color);
+}
+
