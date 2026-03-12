@@ -22,6 +22,19 @@
     font-style: normal;
 }
 
+.button {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-primary-color);
+    background-color: var(--background-secondary-color);
+    border-radius: 12px;
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    box-shadow: inset -2px -3px 2px #2D1979;
+}
+
 
 /*CSS RESET*/
 html, body, div, span, applet, object, iframe,

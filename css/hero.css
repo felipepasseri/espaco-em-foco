@@ -16,3 +16,12 @@
     font-size: 6rem;
     font-weight: var(--title-weight);
 }
+
+.hero #hero-img h3 {
+    font-size: 2.5rem;
+    font-weight: var(--text-weight);
+}
+
+.hero #hero-img a {
+    
+}
