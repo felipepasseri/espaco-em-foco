@@ -10,6 +10,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 24px;
+    background-attachment: fixed;
 }
 
 
@@ -35,4 +36,18 @@
     line-height: 64px;
     font-size: 1.5rem;
     margin: 0 auto;
+}
+
+@media screen and (max-width: 768px) {
+    .hero #hero-img h1 {
+        font-size: 4rem;
+    }
+
+    .hero #hero-img h3 {
+        font-size: 1.5rem;
+    }
+
+    .hero #hero-img {
+        height: 570px;
+    }
 }
