@@ -64,6 +64,19 @@
     height: 50px;
 }
 
+#main-header #menu-header {
+        display: none;
+}
+
+#main-header label {
+        display: none;
+}
+
+#main-header label img {
+    width: 60px;
+    height: 60px;
+}
+
 @media screen and (max-width: 768px) {
     #main-header nav #logo-container h1 {
         display: none;
@@ -83,13 +96,10 @@
         position: relative;
     }
 
-    #main-header label img {
-        width: 60px;
-        height: 60px;
+    #main-header label {
+        display: block;
     }
-    #main-header #menu-header {
-        display: none;
-    }
+    
 
     #main-header nav #main-nav-container {
         display: none;
