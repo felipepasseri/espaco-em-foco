@@ -1,0 +1,140 @@
+#main-header {
+    padding: 20px 40px;
+    background-color: var(--background-primary-color);
+    color: var(--text-primary-color);
+}
+
+#main-header nav {
+    display: flex;
+    justify-content: space-between;
+}
+
+#main-header nav ul {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+#main-header nav #logo-container {
+    gap: 8px;
+}
+
+
+#main-header nav #logo-container h1 {
+    font-weight: var(--title-secondary-weight);
+    font-size: 1.25rem;
+}
+
+#main-header nav #logo-container #logo {
+    background: url('../img/logo.jpeg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+#main-header nav #main-nav-container {
+    opacity: 60%;
+}
+
+#main-header nav #login-container {
+    gap: 16px;
+}
+
+#main-header nav #login-container li a {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-primary-color);
+    background-color: var(--background-secondary-color);
+    border-radius: 12px;
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    box-shadow: inset -2px -3px 2px #2D1979;
+}
+
+#main-header nav #login-container #login-icon {
+    background: url('../img/user-profile-default.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+#main-header #menu-header {
+        display: none;
+}
+
+#main-header label {
+        display: none;
+}
+
+#main-header label img {
+    width: 60px;
+    height: 60px;
+}
+
+@media screen and (max-width: 768px) {
+    #main-header nav #logo-container h1 {
+        display: none;
+    }
+
+    #main-header {
+        padding: 20px 20px;
+    }
+
+    #main-header nav #login-container #login-icon {
+       display: none;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    #main-header {
+        position: relative;
+    }
+
+    #main-header label {
+        display: block;
+    }
+    
+
+    #main-header nav #main-nav-container {
+        display: none;
+        position: absolute;
+        background-color: var(--background-primary-color);
+        opacity: 100%;
+        width: 100%;
+        left: 0;
+        top: 100%;
+        padding: 10px 20px;
+    }
+
+    #main-header nav #main-nav-container li {
+        margin-bottom: 10px;
+    }
+
+    
+    #main-header nav #login-container {
+        display: none;
+        position: absolute;
+        top: 220%;
+        left: 0;
+        background-color: var(--background-primary-color);
+        width: 100%;
+        padding: 10px 20px;
+    }
+
+    #main-header nav #login-container li{
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    #main-header nav #login-container li a {
+        width: 100%;
+    }
+
+
+
+}
