@@ -77,3 +77,54 @@
        display: none;
     }
 }
+
+@media screen and (max-width: 425px) {
+    #main-header {
+        position: relative;
+    }
+
+    #main-header label img {
+        width: 60px;
+        height: 60px;
+    }
+    #main-header #menu-header {
+        display: none;
+    }
+
+    #main-header nav #main-nav-container {
+        display: none;
+        position: absolute;
+        background-color: var(--background-primary-color);
+        opacity: 100%;
+        width: 100%;
+        left: 0;
+        top: 100%;
+        padding: 10px 20px;
+    }
+
+    #main-header nav #main-nav-container li {
+        margin-bottom: 10px;
+    }
+
+    
+    #main-header nav #login-container {
+        display: none;
+        position: absolute;
+        top: 220%;
+        left: 0;
+        background-color: var(--background-primary-color);
+        width: 100%;
+        padding: 10px 20px;
+    }
+
+    #main-header nav #login-container li{
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    #main-header nav #login-container li a {
+        width: 100%;
+    }
+
+
+
+}
