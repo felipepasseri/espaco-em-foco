@@ -50,4 +50,12 @@
     .hero #hero-img {
         height: 570px;
     }
+
+    .hero #hero-img .button {
+        width: 170px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 1rem;
+        margin: 0 auto;
+    }
 }
