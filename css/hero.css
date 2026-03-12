@@ -59,3 +59,25 @@
         margin: 0 auto;
     }
 }
+
+@media screen and (max-width: 425px) {
+    .hero #hero-img {
+        padding: 0 10px;
+    }   
+
+    .hero #hero-img h1 {
+        font-size: 2.7rem;
+    }
+
+    .hero #hero-img h3 {
+        font-size: 1.5rem;
+    }
+
+    .hero #hero-img .button {
+        width: 140px;
+        height: 50px;
+        line-height: 50px;
+        font-size: 1rem;
+        margin: 0 auto;
+    }
+}
