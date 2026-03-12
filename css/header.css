@@ -63,3 +63,17 @@
     width: 50px;
     height: 50px;
 }
+
+@media screen and (max-width: 768px) {
+    #main-header nav #logo-container h1 {
+        display: none;
+    }
+
+    #main-header {
+        padding: 20px 20px;
+    }
+
+    #main-header nav #login-container #login-icon {
+       display: none;
+    }
+}
