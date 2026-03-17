@@ -40,6 +40,25 @@
     box-shadow: inset -1px -1px 2px #2D1979;
 }
 
+.content-container {
+    position: relative;
+    z-index: 1;
+    background-color: #04001F;
+    color: white;
+    height: 100%;
+}
+
+.content-container::before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    background: url('../img/ceu-estrelado.jpg');
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    opacity: 33%;
+}
+
 
 /*CSS RESET*/
 html, body, div, span, applet, object, iframe,
@@ -87,3 +106,4 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
