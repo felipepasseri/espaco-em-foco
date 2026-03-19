@@ -6,5 +6,74 @@
     font-size: 3rem;
     font-weight: var(--title-weight);
     text-shadow: 0px 0px 14px var(--background-secondary-color);
-    margin-bottom: 16px;
+    margin-bottom: 32px;
+}
+
+.topics ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 20px;
+}
+/* .topics ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    overflow-x: auto; 
+    flex-wrap: nowrap; 
+
+    gap: 20px;
+    padding-bottom: 10px;
+
+    -webkit-overflow-scrolling: touch;
+} */
+
+
+
+.topics ul li #pesquisa {
+    height: 46px;
+    width: 190px;
+    box-sizing: border-box;
+    padding: 16px;
+    color: white;
+    font-size: 1.25rem;
+
+    background: rgba(74, 39, 200, 0.1);
+    border-radius: 16px;
+    box-shadow: inset -3px -6px 4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6.5px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border: 1px solid #393742;
+    border-radius: 10px;
+}
+
+.topics ul li #pesquisa::placeholder {
+    text-align: center;
+    font-weight: var(--title-weight);
+}
+
+.topics ul .topic-option button {
+    height: 46px;
+    box-sizing: border-box;
+    color: white;
+    width: 160px;
+    font-size: 1.25rem;
+    font-weight: var(--title-weight);
+    background: rgba(74, 39, 200, 0.1);
+    border-radius: 16px;
+    box-shadow: inset -3px -6px 4px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6.5px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border: 1px solid #393742;
+    border-radius: 35px;
+}
+
+.topics ul .topic-option button span {
+    margin-right: 5px;
+}
+
+.topics ul .active button {
+    background-color: var(--background-secondary-color);
 }
