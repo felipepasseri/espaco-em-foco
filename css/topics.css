@@ -1,0 +1,10 @@
+.topics {
+    text-align: center;
+}
+
+.topics h1 {
+    font-size: 3rem;
+    font-weight: var(--title-weight);
+    text-shadow: 0px 0px 14px var(--background-secondary-color);
+    margin-bottom: 16px;
+}
