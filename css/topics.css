@@ -29,6 +29,7 @@
     gap: 20px;
     padding-bottom: 10px;
     -webkit-overflow-scrolling: touch;
+    margin-bottom: 28px;
 }
 
 
@@ -83,22 +84,32 @@
 
 .topics-cards-list {
     text-align: left;
-    width: 500px;
-    height: 450px;
-    position: relative;
     border-radius: 16px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 0 150px;
+}
+
+.topic-card {
+    display: none;
+
+    width: 400px;
+    min-height: 400px;
+
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 35px;
 }
 
 .topics-cards-list .topic-card .button {
-    width: 180px;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
     margin: auto;
     margin-top: 24px;
 }
-
-
-
 
 .topics-cards-list .topic-card article {
     background: rgba(45, 27, 72, 0.6);
@@ -109,18 +120,30 @@
     border: 1px solid rgba(45, 27, 72, 0.39);
 
     padding: 25px 34px;
-    position: absolute;
-    bottom: 0;
 }
 
 
-.topics-cards-list li {
+.topics-cards-list .mercury {
     background: url('../img/mercury.jpg') no-repeat;
     background-size: cover;
     background-position: center;
 }
 
+.topic-card h3 {
+    font-size: 1.2rem;
+    font-weight: var(--title-secondary-weight);
+    margin-bottom: 10px;
+}
 
+.topic-card p {
+    font-size: 0.9rem;
+}
+
+.visible {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
 
 
 
