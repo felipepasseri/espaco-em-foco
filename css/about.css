@@ -1,0 +1,40 @@
+.about {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    padding: 0 32px;
+}
+
+
+.about .content-container {
+    display: flex;
+    gap: 64px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.about .content-container:nth-child(2), .about .content-container:nth-child(4){
+    flex-direction: row-reverse;
+}
+
+.about .content-container .text-content {
+    width: 800px;
+}
+
+.about .content-container .text-content h1 {
+    font-weight: var(--title-weight);
+    font-size: 2.5rem;
+    margin-bottom: 24px;
+}
+
+.about .content-container .text-content p {
+    font-size: 1rem;
+    opacity: 60%;
+}
+
+
+.about .content-container .img-about img {
+    width: 300px;
+    height: 300px;
+}
