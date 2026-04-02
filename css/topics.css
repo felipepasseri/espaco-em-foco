@@ -70,6 +70,7 @@
     -webkit-backdrop-filter: blur(6.5px);
     border: 1px solid #393742;
     border-radius: 35px;
+    cursor: pointer;
 }
 
 .topics ul .topic-option button span {
