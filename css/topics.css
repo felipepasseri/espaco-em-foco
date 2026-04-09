@@ -70,7 +70,6 @@
     -webkit-backdrop-filter: blur(6.5px);
     border: 1px solid #393742;
     border-radius: 35px;
-    cursor: pointer;
 }
 
 .topics ul .topic-option button span {
@@ -86,15 +85,17 @@
 .topics-cards-list {
     text-align: left;
     border-radius: 16px;
-    display: none;
-    
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
     width: 100%;
+    padding: 0 150px;
 }
 
 .topic-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    display: none;
+
     width: 400px;
     min-height: 400px;
 
@@ -140,18 +141,10 @@
 
 .visible {
     display: flex;
-    justify-content: center;
-    gap: 32px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
-/*ESTRELAS*/
-
-.topics-cards-list .topic-card.sun {
-    background: url('../img/sun.jpg') no-repeat;
-    background-size: cover;
-    background-position: center;
-}
 
 
 
