@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="scripts/index.js" type="module" defer></script>
+  </head>
+  <body>
+    <header id="main-header">
+      <nav>
+        <ul id="logo-container">
+          <div id="logo"></div>
+          <h1>Espaço em Foco</h1>
+        </ul>
+        <ul id="main-nav-container">
+          <li>Início</li>
+          <li>Tópicos</li>
+          <li>Sobre</li>
+          <li>Equipe</li>
+        </ul>
+        <ul id="login-container">
+          <li>
+            <a href="#" class="button"><span>Login</span></a>
+          </li>
+          <div id="login-icon"></div>
+        </ul>
+        <label for="menu-header"
+          ><img src="img/menu-header.png" alt=""
+        /></label>
+        <input type="checkbox" name="" id="menu-header" />
+      </nav>
+    </header>
+
+    <main>
+      <section id="sign-up" class="sign-up-section">
+        <div class="container"></div>
+        <!-- Coluna Esquerda: Boas-vindas -->
+        <div id="welcome" class="welcome-panel">
+          <h1>Seja bem-vindo!</h1>
+          <h4>
+            Estamos muito felizes em ter você aqui <span>😊</span><br />
+            Para começar, crie sua conta e aproveite tudo o que o nosso site tem
+            a oferecer.<br /><br />
+            Já faz parte da nossa comunidade? Então é só fazer login e continuar
+            de onde parou!
+          </h4>
+          <a href="#" class="button login-btn">Fazer Login</a>
+        </div>
+        <!-- Coluna Direita: Formulário de Cadastro/Login -->
+        <div id="sign-up-form" class="signup-form-panel">
+          <h2>Crie sua Conta</h2>
+          <p>Tem uma conta? <a href="#" class="login-link">Faça Login</a></p>
+          <form>
+            <div class="name-fields">
+              <input type="text" placeholder="Primeiro Nome" required />
+              <input type="text" placeholder="Sobrenome" required />
+            </div>
+            <input type="email" placeholder="Digite seu Email" required />
+            <input type="password" placeholder="Digite sua Senha" required />
+            <div class="terms">
+              <input type="checkbox" id="terms" required />
+              <label for="terms"
+                >Eu aceito os <a href="#">Termos e condições</a></label
+              >
+            </div>
+            <button type="submit" class="button create-account-btn">
+              Criar Conta
+            </button>
+          </form>
+          <div class="divider">Ou se registre com</div>
+          <div class="social-buttons">
+            <button class="button social-btn google-btn">
+              <img src="img/google-icon.png" alt="Google" class="icon" /> Google
+            </button>
+            <button class="button social-btn github-btn">
+              <img src="img/github-icon.png" alt="Github" class="icon" /> Github
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
