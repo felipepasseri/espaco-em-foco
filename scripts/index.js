@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Animação ao scroll
   const observerOptions = {
-    threshold: 0.2,
+    threshold: 0.03,
     rootMargin: '0px 0px -50px 0px'
   };
 
