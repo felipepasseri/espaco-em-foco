@@ -1,0 +1,43 @@
+.sign-up-section {
+    display: flex;
+    align-items: center;
+    width: 1200px;
+    background-color: var(--background-secondary-color);
+    margin: auto;
+    border-radius: 26px;
+}
+
+.sign-up-section .welcome-panel {
+    width: 600px;
+    background: linear-gradient(to bottom, #6719ACA0, #2B2336A0);
+    padding: 150px 84px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign-up-section .welcome-panel h1 {
+    font-size: 3.125rem;
+    color: var(--text-primary-color);
+    margin-bottom: 16px;
+}
+
+.sign-up-section .welcome-panel h4 {
+    font-size: 1.125rem;
+    color: rgba(255, 255, 255, 0.62);
+    line-height: 145%;
+    margin-bottom: 22px;
+}
+
+.sign-up-section .welcome-panel h4 span {
+    color: var(--text-primary-color);
+}
+
+.sign-up-section .welcome-panel .button {
+    background-color: #6833D0;
+    width: 356px;
+    height: 70px;
+    line-height: 70px;
+    font-size: 1.5rem;
+}
