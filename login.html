@@ -35,83 +35,147 @@
 
     <main class="login-main">
       <section id="sign-up" class="sign-up-section">
-        <!-- Coluna Esquerda: Boas-vindas -->
         <div id="welcome" class="welcome-panel">
-          <h1>Seja bem-vindo!</h1>
-          <h4>
-            Estamos muito felizes em ter você aqui <span>😊</span><br />
-            Para começar, crie sua conta e aproveite tudo o que o nosso site tem
-            a oferecer.<br /><br />
-            Já faz parte da nossa comunidade? Então é só fazer login e continuar
-            de onde parou!
-          </h4>
-          <a href="#" class="button login-btn">Fazer Login</a>
+          
+          <div class="welcome-content signup-active">
+            <h1>Seja bem-vindo!</h1>
+            <h4>
+              Estamos muito felizes em ter você aqui <span>😊</span><br />
+              Para começar, crie sua conta e aproveite tudo o que o nosso site tem
+              a oferecer.<br /><br />
+              Já faz parte da nossa comunidade? Então é só fazer login e continuar
+              de onde parou!
+            </h4>
+            <a href="#" class="button login-btn login-link">Fazer Login</a>
+          </div>
+
+          <div class="welcome-content login-active">
+            <h1>Bem-vindo de volta!</h1>
+            <h4>
+              Que bom ver você novamente por aqui <span>🚀</span><br />
+              Faça login para acessar sua conta e continuar explorando nosso conteúdo.<br /><br />
+              Ainda não faz parte da nossa comunidade? Venha se juntar a nós!
+            </h4>
+            <a href="#" class="button login-btn signup-link">Criar Conta</a>
+          </div>
+
         </div>
-        <!-- Coluna Direita: Formulário de Cadastro/Login -->
+
         <div id="sign-up-form" class="signup-form-panel">
-          <h2>Crie sua Conta</h2>
-          <p>Tem uma conta? <a href="#" class="login-link">Faça Login</a></p>
-          <form method="POST" action="login02.html">
-            <div class="name-fields">
-              <div class="name">
-                <input type="text" id="nameSign" placeholder="Primeiro Nome" />
-                <p class="input-empty empty-name">
-                  Esse campo não pode estar vazio!
-                </p>
+          
+          <div class="form-content signup-active">
+            <h2>Crie sua Conta</h2>
+            <p>Tem uma conta? <a href="#" class="login-link">Faça Login</a></p>
+            <form method="POST" action="login02.html" id="form-signup">
+              <div class="name-fields">
+                <div class="name">
+                  <input type="text" id="nameSign" placeholder="Primeiro Nome" />
+                  <p class="input-empty empty-name">
+                    Esse campo não pode estar vazio!
+                  </p>
+                </div>
+                <div class="lastName">
+                  <input type="text" id="lastNameSign" placeholder="Sobrenome" />
+                  <p class="input-empty empty-lastname">
+                    Esse campo não pode estar vazio!
+                  </p>
+                </div>
               </div>
-              <div class="lastName">
-                <input type="text" id="lastNameSign" placeholder="Sobrenome" />
-                <p class="input-empty empty-lastname">
-                  Esse campo não pode estar vazio!
-                </p>
+              <input type="email" id="emailSign" placeholder="Digite seu Email" />
+              <p class="input-empty empty-email">
+                Esse campo não pode estar vazio!
+              </p>
+              <input
+                type="password"
+                id="passwordSign"
+                placeholder="Digite sua Senha"
+              />
+              <p class="input-empty empty-password">
+                Esse campo não pode estar vazio!
+              </p>
+              <div class="terms">
+                <input type="checkbox" id="terms" />
+                <label for="terms"
+                  >Eu aceito os <a href="#">Termos e condições</a></label
+                >
               </div>
-            </div>
-            <input type="email" id="emailSign" placeholder="Digite seu Email" />
-            <p class="input-empty empty-email">
-              Esse campo não pode estar vazio!
-            </p>
-            <input
-              type="password"
-              id="passwordSign"
-              placeholder="Digite sua Senha"
-            />
-            <p class="input-empty empty-password">
-              Esse campo não pode estar vazio!
-            </p>
-            <div class="terms">
-              <input type="checkbox" id="terms" />
-              <label for="terms"
-                >Eu aceito os <a href="#">Termos e condições</a></label
-              >
-            </div>
-            <p class="input-empty empty-terms">
-              Você precisa aceitar os termos e condições
-            </p>
-            <div class="buttons-sign">
-              <button type="submit" class="button create-account-btn">
-                Criar Conta
-              </button>
-              <div class="divider">
-                <hr />
-                <span> Ou se registre com </span>
-                <hr />
-              </div>
-              <div class="social-buttons">
-                <button class="button social-btn google-btn">
-                  <img src="img/google-icon.png" alt="Google" class="icon" />
-                  Google
+              <p class="input-empty empty-terms">
+                Você precisa aceitar os termos e condições
+              </p>
+              <div class="buttons-sign">
+                <button type="submit" class="button create-account-btn">
+                  Criar Conta
                 </button>
-                <button class="button social-btn microsoft-btn">
-                  <img
-                    src="img/microsoft-icon.png"
-                    alt="Microsoft"
-                    class="icon"
-                  />
-                  Microsoft
-                </button>
+                <div class="divider">
+                  <hr />
+                  <span> Ou se registre com </span>
+                  <hr />
+                </div>
+                <div class="social-buttons">
+                  <button type="button" class="button social-btn google-btn">
+                    <img src="img/google-icon.png" alt="Google" class="icon" />
+                    Google
+                  </button>
+                  <button type="button" class="button social-btn microsoft-btn">
+                    <img
+                      src="img/microsoft-icon.png"
+                      alt="Microsoft"
+                      class="icon"
+                    />
+                    Microsoft
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
+
+          <div class="form-content login-active">
+            <h2>Faça Login</h2>
+            <p>Não tem uma conta? <a href="#" class="signup-link">Crie uma Conta</a></p>
+            <form method="POST" action="login02.html" id="form-login">
+              <input type="email" id="emailLogin" placeholder="Digite seu Email" />
+              <p class="input-empty empty-email-login">
+                Esse campo não pode estar vazio!
+              </p>
+              <input
+                type="password"
+                id="passwordLogin"
+                placeholder="Digite sua Senha"
+              />
+              <p class="input-empty empty-password-login">
+                Esse campo não pode estar vazio!
+              </p>
+              <div class="terms">
+                <input type="checkbox" id="rememberMe" />
+                <label for="rememberMe">Lembrar de mim</label>
+              </div>
+              <div class="buttons-sign">
+                <button type="submit" class="button login-account-btn">
+                  Entrar
+                </button>
+                <div class="divider">
+                  <hr />
+                  <span> Ou faça login com </span>
+                  <hr />
+                </div>
+                <div class="social-buttons">
+                  <button type="button" class="button social-btn google-btn">
+                    <img src="img/google-icon.png" alt="Google" class="icon" />
+                    Google
+                  </button>
+                  <button type="button" class="button social-btn microsoft-btn">
+                    <img
+                      src="img/microsoft-icon.png"
+                      alt="Microsoft"
+                      class="icon"
+                    />
+                    Microsoft
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
         </div>
       </section>
     </main>
