@@ -32,7 +32,7 @@ main {
 }
 
 .sign-up-section .signup-form-panel form .input-empty.empty-terms {
-    margin-bottom: 3px;
+    margin-bottom: -8px;
 }
 
 .sign-up-section .button {
