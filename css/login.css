@@ -14,6 +14,27 @@ main {
     min-height: 80vh;
 }
 
+.sign-up-section .signup-form-panel .input-empty {
+    display: none;
+    color: #FF0000;
+    font-size: 0.875rem;
+    margin-top: -20px;
+    margin-bottom:-12px;
+}
+
+.sign-up-section .signup-form-panel .name-fields .input-empty {
+    margin-top: 8px;
+    font-size: 0.8rem;
+}
+
+.sign-up-section .signup-form-panel form .input-empty.empty-password {
+    margin-bottom: 10px;
+}
+
+.sign-up-section .signup-form-panel form .input-empty.empty-terms {
+    margin-bottom: 3px;
+}
+
 .sign-up-section .button {
     background-color: #6833D0;
     box-shadow: none;
@@ -212,7 +233,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 5px;
     background-color: rgba(151, 121, 210, .3);
     color: rgba(255, 255, 255, 0.34);
 }
@@ -254,6 +275,10 @@ main {
     border-radius: 0 26px 26px 0;
     min-width: 400px;
   }
+  .sign-up-section .signup-form-panel form .name-fields .name, 
+  .sign-up-section .signup-form-panel form .name-fields .lastName {
+        width: 100%;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -281,6 +306,11 @@ main {
   .sign-up-section .signup-form-panel {
     padding: 40px 48px;
     max-width: 620px;
+  }
+
+  .sign-up-section .signup-form-panel form .divider span {
+    font-size: 0.9rem;
+    margin: 0 9px;
   }
 }
 
