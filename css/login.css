@@ -1,3 +1,4 @@
+/* css/style.css */
 .login-main {
     padding: 25px;
 }
@@ -12,6 +13,8 @@
     background: linear-gradient(to right, #2C213A, #372D93);
     border-radius: 26px;
     min-height: 80vh;
+    position: relative;
+    overflow: hidden; /* Adicionado para a animação de slide */
 }
 
 .sign-up-section .signup-form-panel .input-empty {
@@ -59,12 +62,52 @@
     align-items: center;
     border-radius: 26px 26px 0 0;
     flex: 1;
+    transition: transform 0.7s ease-in-out, border-radius 0.7s ease-in-out; /* Animação */
+    z-index: 2;
+}
+
+/* Transição de conteúdos internos (Fade + Translate) */
+.welcome-content, .form-content {
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-content {
+    align-items: flex-start;
+}
+
+.sign-up-section .login-active {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    transform: translateY(20px);
+    visibility: hidden;
+}
+
+.sign-up-section.is-login .login-active {
+    opacity: 1;
+    position: relative;
+    pointer-events: auto;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.sign-up-section.is-login .signup-active {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    transform: translateY(-20px);
+    visibility: hidden;
 }
 
 .sign-up-section .welcome-panel h1 {
     font-size: clamp(1.75rem, 8vw, 3.125rem);
     color: var(--text-primary-color);
     margin-bottom: 16px;
+    width: 100%;
 }
 
 .sign-up-section .welcome-panel h4 {
@@ -72,6 +115,7 @@
     color: rgba(255, 255, 255, 0.62);
     line-height: 145%;
     margin-bottom: 22px;
+    width: 100%;
 }
 
 .sign-up-section .welcome-panel h4 span {
@@ -93,12 +137,15 @@
     justify-content: center;
     padding: 40px 48px;
     border-radius: 0 0 26px 26px;
+    transition: transform 0.7s ease-in-out, border-radius 0.7s ease-in-out; /* Animação */
+    z-index: 1;
 }
 
 .sign-up-section .signup-form-panel h2 {
     font-size: clamp(1.75rem, 8vw, 3rem);
     color: var(--text-primary-color);
     margin-bottom: 16px;
+    width: 100%;
 }
 
 .sign-up-section .signup-form-panel p {
@@ -140,7 +187,6 @@
 .sign-up-section .signup-form-panel form input:focus {
     outline: none;
     box-shadow: 0px 0px 4px rgba(104, 51, 208, 0.8);
-   
 }
 
 .sign-up-section .signup-form-panel form input::placeholder {
@@ -150,6 +196,7 @@
 .sign-up-section .signup-form-panel form .name-fields {
     display: flex;
     gap: 15px;
+    width: 100%;
 }
 
 .sign-up-section .signup-form-panel form .terms {
@@ -199,8 +246,6 @@
     border: none;
     box-shadow: none;
 }
-
-
 
 .sign-up-section .signup-form-panel form .buttons-sign .social-buttons {
     display: flex;
@@ -256,6 +301,18 @@
     flex-direction: column;
 }
 
+/* Comportamento no Mobile/Tablet: Ordem invertida suave */
+@media (max-width: 767px) {
+    .sign-up-section.is-login .welcome-panel {
+        order: 2;
+        border-radius: 0 0 26px 26px;
+    }
+    .sign-up-section.is-login .signup-form-panel {
+        order: 1;
+        border-radius: 26px 26px 0 0;
+    }
+}
+
 @media (min-width: 480px) {
   .sign-up-section .signup-form-panel form .name-fields {
     flex-direction: row;
@@ -264,39 +321,51 @@
 
 @media (min-width: 768px) {
   .sign-up-section {
-    flex-direction: column;
+    flex-direction: row; /* Alterado de column para row para permitir o slide horizontal */
     align-items: stretch;
     min-height: auto;
   }
 
   .sign-up-section .signup-form-panel form .input-empty.empty-name {
         margin-bottom: -10px;
-    }
+  }
 
   .sign-up-section .welcome-panel {
     padding: 120px 60px;
+    border-radius: 26px 0 0 26px; /* Ajuste para row */
   }
 
   .sign-up-section .signup-form-panel {
     padding: 60px 70px;
-    border-radius: 0 26px 26px 0;
+    border-radius: 0 26px 26px 0; /* Ajuste para row */
     min-width: 400px;
   }
   .sign-up-section .signup-form-panel form .name-fields .name, 
   .sign-up-section .signup-form-panel form .name-fields .lastName {
         width: 100%;
-    }
+  }
+
+  /* Animação de Slide para telas maiores */
+  .sign-up-section .welcome-panel,
+  .sign-up-section .signup-form-panel {
+      width: 50%;
+      flex: none; /* Força exatamente 50% de largura para o slide funcionar perfeitamente */
+  }
+
+  .sign-up-section.is-login .welcome-panel {
+      transform: translateX(100%);
+      border-radius: 0 26px 26px 0;
+  }
+
+  .sign-up-section.is-login .signup-form-panel {
+      transform: translateX(-100%);
+      border-radius: 26px 0 0 26px;
+  }
 }
 
 @media (min-width: 1024px) {
-    .sign-up-section {
-        flex-direction: row;
-        align-items: stretch;
-        min-height: auto;
-    }
   .sign-up-section .welcome-panel {
     padding: 180px 84px;
-    border-radius: 26px 0 0 26px;
   }
 
   .sign-up-section .welcome-panel h1 {
@@ -313,7 +382,6 @@
 
   .sign-up-section .signup-form-panel {
     padding: 40px 48px;
-    max-width: 620px;
   }
 
   .sign-up-section .signup-form-panel form .divider span {
@@ -321,5 +389,3 @@
     margin: 0 9px;
   }
 }
-
-
