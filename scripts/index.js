@@ -1,9 +1,11 @@
 import abrirMenu from "./header.js"
 import mudarAbasTopicos from "./topics.js"
+import login from "./login.js"
 
 document.addEventListener("DOMContentLoaded", () => {
   abrirMenu()
   mudarAbasTopicos()
+  login()
 
   // Animação ao scroll
   const observerOptions = {

@@ -51,19 +51,42 @@
         <div id="sign-up-form" class="signup-form-panel">
           <h2>Crie sua Conta</h2>
           <p>Tem uma conta? <a href="#" class="login-link">Faça Login</a></p>
-          <form>
+          <form method="POST" action="login02.html">
             <div class="name-fields">
-              <input type="text" placeholder="Primeiro Nome" required />
-              <input type="text" placeholder="Sobrenome" required />
+              <div class="name">
+                <input type="text" id="nameSign" placeholder="Primeiro Nome" />
+                <p class="input-empty empty-name">
+                  Esse campo não pode estar vazio!
+                </p>
+              </div>
+              <div class="lastName">
+                <input type="text" id="lastNameSign" placeholder="Sobrenome" />
+                <p class="input-empty empty-lastname">
+                  Esse campo não pode estar vazio!
+                </p>
+              </div>
             </div>
-            <input type="email" placeholder="Digite seu Email" required />
-            <input type="password" placeholder="Digite sua Senha" required />
+            <input type="email" id="emailSign" placeholder="Digite seu Email" />
+            <p class="input-empty empty-email">
+              Esse campo não pode estar vazio!
+            </p>
+            <input
+              type="password"
+              id="passwordSign"
+              placeholder="Digite sua Senha"
+            />
+            <p class="input-empty empty-password">
+              Esse campo não pode estar vazio!
+            </p>
             <div class="terms">
-              <input type="checkbox" id="terms" required />
+              <input type="checkbox" id="terms" />
               <label for="terms"
                 >Eu aceito os <a href="#">Termos e condições</a></label
               >
             </div>
+            <p class="input-empty empty-terms">
+              Você precisa aceitar os termos e condições
+            </p>
             <div class="buttons-sign">
               <button type="submit" class="button create-account-btn">
                 Criar Conta
@@ -78,9 +101,13 @@
                   <img src="img/google-icon.png" alt="Google" class="icon" />
                   Google
                 </button>
-                <button class="button social-btn github-btn">
-                  <img src="img/github-icon.png" alt="Github" class="icon" />
-                  Github
+                <button class="button social-btn microsoft-btn">
+                  <img
+                    src="img/microsoft-icon.png"
+                    alt="Microsoft"
+                    class="icon"
+                  />
+                  Microsoft
                 </button>
               </div>
             </div>
