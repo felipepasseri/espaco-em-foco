@@ -246,7 +246,6 @@
 
   .sign-up-section .welcome-panel {
     padding: 120px 60px;
-    border-radius: 26px 0 0 26px;
   }
 
   .sign-up-section .signup-form-panel {
@@ -264,6 +263,7 @@
     }
   .sign-up-section .welcome-panel {
     padding: 180px 84px;
+    border-radius: 26px 0 0 26px;
   }
 
   .sign-up-section .welcome-panel h1 {
