@@ -3,6 +3,14 @@
     padding: 25px;
 }
 
+#main-nav-container.login {
+    z-index: 3;
+}
+
+#login-container.login {
+    z-index: 3;
+}
+
 .sign-up-section {
     display: flex;
     flex-direction: column;
