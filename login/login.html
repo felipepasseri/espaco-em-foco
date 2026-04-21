@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="scripts/index.js" type="module" defer></script>
-    <script src="scripts/login.js" defer></script>
+    <link rel="stylesheet" href="../style.css" />
+    <script src="../scripts/index.js" type="module" defer></script>
+    <script src="login.js" defer></script>
   </head>
   <body>
     <header id="main-header">
@@ -28,7 +28,7 @@
           <div id="login-icon"></div>
         </ul>
         <label for="menu-header"
-          ><img src="img/menu-header.png" alt=""
+          ><img src="../img/menu-header.png" alt=""
         /></label>
         <input type="checkbox" name="" id="menu-header" />
       </nav>
@@ -65,12 +65,13 @@
           <div class="form-content signup-active">
             <h2>Crie sua Conta</h2>
             <p>Tem uma conta? <a href="#" class="login-link">Faça Login</a></p>
-            <form method="POST" action="login02.html" id="form-signup">
+            <form method="POST" action="cadastro02.php" id="form-signup">
               <div class="name-fields">
                 <div class="name">
                   <input
                     type="text"
                     id="nameSign"
+                    name="nameSign"
                     placeholder="Primeiro Nome"
                   />
                   <p class="input-empty empty-name">
@@ -81,6 +82,7 @@
                   <input
                     type="text"
                     id="lastNameSign"
+                    name="lastNameSign"
                     placeholder="Sobrenome"
                   />
                   <p class="input-empty empty-lastname">
@@ -91,6 +93,7 @@
               <input
                 type="email"
                 id="emailSign"
+                name="emailSign"
                 placeholder="Digite seu Email"
               />
               <p class="input-empty empty-email">
@@ -99,6 +102,7 @@
               <input
                 type="password"
                 id="passwordSign"
+                name="passwordSign"
                 placeholder="Digite sua Senha"
               />
               <p class="input-empty empty-password">
@@ -124,12 +128,16 @@
                 </div>
                 <div class="social-buttons">
                   <button type="button" class="button social-btn google-btn">
-                    <img src="img/google-icon.png" alt="Google" class="icon" />
+                    <img
+                      src="loginImg/google-icon.png"
+                      alt="Google"
+                      class="icon"
+                    />
                     Google
                   </button>
                   <button type="button" class="button social-btn microsoft-btn">
                     <img
-                      src="img/microsoft-icon.png"
+                      src="loginImg/microsoft-icon.png"
                       alt="Microsoft"
                       class="icon"
                     />
@@ -146,10 +154,11 @@
               Não tem uma conta?
               <a href="#" class="signup-link">Crie uma Conta</a>
             </p>
-            <form method="POST" action="login02.html" id="form-login">
+            <form method="POST" action="login02.php" id="form-login">
               <input
                 type="email"
                 id="emailLogin"
+                name="emailLogin"
                 placeholder="Digite seu Email"
               />
               <p class="input-empty empty-email-login">
@@ -158,6 +167,7 @@
               <input
                 type="password"
                 id="passwordLogin"
+                name="passwordLogin"
                 placeholder="Digite sua Senha"
               />
               <p class="input-empty empty-password-login">
@@ -178,12 +188,16 @@
                 </div>
                 <div class="social-buttons">
                   <button type="button" class="button social-btn google-btn">
-                    <img src="img/google-icon.png" alt="Google" class="icon" />
+                    <img
+                      src="loginImg/google-icon.png"
+                      alt="Google"
+                      class="icon"
+                    />
                     Google
                   </button>
                   <button type="button" class="button social-btn microsoft-btn">
                     <img
-                      src="img/microsoft-icon.png"
+                      src="loginImg/microsoft-icon.png"
                       alt="Microsoft"
                       class="icon"
                     />

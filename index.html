@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="style.css" />
     <script src="scripts/index.js" type="module" defer></script>
+    <script src="scripts/apiCards.js"></script>
     <title>Espaço em Foco</title>
   </head>
   <body>
@@ -22,7 +23,7 @@
         </ul>
         <ul id="login-container">
           <li>
-            <a href="login.html" class="button"><span>Login</span></a>
+            <a href="login/login.html" class="button"><span>Login</span></a>
           </li>
           <div id="login-icon"></div>
         </ul>
@@ -63,150 +64,25 @@
             </button>
           </li>
           <li class="topic-option">
-            <button><span>🪐 Planetas</span></button>
+            <button data-tipo="galaxies"><span>🚀 Galáxias</span></button>
           </li>
           <li class="topic-option">
-            <button><span>🪐 Planetas</span></button>
+            <button data-tipo="cosmology"><span>💥 Cosmologia</span></button>
           </li>
           <li class="topic-option">
-            <button><span>🪐 Planetas</span></button>
-          </li>
-          <li class="topic-option">
-            <button><span>🪐 Planetas</span></button>
+            <button data-tipo="others"><span>🔭 Outros</span></button>
           </li>
         </ul>
 
-        <ul class="topics-cards-list planets visible fade-in">
-          <li class="topic-card mercury">
-            <article>
-              <header>
-                <h3>Mercúrio</h3>
-              </header>
+        <ul class="topics-cards-list planets visible fade-in"></ul>
 
-              <footer>
-                <p>
-                  Mercúrio é o planeta mais próximo do Sol e o menor do sistema
-                  solar.
-                </p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-          <li class="topic-card mercury">
-            <article>
-              <header>
-                <h3>Mercúrio</h3>
-              </header>
+        <ul class="topics-cards-list stars fade-in"></ul>
 
-              <footer>
-                <p>
-                  Mercúrio é o planeta mais próximo do Sol e o menor do sistema
-                  solar.
-                </p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-          <li class="topic-card mercury">
-            <article>
-              <header>
-                <h3>Mercúrio</h3>
-              </header>
+        <ul class="topics-cards-list galaxies fade-in"></ul>
 
-              <footer>
-                <p>
-                  Mercúrio é o planeta mais próximo do Sol e o menor do sistema
-                  solar.
-                </p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-          <li class="topic-card mercury">
-            <article>
-              <header>
-                <h3>Mercúrio</h3>
-              </header>
+        <ul class="topics-cards-list cosmology fade-in"></ul>
 
-              <footer>
-                <p>
-                  Mercúrio é o planeta mais próximo do Sol e o menor do sistema
-                  solar.<br />
-                </p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-          <li class="topic-card mercury">
-            <article>
-              <header>
-                <h3>Mercúrio</h3>
-              </header>
-
-              <footer>
-                <p>
-                  Mercúrio é o planeta mais próximo do Sol e o menor do sistema
-                  solar.<br />
-                </p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-          <li class="topic-card mercury">
-            <article>
-              <header>
-                <h3>Mercúrio</h3>
-              </header>
-
-              <footer>
-                <p>
-                  Mercúrio é o planeta mais próximo do Sol e o menor do sistema
-                  solar.<br />
-                </p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-        </ul>
-
-        <ul class="topics-cards-list stars fade-in">
-          <li class="topic-card sun">
-            <article>
-              <header>
-                <h3>Sol</h3>
-              </header>
-
-              <footer>
-                <p>O sol é uma estrela</p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-          <li class="topic-card sun">
-            <article>
-              <header>
-                <h3>Sol</h3>
-              </header>
-
-              <footer>
-                <p>O sol é uma estrela</p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-          <li class="topic-card sun">
-            <article>
-              <header>
-                <h3>Sol</h3>
-              </header>
-
-              <footer>
-                <p>O sol é uma estrela</p>
-                <a href="#" class="button">Aprenda Agora</a>
-              </footer>
-            </article>
-          </li>
-        </ul>
+        <ul class="topics-cards-list others fade-in"></ul>
       </section>
 
       <section class="about">
