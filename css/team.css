@@ -1,0 +1,96 @@
+.team {
+    text-align: center;
+}
+
+.team h1 {
+    font-size: 4rem;
+    font-weight: var(--title-weight);
+    margin-bottom: 24px;
+}
+
+.team h4 {
+    font-size: 1.5rem;
+    font-weight: var(--text-weight);
+    margin-bottom: 40px;
+}
+
+.team #team-content {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.team #team-content .img {
+    width: 305px;
+    height: 500px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-direction: column-reverse;
+}
+
+.team #team-content .img.caua {
+    background: url('../img/caua-foto.png') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.team #team-content .img.felipe {
+    background: url('../img/felipe-foto.png') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.team #team-content .img.lucas {
+    background: url('../img/lucas-foto.png') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.team #team-content .img.guilherme {
+    background: url('../img/guilherme-foto.png') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.team #team-content h2 {
+    background-color: var(--background-tertiary-color);
+    height: 75px;
+    line-height: 75px;
+    border-radius: 16px;
+    font-size: 1.325rem;
+    font-weight: var(--text-weight);
+}
+
+
+@media screen and (max-width: 1024px) {
+    .team #team-content  {
+        gap: 24px;
+        padding: 0 60px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .team h1 {
+        font-size: 3rem;
+    }
+
+    .team h4 {
+        font-size: 1.25rem;
+        font-weight: var(--text-weight);
+        margin-bottom: 40px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .team h1 {
+        font-size: 2.75rem;
+    }
+
+    .team h4 {
+        font-size: 1.15rem;
+        font-weight: var(--text-weight);
+        margin-bottom: 40px;
+    }
+}

@@ -1,0 +1,20 @@
+[24-Apr-2026 00:08:02 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/api/apiCard.php on line 5
+[24-Apr-2026 00:08:02 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/api/apiCard.php:5
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/api/apiCard.php on line 5
+[24-Apr-2026 00:38:41 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/api/apiCard.php on line 5
+[24-Apr-2026 00:38:41 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/api/apiCard.php:5
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/api/apiCard.php on line 5
+[24-Apr-2026 11:26:01 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/api/apiCard.php on line 5
+[24-Apr-2026 11:26:01 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/api/apiCard.php:5
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/api/apiCard.php on line 5
+[24-Apr-2026 13:22:30 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/api/apiCard.php on line 5
+[24-Apr-2026 13:22:30 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/api/apiCard.php:5
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/api/apiCard.php on line 5

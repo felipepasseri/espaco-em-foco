@@ -1,0 +1,86 @@
+.pre-footer {
+  margin-bottom: 0;
+}
+
+
+.pre-footer .pre-footer-img {
+  background: url('../img/pre-footer.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+}
+
+.pre-footer .pre-footer-img h1 {
+  font-size: 4rem;
+  font-weight: var(--title-weight);
+  margin-bottom: 24px; 
+}
+
+.pre-footer .pre-footer-img h3 {
+  font-size: 1.5rem;
+  font-weight: var(--text-weight);
+  margin-bottom: 64px; 
+}
+
+.pre-footer .pre-footer-img h1 {
+  text-shadow: 4px 5px 2px rgba(0, 0, 0, 0.5);
+}
+
+.pre-footer .pre-footer-img h3 {
+  text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
+}
+
+.pre-footer .pre-footer-img .button {
+  width: 230px;
+  height: 64px;
+  line-height: 64px;
+  font-size: 1.5rem;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .pre-footer .pre-footer-img {
+    padding: 0 16px;
+  }
+  .pre-footer .pre-footer-img h1 {
+    font-size: 2.5rem;
+  }
+  .pre-footer .pre-footer-img h3 {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+  }
+  .pre-footer .pre-footer-img .button {
+    width: 180px;
+    height: 48px;
+    line-height: 48px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .pre-footer .pre-footer-img {
+    padding: 0 8px;
+  }
+  .pre-footer .pre-footer-img h1 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+  .pre-footer .pre-footer-img h3 {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+  .pre-footer .pre-footer-img .button {
+    width: 130px;
+    height: 46px;
+    line-height: 46px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    padding: 0 5px;
+  }
+}

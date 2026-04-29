@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+:root {
+    --background-primary-color: #04001F;
+    --background-secondary-color: #4A27C8;
+    --background-tertiary-color: #2D1B48;
+
+    --text-primary-color: #FFFFFF;
+    --text-secondary-color: #000;
+    --text-tertiary-color: #6200FF;
+
+    --title-weight: 700;
+    --title-secondary-weight: 600;
+    --text-weight: 400;
+    --text-secondary-weight: 500;
+}
+
+/*CSS RESET*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+/*ESTILOS GLOBAIS*/
+
+* {
+    font-weight: 400;
+    font-style: normal;
+}
+
+.button {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-primary-color);
+    background-color: var(--background-secondary-color);
+    border-radius: 12px;
+    width: 110px;
+    height: 40px;
+    line-height: 40px;
+    box-shadow: inset -2px -3px 2px #2D1979;
+}
+
+.button:hover {
+    transform: translateY(2px);
+    box-shadow: inset -1px -1px 2px #2D1979;
+}
+
+body {
+    background: url('../img/ceu-estrelado.jpg');
+    color: var(--text-primary-color);
+}
+
+section {
+    margin-bottom: 96px;
+}
+
+/* Animação scroll fade-in-up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.fade-in.animate {
+  animation: fadeInUp 0.8s ease-out forwards;
+}

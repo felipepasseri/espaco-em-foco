@@ -1,0 +1,101 @@
+[20-Apr-2026 14:49:06 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "}" in /home1/guil4713/public_html/login/cadastro02.php on line 18
+[20-Apr-2026 14:49:33 America/Fortaleza] PHP Warning:  mysqli_prepare(): (21S01/1136): Column count doesn't match value count at row 1 in /home1/guil4713/public_html/login/cadastro02.php on line 12
+[20-Apr-2026 14:49:33 America/Fortaleza] PHP Fatal error:  Uncaught TypeError: mysqli_stmt_bind_param(): Argument #1 ($statement) must be of type mysqli_stmt, false given in /home1/guil4713/public_html/login/cadastro02.php:13
+Stack trace:
+#0 /home1/guil4713/public_html/login/cadastro02.php(13): mysqli_stmt_bind_param(false, 'sss', 'asdas@asdasd', 'asdasd', 'dasads', '7bbada088790cc0...')
+#1 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 13
+[20-Apr-2026 14:50:05 America/Fortaleza] PHP Warning:  mysqli_prepare(): (21S01/1136): Column count doesn't match value count at row 1 in /home1/guil4713/public_html/login/cadastro02.php on line 12
+[20-Apr-2026 14:50:05 America/Fortaleza] PHP Fatal error:  Uncaught TypeError: mysqli_stmt_bind_param(): Argument #1 ($statement) must be of type mysqli_stmt, false given in /home1/guil4713/public_html/login/cadastro02.php:13
+Stack trace:
+#0 /home1/guil4713/public_html/login/cadastro02.php(13): mysqli_stmt_bind_param(false, 'ssss', 'asdas@asdasd', 'asdasd', 'dasads', '1a16f9ee1152d11...')
+#1 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 13
+[20-Apr-2026 14:50:30 America/Fortaleza] PHP Warning:  mysqli_prepare(): (21S01/1136): Column count doesn't match value count at row 1 in /home1/guil4713/public_html/login/cadastro02.php on line 12
+[20-Apr-2026 14:50:30 America/Fortaleza] PHP Fatal error:  Uncaught TypeError: mysqli_stmt_bind_param(): Argument #1 ($statement) must be of type mysqli_stmt, false given in /home1/guil4713/public_html/login/cadastro02.php:13
+Stack trace:
+#0 /home1/guil4713/public_html/login/cadastro02.php(13): mysqli_stmt_bind_param(false, 'ssss', 'asdas@asdasd', 'asdasd', 'dasads', '36efbf915b668d5...')
+#1 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 13
+[20-Apr-2026 14:50:35 America/Fortaleza] PHP Warning:  mysqli_prepare(): (21S01/1136): Column count doesn't match value count at row 1 in /home1/guil4713/public_html/login/cadastro02.php on line 12
+[20-Apr-2026 14:50:35 America/Fortaleza] PHP Fatal error:  Uncaught TypeError: mysqli_stmt_bind_param(): Argument #1 ($statement) must be of type mysqli_stmt, false given in /home1/guil4713/public_html/login/cadastro02.php:13
+Stack trace:
+#0 /home1/guil4713/public_html/login/cadastro02.php(13): mysqli_stmt_bind_param(false, 'ssss', 'asdas@asdasd', 'asdasd', 'dasads', '8b9e6cc9c3044e9...')
+#1 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 13
+[20-Apr-2026 15:17:19 America/Fortaleza] PHP Warning:  Undefined array key "emailSign" in /home1/guil4713/public_html/login/login02.php on line 94
+[20-Apr-2026 15:17:19 America/Fortaleza] PHP Warning:  Undefined array key "passwordSign" in /home1/guil4713/public_html/login/login02.php on line 95
+[20-Apr-2026 15:17:29 America/Fortaleza] PHP Warning:  Undefined array key "emailSign" in /home1/guil4713/public_html/login/login02.php on line 94
+[20-Apr-2026 15:17:29 America/Fortaleza] PHP Warning:  Undefined array key "passwordSign" in /home1/guil4713/public_html/login/login02.php on line 95
+[20-Apr-2026 15:18:59 America/Fortaleza] PHP Warning:  Undefined array key "emailSign" in /home1/guil4713/public_html/login/login02.php on line 94
+[20-Apr-2026 15:18:59 America/Fortaleza] PHP Warning:  Undefined array key "passwordSign" in /home1/guil4713/public_html/login/login02.php on line 95
+[20-Apr-2026 15:20:31 America/Fortaleza] PHP Warning:  mysqli_prepare(): (HY000/2014): Commands out of sync; you can't run this command now in /home1/guil4713/public_html/login/login02.php on line 85
+[20-Apr-2026 15:20:31 America/Fortaleza] PHP Fatal error:  Uncaught TypeError: mysqli_stmt_bind_param(): Argument #1 ($statement) must be of type mysqli_stmt, false given in /home1/guil4713/public_html/login/login02.php:87
+Stack trace:
+#0 /home1/guil4713/public_html/login/login02.php(87): mysqli_stmt_bind_param(false, 'is', 0, 'a@a')
+#1 /home1/guil4713/public_html/login/login02.php(71): Auth->atualizarErros(Object(User))
+#2 /home1/guil4713/public_html/login/login02.php(100): Auth->login('a@a', '123')
+#3 {main}
+  thrown in /home1/guil4713/public_html/login/login02.php on line 87
+[20-Apr-2026 15:32:43 America/Fortaleza] PHP Warning:  Undefined variable $BDconn in /home1/guil4713/public_html/login/cadastro02.php on line 24
+[20-Apr-2026 15:32:43 America/Fortaleza] PHP Fatal error:  Uncaught TypeError: mysqli_prepare(): Argument #1 ($mysql) must be of type mysqli, null given in /home1/guil4713/public_html/login/cadastro02.php:24
+Stack trace:
+#0 /home1/guil4713/public_html/login/cadastro02.php(24): mysqli_prepare(NULL, 'INSERT INTO use...')
+#1 /home1/guil4713/public_html/login/cadastro02.php(45): Criar->cadastro('asd@asd', 'asd', 'asd', '2ff02dab5b74e05...')
+#2 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 24
+[20-Apr-2026 15:33:27 America/Fortaleza] PHP Warning:  Undefined variable $user in /home1/guil4713/public_html/login/cadastro02.php on line 47
+[20-Apr-2026 15:33:58 America/Fortaleza] PHP Warning:  mysqli_stmt_execute(): (23000/1062): Duplicate entry 'asd@asd' for key 'user.PRIMARY' in /home1/guil4713/public_html/login/cadastro02.php on line 27
+[23-Apr-2026 08:55:24 America/Fortaleza] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'guil4713_espacoemfoco'@'localhost' (using password: YES) in /home1/guil4713/public_html/login/BDconn.php on line 4
+[23-Apr-2026 08:57:04 America/Fortaleza] PHP Parse error:  syntax error, unexpected token "{", expecting "(" in /home1/guil4713/public_html/login/cadastro02.php on line 49
+[23-Apr-2026 09:01:24 America/Fortaleza] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'guil4713_espacoemfoco'@'localhost' (using password: YES) in /home1/guil4713/public_html/login/BDconn.php on line 4
+[23-Apr-2026 09:04:24 America/Fortaleza] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'guil4713_espacoemfoco'@'localhost' (using password: YES) in /home1/guil4713/public_html/login/BDconn.php on line 4
+[24-Apr-2026 00:08:29 America/Fortaleza] PHP Warning:  Undefined array key "emailSign" in /home1/guil4713/public_html/login/cadastro02.php on line 60
+[24-Apr-2026 00:08:29 America/Fortaleza] PHP Warning:  Undefined array key "nameSign" in /home1/guil4713/public_html/login/cadastro02.php on line 61
+[24-Apr-2026 00:08:29 America/Fortaleza] PHP Warning:  Undefined array key "lastNameSign" in /home1/guil4713/public_html/login/cadastro02.php on line 62
+[24-Apr-2026 00:08:29 America/Fortaleza] PHP Warning:  Undefined array key "passwordSign" in /home1/guil4713/public_html/login/cadastro02.php on line 63
+[24-Apr-2026 00:08:29 America/Fortaleza] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'guil4713_espacoemfoco'@'localhost' (using password: YES) in /home1/guil4713/public_html/login/BDconn.php on line 4
+[24-Apr-2026 00:08:47 America/Fortaleza] PHP Warning:  Undefined array key "emailLogin" in /home1/guil4713/public_html/login/login02.php on line 94
+[24-Apr-2026 00:08:47 America/Fortaleza] PHP Warning:  Undefined array key "passwordLogin" in /home1/guil4713/public_html/login/login02.php on line 95
+[24-Apr-2026 00:08:47 America/Fortaleza] PHP Warning:  mysqli_connect(): (HY000/1045): Access denied for user 'guil4713_espacoemfoco'@'localhost' (using password: YES) in /home1/guil4713/public_html/login/BDconn.php on line 4
+[24-Apr-2026 13:23:07 America/Fortaleza] PHP Warning:  require_once(config.php): Failed to open stream: No such file or directory in /home1/guil4713/public_html/login/cadastro02.php on line 51
+[24-Apr-2026 13:23:07 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required 'config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/login/cadastro02.php:51
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 51
+[24-Apr-2026 13:23:33 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/login/cadastro02.php on line 51
+[24-Apr-2026 13:23:33 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/login/cadastro02.php:51
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 51
+[24-Apr-2026 13:26:41 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/login/cadastro02.php on line 51
+[24-Apr-2026 13:26:41 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/login/cadastro02.php:51
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 51
+[24-Apr-2026 13:29:16 America/Fortaleza] PHP Fatal error:  Uncaught TypeError: mysqli_begin_transaction(): Argument #1 ($mysql) must be of type mysqli, PDO given in /home1/guil4713/public_html/login/cadastro02.php:10
+Stack trace:
+#0 /home1/guil4713/public_html/login/cadastro02.php(10): mysqli_begin_transaction(Object(PDO))
+#1 /home1/guil4713/public_html/login/cadastro02.php(64): Criar->cadastro('teste@teste', 'teste', 'teste', 'ed7de1d02cf001e...')
+#2 {main}
+  thrown in /home1/guil4713/public_html/login/cadastro02.php on line 10
+[24-Apr-2026 13:38:24 America/Fortaleza] PHP Fatal error:  Uncaught Error: Call to undefined function ChecaSenha() in /home1/guil4713/public_html/login/login02.php:60
+Stack trace:
+#0 /home1/guil4713/public_html/login/login02.php(101): Auth->login('teste@teste', 'teste')
+#1 {main}
+  thrown in /home1/guil4713/public_html/login/login02.php on line 60
+[24-Apr-2026 16:47:28 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/login/login02.php on line 93
+[24-Apr-2026 16:47:28 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/login/login02.php:93
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/login/login02.php on line 93
+[24-Apr-2026 16:49:19 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/login/login02.php on line 93
+[24-Apr-2026 16:49:19 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/login/login02.php:93
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/login/login02.php on line 93
+[24-Apr-2026 16:49:42 America/Fortaleza] PHP Warning:  require_once(/home1/guil4713/public_html/config.php): Failed to open stream: Permission denied in /home1/guil4713/public_html/login/login02.php on line 95
+[24-Apr-2026 16:49:42 America/Fortaleza] PHP Fatal error:  Uncaught Error: Failed opening required '../config.php' (include_path='.:/opt/cpanel/ea-php83/root/usr/share/pear') in /home1/guil4713/public_html/login/login02.php:95
+Stack trace:
+#0 {main}
+  thrown in /home1/guil4713/public_html/login/login02.php on line 95
