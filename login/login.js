@@ -31,6 +31,12 @@ const emptyLastName = document.querySelector('.empty-lastname')
 const emptyEmail = document.querySelector('.empty-email')
 const emptyPassword = document.querySelector('.empty-password')
 const emptyTerms = document.querySelector('.empty-terms')
+
+//Termos e condições
+const termsScreen = document.getElementById('terms-screen')
+const termsScreenLink = document.getElementById('terms-screen-link')
+const termsScreenBtn = document.querySelector('.terms-screen-button')
+
 botaoSign.addEventListener('click', (event) => {
     let enviar = true
     
@@ -89,3 +95,13 @@ btnLogin.addEventListener('click', (event) => {
         event.preventDefault();
     }
 });
+
+// Logica dos termos e condições
+
+termsScreenLink.addEventListener('click', () => {
+    termsScreen.style.display = 'block'
+})
+
+termsScreenBtn.addEventListener('click', () => {
+    termsScreen.style.display = 'none'
+})

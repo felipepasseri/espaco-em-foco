@@ -1,56 +1,74 @@
 <?php
-	class Database {
-        private $conn;
+class Criar
+{
+    private $db;
 
-        public function __construct() {
-            require("BDconn.php");
-            $this->conn = $BDconn;
-        }
-
-        public function getConnection() {
-            return $this->conn;
-        }
+    public function __construct($conn)
+    {
+        $this->db = $conn;
     }
 
-    class Criar {
-        private $db;
+    public function cadastro($emailLogin, $nomeLogin, $sobrenomeLogin, $passwordLogin)
+    {
+        try {
+            $this->db->beginTransaction();
 
-        public function __construct($conn) {
-            $this->db = $conn;
-        }
+            $sql1 = "INSERT INTO user(email, nome, sobrenome, senha)
+                        VALUES (?, ?, ?, ?)";
+            $stmt1 = $this->db->prepare($sql1);
+            $stmt1->execute([$emailLogin, $nomeLogin, $sobrenomeLogin, $passwordLogin]);
 
-        public function cadastro($emailLogin, $nomeLogin, $sobrenomeLogin, $passwordLogin) {
-            $sql_user = "INSERT INTO user(email, nome, sobrenome, senha, errosLogin) VALUES (?,?,?,?,0)";
-            $stmt = mysqli_prepare($this->db, $sql_user);
-            mysqli_stmt_bind_param($stmt, "ssss", $emailLogin, $nomeLogin, $sobrenomeLogin, $passwordLogin);
+            $sql2 = "INSERT INTO userLevel(emailLevel, userLevel)
+                        VALUES (?, 1)";
+            $stmt2 = $this->db->prepare($sql2);
+            $stmt2->execute([$emailLogin]);
 
-            if (!mysqli_stmt_execute($stmt)) {
-                return false;
-            }
-            else{
-                return true;
-            }
-            mysqli_stmt_close($stmt);
+            $sql3 = "INSERT INTO userPoints(emailPoints, userPoints)
+                        VALUES (?, 0)";
+            $stmt3 = $this->db->prepare($sql3);
+            $stmt3->execute([$emailLogin]);
+
+            $sql4 = "INSERT INTO userRoles(emailRoles, codTypeRoles)
+                        VALUES (?, 0)";
+            $stmt4 = $this->db->prepare($sql4);
+            $stmt4->execute([$emailLogin]);
+
+            $this->db->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            return false;
         }
     }
-    session_start();
-    $emailSign = $_POST['emailSign'];
-    $nameSign = $_POST['nameSign'];
-    $lastNameSign = $_POST['lastNameSign'];
-    $passwordSign = $_POST['passwordSign'];
+}
 
-    require("cryp2graph2.php");
-    $senha_cripto = FazSenha($emailSign, $passwordSign);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: login.php");
+    exit;
+}
 
-    $db = new Database();
-    $criar = new Criar($db->getConnection());
+require_once '../config.php';
+require_once 'cryp2graph2.php';
 
-    $criou = $criar->cadastro($emailSign,$nameSign,$lastNameSign, $senha_cripto);
+session_start();
 
-    if ($criou) {
-        $_SESSION['user'] = $emailSign;
-        header("Location: ../index.html");
-    } else {
-        echo "Login já existe";
-    }
-?>
+$emailSign = $_POST['emailSign'];
+$nameSign = $_POST['nameSign'];
+$lastNameSign = $_POST['lastNameSign'];
+$passwordSign = $_POST['passwordSign'];
+
+$senha_cripto = FazSenha($emailSign, $passwordSign);
+
+$pdo = getDB();
+
+$criar = new Criar($pdo);
+$criou = $criar->cadastro($emailSign, $nameSign, $lastNameSign, $senha_cripto);
+
+if ($criou) {
+    $_SESSION['user'] = $emailSign;
+    header("Location: ../index.html");
+    exit;
+} else {
+    ob_clean();
+    header("Location: login.php?errocad=1");
+}
