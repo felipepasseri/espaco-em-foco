@@ -81,11 +81,8 @@ $user = $auth->login($email, $senha);
 if ($user) {
     session_regenerate_id(true);
     $_SESSION['user'] = $user->getEmail();
-    echo 'teste<br/>';
     require_once "verify-user.php";
-    echo 'teste<br/>';
     $userRoles = verificarUsuario($user->getEmail());
-    echo 'teste<br/>';
     if ($userRoles['codTypeRoles'] == 0) {
         header("Location: ../userScreen/home-user.php");
     } else if ($userRoles['codTypeRoles'] == 1) {
