@@ -15,6 +15,6 @@
         </li>
         <div id="login-icon"></div>
     </ul>
-    <label for="menu-header"><img src="img/menu-header.png" alt="" /></label>
+    <label for="menu-header"><img src="/img/menu-header.png" alt="" /></label>
     <input type="checkbox" name="" id="menu-header" />
 </nav>

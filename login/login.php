@@ -14,7 +14,7 @@
 
 
 
-  <header id="main-header">
+  <header id="main-header" class="login-header">
     <?php include __DIR__ . "/../navBar.php"; ?>
   </header>
 
@@ -227,6 +227,9 @@
               <input type="checkbox" id="rememberMe" />
               <label for="rememberMe">Lembrar de mim</label>
             </div>
+            <p>
+              <a href="mudarsenha.php" class="password-link">Esqueci minha senha</a>
+            </p>
             <div class="buttons-sign">
               <button type="submit" class="button login-account-btn">
                 Entrar
