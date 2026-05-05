@@ -1,5 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: ../index.php");
+}
+require_once __DIR__ . '/../login/verify-user.php';
+$userRoles = verificarUsuario($_SESSION['user']);
+if ($userRoles['codTypeRoles'] == 1) {
+    header("Location: ../admScreen/home-adm.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
