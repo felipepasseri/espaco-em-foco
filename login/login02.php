@@ -82,7 +82,7 @@ if ($user) {
     session_regenerate_id(true);
     $_SESSION['user'] = $user->getEmail();
     require_once "verify-user.php";
-    $userRoles = verificarUsuario($user->getEmail());
+    $userRoles = verificarUsuario($_SESSION['user']);
     if ($userRoles['codTypeRoles'] == 0) {
         header("Location: ../userScreen/home-user.php");
     } else if ($userRoles['codTypeRoles'] == 1) {
