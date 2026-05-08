@@ -1,0 +1,102 @@
+<?php
+// session_start();
+// if (!isset($_SESSION['user'])) {
+//     header("Location: ../index.php");
+// }
+// require_once __DIR__ . '/../login/verify-user.php';
+// $userRoles = verificarUsuario($_SESSION['user']);
+// if ($userRoles['codTypeRoles'] == 1) {
+//     header("Location: ../admScreen/home-adm.php");
+// }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="../style.css" />
+    <script src="scripts/index.js" type="module" defer></script>
+</head>
+
+<body>
+</body>
+<header id="main-header">
+    <?php include __DIR__ . "/../navBar.php"; ?>
+</header>
+
+<main>
+    <section class="profile-dashboard">
+        
+        <div class="user-info">
+            <div class="user-banner">
+                <img src="banner-exemplo.jpg" alt="Banner do Perfil" class="banner-img">
+            </div>
+
+            <div class="user-profile">
+                <div class="profile-avatar">
+                    <img src="caminho-para-avatar.jpg" alt="Foto de Perfil" class="avatar-img">
+                </div>
+                <div class="profile-details">
+                    <h1 class="user-name">Nome do Usuario</h1>
+                    <span class="user-handle">@nomedeusuario</span>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-count">259</span>
+                        <span class="stat-label">Seguidores</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-count">48</span>
+                        <span class="stat-label">Seguindo</span>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="button btn-edit">Editar Perfil</button>
+                </div>
+            </div>
+
+            <div class="user-status">
+                <div class="status-info">
+                    <span class="level-text">Nível 2</span>
+                    <span class="xp-text">4.500 / 5.000 XP</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: 90%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-extra-stats">
+            
+            <div class="extra-stats-row">
+                
+                <div class="extra-card">
+                    <img src="medalha.png" alt="Medalha" class="extra-icon">
+                    <span class="extra-title">Conquistas</span>
+                    <span class="extra-value">24</span>
+                </div>
+
+                <div class="extra-card">
+                    <img src="camada.png" alt="Camada" class="extra-icon">
+                    <span class="extra-title">Camada</span>
+                    <span class="extra-value">Núcleo</span>
+                </div>
+
+            </div>
+
+            <div class="extra-card pontos-card">
+                <span class="extra-title">Pontos Estelares</span>
+                <div class="pontos-destaque">
+                    <img src="estrela.png" alt="Estrela" class="star-icon">
+                    <span class="pontos-value">4.500/5.000 XP</span>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+</main>
+
+</html>

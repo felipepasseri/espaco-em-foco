@@ -82,6 +82,9 @@ table {
     height: 40px;
     line-height: 40px;
     box-shadow: inset -2px -3px 2px #2D1979;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .button:hover {
