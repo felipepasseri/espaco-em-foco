@@ -174,6 +174,167 @@
 }
 
 /* =========================================
+   ESTILOS GERAIS PARA TÍTULOS DE SEÇÃO
+========================================= */
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+/* =========================================
+   SEÇÃO: MISSÕES E ARTIGOS (Linha 2)
+========================================= */
+.dashboard-row-2 {
+    display: flex;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 40px auto;
+    align-items: stretch;
+}
+
+.missions-container {
+    flex: 2; /* Mesma proporção do cartão de perfil */
+    display: flex;
+    flex-direction: column;
+}
+
+.missions-grid {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+}
+
+/* Container de Artigos (Lateral Direita) */
+.articles-container {
+    flex: 1; /* Mesma proporção dos pontos estelares */
+    background-color: rgba(15, 10, 35, 0.6);
+    border: 1px solid #231d45;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.article-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid #2a2254;
+    border-radius: 12px;
+    background-color: transparent;
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.article-item:hover {
+    background-color: rgba(85, 43, 226, 0.15);
+    border-color: #552be2;
+}
+
+.article-name {
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.article-xp {
+    font-size: 12px;
+    color: #a09bba;
+}
+
+/* =========================================
+   CARDS DE MISSÃO (Usados em ambas as seções)
+========================================= */
+.mission-card {
+    flex: 1;
+    background-color: #120d2b; /* Fundo escuro base */
+    border: 1px solid #231d45;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.mission-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    object-position: center;
+    /* Opacidade sutil para integrar melhor com o fundo escuro, simulando o design */
+    opacity: 0.85; 
+}
+
+.mission-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* Um pequeno gradiente simulando a transição da imagem para o bloco de texto */
+    background: linear-gradient(180deg, rgba(18, 13, 43, 0.8) 0%, #120d2b 20px);
+    margin-top: -10px; /* Sobrepõe de leve a imagem */
+    position: relative;
+    z-index: 2;
+}
+
+.mission-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.mission-desc {
+    font-size: 11px;
+    color: #a09bba;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.btn-mission {
+    background-color: #552be2;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    align-self: center; /* Centraliza o botão igual na imagem */
+    margin-top: auto; /* Empurra o botão sempre para o final do card */
+}
+
+.btn-mission:hover {
+    background-color: #6a41f6;
+}
+
+/* =========================================
+   SEÇÃO: EXPLORE MAIS (Linha 3)
+========================================= */
+.explore-dashboard {
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.explore-grid {
+    display: grid;
+    /* Cria 3 colunas de tamanhos iguais */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* =========================================
    RESPONSIVIDADE (Telas menores)
 ========================================= */
 @media (max-width: 900px) {
@@ -197,4 +358,16 @@
     .profile-avatar { margin-top: -55px; margin-bottom: 10px; }
     .profile-details { margin-left: 0; }
     .profile-stats { margin: 20px 0; justify-content: center; }
+    .dashboard-row-2 {
+        flex-direction: column;
+    }
+    
+    /* Quebra os cards de missões e a grid do explore para colunas únicas no mobile */
+    .missions-grid {
+        flex-direction: column;
+    }
+    
+    .explore-grid {
+        grid-template-columns: 1fr;
+    }
 }
