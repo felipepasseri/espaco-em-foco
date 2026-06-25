@@ -1,0 +1,268 @@
+/* Reset Básico */
+.profile-dashboard * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* =========================================
+   LAYOUT GERAL (Lado a Lado)
+========================================= */
+body {
+    padding: 0 16px;
+}
+
+.profile-dashboard {
+    display: flex;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 40px auto;
+    align-items: stretch;
+}
+
+/* =========================================
+   PARTE 1: CARTÃO DE PERFIL (Esquerda)
+========================================= */
+.user-info {
+    flex: 2;
+    background-color: #0b0722;
+    border-radius: 16px;
+    overflow: hidden;
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+}
+
+.user-banner {
+    width: 100%;
+    height: 140px;
+    background-color: #1a4273;
+}
+.user-banner .banner-img { width: 100%; height: 100%; object-fit: cover; }
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    padding: 0 30px 20px 30px;
+    position: relative;
+}
+
+.profile-avatar {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    border: 3px solid #f000ff;
+    margin-top: -55px;
+    background-color: #e0e0e0;
+    overflow: hidden;
+    flex-shrink: 0;
+    z-index: 2;
+}
+.profile-avatar .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
+.profile-details { margin-left: 20px; margin-top: 10px; }
+.profile-details .user-name { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+.profile-details .user-handle { font-size: 13px; color: #a09bba; margin-top: 4px; display: block; }
+
+.profile-stats {
+    display: flex; gap: 24px;
+    margin-left: auto; margin-right: 30px; margin-top: 10px;
+}
+.stat-item { display: flex; flex-direction: column; align-items: center; }
+.stat-item .stat-count { font-size: 15px; font-weight: 600; color: #ffffff; }
+.stat-item .stat-label { font-size: 11px; color: #a09bba; margin-top: 2px; }
+
+.profile-actions { margin-top: 10px; }
+.btn-edit-profile:hover { background-color: #6a41f6; }
+
+.user-status {
+    padding: 0 30px 0px 30px;
+    margin-top: 30px;
+}
+.status-info { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.status-info .level-text, .status-info .xp-text { font-size: 13px; color: #c7c3d4; font-weight: 500; }
+
+.progress-bar-container {
+    width: 100%; height: 10px;
+    background-color: #1a1532; border-radius: 10px; overflow: hidden;
+}
+.progress-bar-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, #6236ff 0%, #00e5ff 100%);
+    transition: width 0.4s ease;
+}
+
+/* =========================================
+   PARTE 2: PAINEL DE CONQUISTAS (Direita)
+========================================= */
+.user-extra-stats {
+    flex: 1;
+    background-color: rgba(15, 10, 35, 0.6);
+    border: 1px solid #231d45;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.extra-stats-row {
+    display: flex;
+    gap: 16px;
+    flex: 1;
+}
+
+.extra-card {
+    flex: 1;
+    background-color: #17113a;
+    border: 1px solid #2a2254;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 10px;
+    text-align: center;
+}
+
+.pontos-card {
+    flex: none;
+    padding: 24px 20px;
+}
+
+.extra-icon { width: 60px; height: 60px; margin-bottom: 6px; object-fit: contain; }
+.extra-title { font-size: 13px; color: #a09bba; font-weight: 500; margin-bottom: 6px; }
+.extra-value { font-size: 18px; color: #ffffff; font-weight: 600; }
+
+.pontos-destaque { display: flex; align-items: center; justify-content: center; margin-top: 4px; }
+.star-icon { width: 50px; height: 50px; }
+.pontos-value { font-size: 22px; color: #ffffff; font-weight: 700; }
+
+/* =========================================
+   ESTILOS GERAIS PARA TÍTULOS DE SEÇÃO
+========================================= */
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+/* =========================================
+   SEÇÃO: MISSÕES E ARTIGOS (Linha 2)
+========================================= */
+.dashboard-row-2 {
+    display: flex;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 40px auto;
+    align-items: stretch;
+}
+
+.missions-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.articles-container {
+    flex: 1;
+    background-color: rgba(15, 10, 35, 0.6);
+    border: 1px solid #231d45;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.articles-list { display: flex; flex-direction: column; gap: 10px; }
+.article-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid #2a2254;
+    border-radius: 12px;
+    background-color: transparent;
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.article-item:hover { background-color: rgba(85, 43, 226, 0.15); border-color: #552be2; }
+.article-name { font-size: 13px; color: #ffffff; font-weight: 500; }
+.article-xp { font-size: 12px; color: #a09bba; }
+
+
+/* =========================================
+   SEÇÃO: EXPLORE MAIS (Linha 3)
+========================================= */
+.explore-dashboard {
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+/* =========================================
+   AJUSTES PARA OS CARDS DO TOPICS.CSS
+========================================= */
+/* Container para a seção de missões (2 itens lado a lado) */
+.missions-list-custom {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    justify-content: flex-start;
+}
+.missions-list-custom .topic-card {
+    flex: 1;
+    width: 100%; /* Remove a trava de 400px do topics.css para preencher o flexbox */
+    min-height: 350px;
+}
+
+/* Container para a seção de exploração (Grid com 3 colunas) */
+.explore-list-custom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    justify-content: center;
+}
+.explore-list-custom .topic-card {
+    width: 100%;
+    min-height: 400px;
+}
+
+/* =========================================
+   RESPONSIVIDADE (Telas menores)
+========================================= */
+@media (max-width: 900px) {
+    .profile-dashboard {
+        flex-direction: column;
+        align-items: center;
+    }
+    .user-status {
+        padding: 0 30px 20px 30px;
+        margin-top: auto;
+    }
+    .user-info, .user-extra-stats {
+        width: 100%;
+        flex: none;
+    }
+    
+    .user-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+    .profile-avatar { margin-top: -55px; margin-bottom: 10px; }
+    .profile-details { margin-left: 0; }
+    .profile-stats { margin: 20px 0; justify-content: center; }
+    .dashboard-row-2 {
+        flex-direction: column;
+    }
+    
+    /* Faz as listas de cards quebrarem para uma coluna no celular */
+    .missions-list-custom {
+        flex-direction: column;
+    }
+    .explore-list-custom {
+        grid-template-columns: 1fr;
+    }
+}
