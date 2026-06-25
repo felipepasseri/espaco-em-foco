@@ -40,7 +40,8 @@ try {
 
   $stmt7 = $pdo->prepare('SELECT fotoPerfil FROM user WHERE email = :email;');
   $stmt7->execute(['email' => $_SESSION['user']]);
-  $userProfilePhoto = $stmt7->fetch(PDO::FETCH_ASSOC);
+  $user = $stmt7->fetch(PDO::FETCH_ASSOC);
+  $userProfilePhoto = $user ? $user['fotoPerfil'] : 'img/user-profile-default.jpg';
 
   $xpNecessario = xpNecessario($userLevel['userLevel']);
 
@@ -79,7 +80,7 @@ try {
         <div class="user-profile">
           <div class="profile-avatar">
             <img
-              src="../<?= $userProfilePhoto['fotoPerfil'] ?>"
+              src="../<?= $userProfilePhoto ?>"
               alt="Foto de Perfil"
               class="avatar-img" />
           </div>

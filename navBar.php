@@ -1,3 +1,19 @@
+<?php
+// 1. Defina um valor padrão caso o usuário não esteja logado
+$userProfilePhoto = 'img/user-profile-default.jpg';
+
+if (isset($_SESSION['user'])) {
+    require_once __DIR__ . "/config.php";
+    $pdo = getDB();
+    $stmt7 = $pdo->prepare('SELECT fotoPerfil FROM user WHERE email = :email;');
+    $stmt7->execute(['email' => $_SESSION['user']]);
+    $user = $stmt7->fetch(PDO::FETCH_ASSOC);
+    if ($user && !empty($user['fotoPerfil'])) {
+        $userProfilePhoto = $user['fotoPerfil'];
+    }
+}
+?>
+
 <nav>
     <ul id="logo-container">
         <div id="logo"></div>
@@ -15,7 +31,8 @@
                 <a href="login/login.php" class="button"><span>Login</span></a>
             </li>
         <?php } ?>
-        <div id="login-icon"></div>
+
+        <div id="login-icon" style="background: url('../<?= $userProfilePhoto ?>') center center / cover no-repeat;"></div>
     </ul>
     <label for="menu-header"><img src="/img/menu-header.png" alt="" /></label>
     <input type="checkbox" name="" id="menu-header" />

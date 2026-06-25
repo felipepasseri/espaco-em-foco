@@ -47,7 +47,6 @@
 }
 
 #main-header nav #login-container #login-icon {
-    background: url('../img/user-profile-default.jpg') no-repeat;
     background-position: center;
     background-size: cover;
     border-radius: 50%;
