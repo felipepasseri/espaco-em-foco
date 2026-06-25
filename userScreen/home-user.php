@@ -5,6 +5,7 @@ if (!isset($_SESSION['user'])) {
 }
 require_once __DIR__ . '/../login/verify-user.php';
 require_once __DIR__ . '/../config.php';
+require_once 'calcularXp.php';
 $userRoles = verificarUsuario($_SESSION['user']);
 if ($userRoles['codTypeRoles'] == 1) {
   header("Location: ../admScreen/home-adm.php");
@@ -29,8 +30,17 @@ try {
   $stmt4->execute(['email' => $_SESSION['user']]);
   $userLevel = $stmt4->fetch(PDO::FETCH_ASSOC);
 
-  print_r($userLevel);
-  print_r($userPoints);
+  $stmt5 = $pdo->prepare('SELECT COUNT(*) FROM userfollowers WHERE emailFollower = :email;');
+  $stmt5->execute(['email' => $_SESSION['user']]);
+  $userFollowing = $stmt5->fetchColumn();
+
+  $stmt6 = $pdo->prepare('SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = :email;');
+  $stmt6->execute(['email' => $_SESSION['user']]);
+  $userFollowers = $stmt6->fetchColumn();
+
+  $xpNecessario = xpNecessario($userLevel['userLevel']);
+
+  $porcentagem = ($userPoints['userPoints'] / $xpNecessario) * 100;
 } catch (PDOException $e) {
   echo 'Erro: ' . $e->getMessage();
 }
@@ -75,11 +85,11 @@ try {
           </div>
           <div class="profile-stats">
             <div class="stat-item">
-              <span class="stat-count">259</span>
+              <span class="stat-count"><?php echo $userFollowers; ?></span>
               <span class="stat-label">Seguidores</span>
             </div>
             <div class="stat-item">
-              <span class="stat-count">48</span>
+              <span class="stat-count"><?php echo $userFollowing; ?></span>
               <span class="stat-label">Seguindo</span>
             </div>
           </div>
@@ -91,10 +101,10 @@ try {
         <div class="user-status">
           <div class="status-info">
             <span class="level-text">Nível <?php echo $userLevel['userLevel']; ?></span>
-            <span class="xp-text">4.500 / 5.000 XP</span>
+            <span class="xp-text"><?php echo $userPoints['userPoints'] . " / " . $xpNecessario;   ?> XP</span>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="width: 90%"></div>
+            <div class="progress-bar-fill" style="width: <?php echo $porcentagem ?>%"></div>
           </div>
         </div>
       </div>
@@ -118,7 +128,7 @@ try {
           <span class="extra-title">Pontos Estelares</span>
           <div class="pontos-destaque">
             <img src="estrela.png" alt="Estrela" class="star-icon" />
-            <span class="pontos-value">4.500/5.000 XP</span>
+            <span class="pontos-value"><?php echo $userPoints['userPoints'] . " / " . $xpNecessario; ?> XP</span>
           </div>
         </div>
       </div>
