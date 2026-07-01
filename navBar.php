@@ -12,6 +12,10 @@ if (isset($_SESSION['user'])) {
         $userProfilePhoto = $user['fotoPerfil'];
     }
 }
+//Ver se é ADM
+session_start();
+require_once __DIR__ . 'login/verify-user.php';
+$userRoles = verificarUsuario($_SESSION['user']);
 ?>
 
 <nav>
@@ -29,6 +33,11 @@ if (isset($_SESSION['user'])) {
         <?php if (!isset($_SESSION['user'])) { ?>
             <li>
                 <a href="login/login.php" class="button"><span>Login</span></a>
+            </li>
+        <?php } ?>
+        <?php if ($userRoles['codTypeRoles'] == 1) { ?>
+            <li>
+                <a href="admScreen/home-adm.php" class="button"><span>Admin</span></a>
             </li>
         <?php } ?>
 
