@@ -1,4 +1,4 @@
-<?php
+<?phpa
 session_start();
 if (isset($_SESSION['user'])) {
   require_once 'login/verify-user.php';
