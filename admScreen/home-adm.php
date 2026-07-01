@@ -22,7 +22,9 @@ if ($userRoles['codTypeRoles'] == 0) {
 </head>
 
 <body>
-
+    <header id="main-header">
+        <?php include __DIR__ . "/../navBar.php"; ?>
+    </header>
 </body>
 
 </html>
