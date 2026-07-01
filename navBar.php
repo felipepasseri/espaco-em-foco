@@ -39,7 +39,7 @@ if (isset($_SESSION['user'])) {
 
                 if ($userRoles['codTypeRoles'] == 1) { ?>
                     <li>
-                        <a href="admScreen/home-adm.php" class="button"><span>Admin</span></a>
+                        <a href="/admScreen/home-adm.php" class="button"><span>Admin</span></a>
                     </li>
                 <?php } 
             } ?>     
