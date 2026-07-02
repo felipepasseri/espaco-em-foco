@@ -5,47 +5,22 @@ if (!isset($_SESSION['user'])) {
 }
 require_once __DIR__ . '/../login/verify-user.php';
 require_once __DIR__ . '/../config.php';
+require_once 'user-functions.php';
 require_once 'calcularXp.php';
 $userRoles = verificarUsuario($_SESSION['user']);
 if ($userRoles['codTypeRoles'] == 1) {
   header("Location: ../admScreen/home-adm.php");
 }
+$pdo = getDB();
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 try {
-  $pdo = getDB();
-  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-  $stmt = $pdo->prepare('SELECT nome, sobrenome FROM user WHERE email = :email;');
-  $stmt->execute(['email' => $_SESSION['user']]);
-  $userNameLastName = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  $stmt2 = $pdo->prepare('SELECT nomeDeUsuario FROM user WHERE email = :email;');
-  $stmt2->execute(['email' => $_SESSION['user']]);
-  $userNickname = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-  $stmt3 = $pdo->prepare('SELECT userPoints FROM userPoints WHERE emailPoints = :email;');
-  $stmt3->execute(['email' => $_SESSION['user']]);
-  $userPoints = $stmt3->fetch(PDO::FETCH_ASSOC);
-
-  $stmt4 = $pdo->prepare('SELECT userLevel FROM userLevel WHERE emailLevel = :email;');
-  $stmt4->execute(['email' => $_SESSION['user']]);
-  $userLevel = $stmt4->fetch(PDO::FETCH_ASSOC);
-
-  $stmt5 = $pdo->prepare('SELECT COUNT(*) FROM userFollowers WHERE emailFollower = :email;');
-  $stmt5->execute(['email' => $_SESSION['user']]);
-  $userFollowing = $stmt5->fetchColumn();
-
-  $stmt6 = $pdo->prepare('SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = :email;');
-  $stmt6->execute(['email' => $_SESSION['user']]);
-  $userFollowers = $stmt6->fetchColumn();
-
-  $stmt7 = $pdo->prepare('SELECT fotoPerfil FROM user WHERE email = :email;');
-  $stmt7->execute(['email' => $_SESSION['user']]);
-  $user = $stmt7->fetch(PDO::FETCH_ASSOC);
-  $userProfilePhoto = $user ? $user['fotoPerfil'] : 'img/user-profile-default.jpg';
-
-  $xpNecessario = xpNecessario($userLevel['userLevel']);
-
-  $porcentagem = ($userPoints['userPoints'] / $xpNecessario) * 100;
+  $userData = getUserData($pdo, $_SESSION['user']);
+  $userPoints = getUserPoints($pdo, $_SESSION['user']);
+  $userLevel = getUserLevel($pdo, $_SESSION['user']);
+  $userFollowing = getFollowingCount($pdo, $_SESSION['user']);
+  $userFollowers = getFollowersCount($pdo, $_SESSION['user']);
+  $xpNecessario = xpNecessario($userLevel);
+  $porcentagem = ($userPoints / $xpNecessario) * 100;
 } catch (PDOException $e) {
   echo 'Erro: ' . $e->getMessage();
 }
@@ -60,7 +35,8 @@ try {
   <link rel="stylesheet" href="../global.css" />
   <link rel="stylesheet" href="../topics.css" />
   <link rel="stylesheet" href="../style.css" />
-  <script src="scripts/index.js" type="module" defer></script>
+  <script src="../scripts/index.js" type="module" defer></script>
+  <script src="../scripts/apiCards.js"></script>
 </head>
 
 <body>
@@ -80,13 +56,13 @@ try {
         <div class="user-profile">
           <div class="profile-avatar">
             <img
-              src="../<?= $userProfilePhoto ?>"
+              src="../<?= $userData['fotoPerfil'] ?>"
               alt="Foto de Perfil"
               class="avatar-img" />
           </div>
           <div class="profile-details">
-            <h1 class="user-name"><?php echo $userNameLastName['nome'] . " " . $userNameLastName['sobrenome']; ?></h1>
-            <span class="user-handle"><?php echo "@" . $userNickname['nomeDeUsuario'] ?></span>
+            <h1 class="user-name"><?php echo $userData['nome'] . " " . $userData['sobrenome']; ?></h1>
+            <span class="user-handle"><?php echo "@" . $userData['nomeDeUsuario'] ?></span>
           </div>
           <div class="profile-stats">
             <div class="stat-item">
@@ -105,8 +81,8 @@ try {
 
         <div class="user-status">
           <div class="status-info">
-            <span class="level-text">Nível <?php echo $userLevel['userLevel']; ?></span>
-            <span class="xp-text"><?php echo $userPoints['userPoints'] . " / " . $xpNecessario;   ?> XP</span>
+            <span class="level-text">Nível <?php echo $userLevel; ?></span>
+            <span class="xp-text"><?php echo $userPoints . " / " . $xpNecessario;   ?> XP</span>
           </div>
           <div class="progress-bar-container">
             <div class="progress-bar-fill" style="width: <?php echo $porcentagem ?>%"></div>
@@ -133,7 +109,7 @@ try {
           <span class="extra-title">Pontos Estelares</span>
           <div class="pontos-destaque">
             <img src="estrela.png" alt="Estrela" class="star-icon" />
-            <span class="pontos-value"><?php echo $userPoints['userPoints'] . " / " . $xpNecessario; ?> XP</span>
+            <span class="pontos-value"><?php echo $userPoints . " / " . $xpNecessario; ?> XP</span>
           </div>
         </div>
       </div>
@@ -272,6 +248,48 @@ try {
           </article>
         </li>
       </ul>
+    </section>
+
+    <section class="topics">
+      <h1 class="section-title">Explore por tópicos</h1>
+      <ul class="topic-card-menu">
+        <li class="pesquisa">
+          <input
+            type="text"
+            name="pesquisa"
+            id="pesquisa"
+            placeholder="Pesquisar..." />
+        </li>
+        <li class="topic-option active">
+          <button data-tipo="planets" class="planets-button">
+            <span>🪐 Planetas</span>
+          </button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="stars" class="stars-button">
+            <span>⭐ Estrelas</span>
+          </button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="galaxies"><span>🚀 Galáxias</span></button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="cosmology"><span>💥 Cosmologia</span></button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="others"><span>🔭 Outros</span></button>
+        </li>
+      </ul>
+
+      <ul class="topics-cards-list planets visible fade-in"></ul>
+
+      <ul class="topics-cards-list stars fade-in"></ul>
+
+      <ul class="topics-cards-list galaxies fade-in"></ul>
+
+      <ul class="topics-cards-list cosmology fade-in"></ul>
+
+      <ul class="topics-cards-list others fade-in"></ul>
     </section>
   </main>
 
