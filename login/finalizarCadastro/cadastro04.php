@@ -88,7 +88,7 @@ if (!empty($nickname)) {
 
     // Loop que garante que o nickname automático será único
     while (!$nicknameUnico) {
-        $stmtCheck = $pdo->prepare("SELECT id FROM user WHERE nomeDeUsuario = :nickname");
+        $stmtCheck = $pdo->prepare("SELECT email FROM user WHERE nomeDeUsuario = :nickname");
         $stmtCheck->bindValue(':nickname', $nickname);
         $stmtCheck->execute();
 

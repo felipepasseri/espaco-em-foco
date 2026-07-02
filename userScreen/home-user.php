@@ -22,19 +22,19 @@ try {
   $stmt2->execute(['email' => $_SESSION['user']]);
   $userNickname = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-  $stmt3 = $pdo->prepare('SELECT userPoints FROM userpoints WHERE emailPoints = :email;');
+  $stmt3 = $pdo->prepare('SELECT userPoints FROM userPoints WHERE emailPoints = :email;');
   $stmt3->execute(['email' => $_SESSION['user']]);
   $userPoints = $stmt3->fetch(PDO::FETCH_ASSOC);
 
-  $stmt4 = $pdo->prepare('SELECT userLevel FROM userlevel WHERE emailLevel = :email;');
+  $stmt4 = $pdo->prepare('SELECT userLevel FROM userLevel WHERE emailLevel = :email;');
   $stmt4->execute(['email' => $_SESSION['user']]);
   $userLevel = $stmt4->fetch(PDO::FETCH_ASSOC);
 
-  $stmt5 = $pdo->prepare('SELECT COUNT(*) FROM userfollowers WHERE emailFollower = :email;');
+  $stmt5 = $pdo->prepare('SELECT COUNT(*) FROM userFollowers WHERE emailFollower = :email;');
   $stmt5->execute(['email' => $_SESSION['user']]);
   $userFollowing = $stmt5->fetchColumn();
 
-  $stmt6 = $pdo->prepare('SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = :email;');
+  $stmt6 = $pdo->prepare('SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = :email;');
   $stmt6->execute(['email' => $_SESSION['user']]);
   $userFollowers = $stmt6->fetchColumn();
 
@@ -274,6 +274,8 @@ try {
       </ul>
     </section>
   </main>
+
+  <?php include_once "../footer.php" ?>
 </body>
 
 </html>
