@@ -71,7 +71,7 @@ try {
 
             <a href="../home-user.php" class="back-link">← Voltar para o Início</a>
 
-            <header class="topic-banner glass-card" style="background-image: linear-gradient(to right, rgba(11, 7, 34, 0.9), rgba(11, 7, 34, 0.4)), url('/espaco-em-foco/<?= htmlspecialchars($topico['imgCard']) ?>');">
+            <header class="topic-banner glass-card" style="background-image: linear-gradient(to right, rgba(11, 7, 34, 0.9), rgba(11, 7, 34, 0.4)), url('/<?= htmlspecialchars($topico['imgCard']) ?>');">
                 <div class="topic-banner-content">
                     <h1><?= htmlspecialchars($topico['nameTopic']) ?></h1>
                     <p><?= htmlspecialchars($topico['descTopic']) ?></p>
