@@ -21,6 +21,10 @@ try {
   $userFollowers = getFollowersCount($pdo, $_SESSION['user']);
   $xpNecessario = xpNecessario($userLevel);
   $porcentagem = ($userPoints / $xpNecessario) * 100;
+
+  // Busca os últimos 6 artigos adicionados no banco de dados
+  $stmtArtigos = $pdo->query("SELECT id, titulo, xp_recompensa FROM artigo ORDER BY id DESC LIMIT 6");
+  $artigos = $stmtArtigos->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   echo 'Erro: ' . $e->getMessage();
 }
@@ -164,30 +168,20 @@ try {
       <div class="articles-container">
         <h2 class="section-title">Artigos</h2>
         <div class="articles-list">
-          <a href="#" class="article-item">
-            <span class="article-name">Como os planetas...</span>
-            <span class="article-xp">+150 XP</span>
-          </a>
-          <a href="#" class="article-item">
-            <span class="article-name">Como os planetas...</span>
-            <span class="article-xp">+150 XP</span>
-          </a>
-          <a href="#" class="article-item">
-            <span class="article-name">Como os planetas...</span>
-            <span class="article-xp">+150 XP</span>
-          </a>
-          <a href="#" class="article-item">
-            <span class="article-name">Como os planetas...</span>
-            <span class="article-xp">+150 XP</span>
-          </a>
-          <a href="#" class="article-item">
-            <span class="article-name">Como os planetas...</span>
-            <span class="article-xp">+150 XP</span>
-          </a>
-          <a href="#" class="article-item">
-            <span class="article-name">Como os planetas...</span>
-            <span class="article-xp">+150 XP</span>
-          </a>
+
+          <?php if (!empty($artigos)): ?>
+            <?php foreach ($artigos as $artigo): ?>
+              <a href="article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-item">
+                <span class="article-name"><?= htmlspecialchars($artigo['titulo']) ?></span>
+                <span class="article-xp">+<?= htmlspecialchars($artigo['xp_recompensa']) ?> XP</span>
+              </a>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p style="text-align: center; color: #a09bba; padding: 30px 0; font-size: 0.95rem;">
+              Não há artigos para exibir
+            </p>
+          <?php endif; ?>
+
         </div>
       </div>
     </section>
