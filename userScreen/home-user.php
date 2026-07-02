@@ -171,7 +171,7 @@ try {
 
           <?php if (!empty($artigos)): ?>
             <?php foreach ($artigos as $artigo): ?>
-              <a href="artigo.php?id=<?= $artigo['id'] ?>" class="article-item">
+              <a href="article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-item">
                 <span class="article-name"><?= htmlspecialchars($artigo['titulo']) ?></span>
                 <span class="article-xp">+<?= htmlspecialchars($artigo['xp_recompensa']) ?> XP</span>
               </a>
