@@ -1,9 +1,9 @@
 <?php
 session_start();
-// if (!isset($_SESSION['user'])) {
-//     header("Location: login.php");
-//     exit();
-// }
+if (!isset($_SESSION['user'])) {
+    header("Location: ../../index.php");
+    exit();
+}
 ?>
 
 <!doctype html>
@@ -17,7 +17,6 @@ session_start();
     <link rel="stylesheet" href="../../style.css" />
     <link rel="stylesheet" href="../login.css" />
     <link rel="stylesheet" href="cadastro03.css">
-    <script src="cadastro03.js" defer></script>
 </head>
 
 <body>
@@ -51,7 +50,7 @@ session_start();
                                 <span id="placeholderText">Adicionar<br>Foto</span>
                                 <img id="imagePreview" src="" alt="Pré-visualização" />
                             </label>
-                            <input type="file" id="profilePic" name="profilePic" accept="image/*" required />
+                            <input type="file" id="profilePic" name="profilePic" accept="image/*" />
                         </div>
 
                         <div style="width: 100%;">
@@ -59,8 +58,7 @@ session_start();
                                 type="text"
                                 id="nickname"
                                 name="nickname"
-                                placeholder="Defina seu Nickname"
-                                required />
+                                placeholder="Defina seu Nickname" />
                         </div>
 
                         <?php if (isset($_GET['erro']) && $_GET['erro'] == 'nickname_exists'): ?>
@@ -81,5 +79,6 @@ session_start();
         </section>
     </main>
 </body>
+<script src="cadastro03.js" defer></script>
 
 </html>

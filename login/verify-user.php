@@ -7,7 +7,7 @@ function verificarUsuario($email)
         $pdo = getDB();
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $stmt = $pdo->prepare('SELECT codTypeRoles FROM userroles WHERE emailRoles = :email');
+        $stmt = $pdo->prepare('SELECT codTypeRoles FROM userRoles WHERE emailRoles = :email');
         $stmt->execute(['email' => $email]);
         $userRole = $stmt->fetch();
         return $userRole;
