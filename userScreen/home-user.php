@@ -22,8 +22,14 @@ try {
   $xpNecessario = xpNecessario($userLevel);
   $porcentagem = ($userPoints / $xpNecessario) * 100;
 
-  // Busca os últimos 6 artigos adicionados no banco de dados
-  $stmtArtigos = $pdo->query("SELECT id, titulo, xp_recompensa FROM artigo ORDER BY id DESC LIMIT 6");
+  // Busca os últimos 6 artigos e faz um JOIN para descobrir se o usuário acertou ou errou
+  $stmtArtigos = $pdo->prepare("
+      SELECT a.id, a.titulo, a.xp_recompensa, up.status, up.data_tentativa 
+      FROM artigo a 
+      LEFT JOIN usuario_progresso up ON a.id = up.id_artigo AND up.email_usuario = :email
+      ORDER BY a.id DESC LIMIT 6
+  ");
+  $stmtArtigos->execute(['email' => $_SESSION['user']]);
   $artigos = $stmtArtigos->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   echo 'Erro: ' . $e->getMessage();
@@ -171,15 +177,32 @@ try {
 
           <?php if (!empty($artigos)): ?>
             <?php foreach ($artigos as $artigo): ?>
-              <a href="article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-item">
+              <?php
+              $classeStatus = '';
+              $textoXp = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
+
+              if ($artigo['status'] === 'aprovado') {
+                $classeStatus = 'article-aprovado';
+                $textoXp = '✔ Concluído';
+              } elseif ($artigo['status'] === 'reprovado') {
+                $tentativa = strtotime($artigo['data_tentativa']);
+                $agora = time();
+                if (($agora - $tentativa) < 300) { // Menos de 5 minutos
+                  $classeStatus = 'article-bloqueado';
+                  $textoXp = '⏳ Tente novamente';
+                } else { // Já pode tentar de novo
+                  $classeStatus = 'article-tente-novamente';
+                  $textoXp = '↻ Tente de Novo';
+                }
+              }
+              ?>
+              <a href="article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-item <?= $classeStatus ?>">
                 <span class="article-name"><?= htmlspecialchars($artigo['titulo']) ?></span>
-                <span class="article-xp">+<?= htmlspecialchars($artigo['xp_recompensa']) ?> XP</span>
+                <span class="article-xp"><?= $textoXp ?></span>
               </a>
             <?php endforeach; ?>
           <?php else: ?>
-            <p style="text-align: center; color: #a09bba; padding: 30px 0; font-size: 0.95rem;">
-              Não há artigos para exibir
-            </p>
+            <p style="text-align: center; color: #a09bba; padding: 30px 0;">Não há artigos para exibir</p>
           <?php endif; ?>
 
         </div>

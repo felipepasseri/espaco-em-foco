@@ -230,6 +230,16 @@
     min-height: 400px;
 }
 
+/* Estados dos Artigos na Sidebar */
+.article-item.article-aprovado { background-color: rgba(0, 229, 255, 0.08); border-color: rgba(0, 229, 255, 0.4); }
+.article-item.article-aprovado .article-name, .article-item.article-aprovado .article-xp { color: #00e5ff; }
+
+.article-item.article-bloqueado { background-color: rgba(255, 51, 102, 0.08); border-color: rgba(255, 51, 102, 0.4); opacity: 0.7; }
+.article-item.article-bloqueado .article-name, .article-item.article-bloqueado .article-xp { color: #ff3366; }
+
+.article-item.article-tente-novamente { background-color: rgba(255, 174, 0, 0.08); border-color: rgba(255, 174, 0, 0.4); }
+.article-item.article-tente-novamente .article-name, .article-item.article-tente-novamente .article-xp { color: #FFAE00; }
+
 /* =========================================
    RESPONSIVIDADE (Telas menores)
 ========================================= */
