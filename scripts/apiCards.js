@@ -1,6 +1,6 @@
 async function apiCards() {
     try {
-        const response = await fetch('./api/apiCard.php');
+        const response = await fetch('../api/apiCard.php');
         const data = await response.json();
         
         const tipoMap = {
@@ -18,7 +18,7 @@ async function apiCards() {
             const topicCard = document.createElement('li');   
             topicCard.classList.add('topic-card');
             
-            topicCard.style.background = `url(${card.imgCard}) no-repeat`;
+            topicCard.style.background = `url(/${card.imgCard}) no-repeat`;
             topicCard.style.backgroundSize = 'cover';
             topicCard.style.backgroundPosition = 'center';
             
@@ -35,7 +35,7 @@ async function apiCards() {
             `;
             
             // ✅ CORREÇÃO 3: Seletor correto
-            const lista = document.querySelectorAll('.topics-cards-list')[listaIndex].appendChild(topicCard);
+            const lista = document.querySelectorAll('section.topics .topics-cards-list')[listaIndex].appendChild(topicCard);
         }
     } catch (error) {
         console.error('Erro ao carregar cards:', error);

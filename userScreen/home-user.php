@@ -60,7 +60,8 @@ try {
   <link rel="stylesheet" href="../global.css" />
   <link rel="stylesheet" href="../topics.css" />
   <link rel="stylesheet" href="../style.css" />
-  <script src="scripts/index.js" type="module" defer></script>
+  <script src="../scripts/index.js" type="module" defer></script>
+  <script src="../scripts/apiCards.js"></script>
 </head>
 
 <body>
@@ -272,6 +273,48 @@ try {
           </article>
         </li>
       </ul>
+    </section>
+
+    <section class="topics">
+      <h1 class="section-title">Explore por tópicos</h1>
+      <ul class="topic-card-menu">
+        <li class="pesquisa">
+          <input
+            type="text"
+            name="pesquisa"
+            id="pesquisa"
+            placeholder="Pesquisar..." />
+        </li>
+        <li class="topic-option active">
+          <button data-tipo="planets" class="planets-button">
+            <span>🪐 Planetas</span>
+          </button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="stars" class="stars-button">
+            <span>⭐ Estrelas</span>
+          </button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="galaxies"><span>🚀 Galáxias</span></button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="cosmology"><span>💥 Cosmologia</span></button>
+        </li>
+        <li class="topic-option">
+          <button data-tipo="others"><span>🔭 Outros</span></button>
+        </li>
+      </ul>
+
+      <ul class="topics-cards-list planets visible fade-in"></ul>
+
+      <ul class="topics-cards-list stars fade-in"></ul>
+
+      <ul class="topics-cards-list galaxies fade-in"></ul>
+
+      <ul class="topics-cards-list cosmology fade-in"></ul>
+
+      <ul class="topics-cards-list others fade-in"></ul>
     </section>
   </main>
 
