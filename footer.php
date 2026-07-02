@@ -11,15 +11,15 @@
                 <ul>
                     <li>
                         <img src="img/instagram-icon.jpg" alt="" />
-                        <a href="#"> Felipe </a>
+                        <a href="https://www.instagram.com/felipe.passeri/" target="_blank"> Felipe </a>
                     </li>
                     <li>
                         <img src="img/instagram-icon.jpg" alt="" />
-                        <a href="#">Lucas</a>
+                        <a href="https://www.instagram.com/lucasguidettig/" target="_blank">Lucas</a>
                     </li>
                     <li>
                         <img src="img/instagram-icon.jpg" alt="" />
-                        <a href="#">Guilherme</a>
+                        <a href="https://www.instagram.com/gui.m.gmeiner/" target="_blank">Guilherme</a>
                     </li>
                 </ul>
             </div>

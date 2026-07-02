@@ -32,7 +32,7 @@ if (isset($_SESSION['user'])) {
             </li>
         <?php } ?>
 
-        <div id="login-icon" style="background: url('../<?= $userProfilePhoto ?>') center center / cover no-repeat;"></div>
+        <div id="login-icon" style="background: url('/<?= $userProfilePhoto ?>') center center / cover no-repeat;"></div>
     </ul>
     <label for="menu-header"><img src="/img/menu-header.png" alt="" /></label>
     <input type="checkbox" name="" id="menu-header" />
