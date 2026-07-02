@@ -29,7 +29,7 @@ async function apiCards() {
                     </header>
                     <footer>
                         <p>${card.descTopic}</p>
-                        <a href="#" class="button">Aprenda Agora</a>
+                        <a href="/espaco-em-foco/userScreen/topic-screen/topic.php?id=${card.id}" class="button">Aprenda Agora</a>
                     </footer>
                 </article>
             `;

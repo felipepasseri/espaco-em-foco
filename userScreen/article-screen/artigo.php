@@ -39,6 +39,21 @@ try {
         $stmtAlt->execute(['id_pergunta' => $pergunta['id']]);
         $alternativas = $stmtAlt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // 4. Verifica o progresso e as respostas dadas
+    $stmtProg = $pdo->prepare("SELECT status, data_tentativa, resposta_dada FROM usuario_progresso WHERE email_usuario = :email AND id_artigo = :id");
+    $stmtProg->execute(['email' => $_SESSION['user'], 'id' => $id_artigo]);
+    $progresso = $stmtProg->fetch(PDO::FETCH_ASSOC);
+
+    $emCooldown = false;
+    $tempoRestante = 0; // Nova variável
+    if ($progresso && $progresso['status'] === 'reprovado') {
+        $diff = time() - strtotime($progresso['data_tentativa']);
+        if ($diff < 300) {
+            $emCooldown = true;
+            $tempoRestante = 300 - $diff; // Descobre quantos segundos faltam
+        }
+    }
 } catch (PDOException $e) {
     die('Erro ao carregar o artigo.');
 }
@@ -86,11 +101,17 @@ try {
 
                         <p class="question-text">
                             <?php
+                            $valorLacuna = ($progresso && $progresso['resposta_dada']) ? htmlspecialchars($progresso['resposta_dada']) : '';
+                            $classeInput = 'input-lacuna';
+                            $disabled = ($progresso && $progresso['status'] === 'aprovado') || $emCooldown ? 'disabled' : '';
+
+                            if ($progresso && $progresso['status'] === 'aprovado') $classeInput .= ' lacuna-aprovada';
+                            if ($emCooldown) $classeInput .= ' lacuna-reprovada';
+
                             if ($pergunta['tipo'] === 'lacuna') {
-                                // Troca a tag [lacuna] por um input tecnológico
                                 echo str_replace(
                                     '[lacuna]',
-                                    '<input type="text" id="lacuna-input" class="input-lacuna" placeholder="___" required autocomplete="off">',
+                                    '<input type="text" id="lacuna-input" class="' . $classeInput . '" placeholder="___" value="' . $valorLacuna . '" required autocomplete="off" ' . $disabled . '>',
                                     htmlspecialchars($pergunta['texto_pergunta'])
                                 );
                             } else {
@@ -102,16 +123,30 @@ try {
                         <?php if ($pergunta['tipo'] === 'multipla_escolha'): ?>
                             <div class="alternativas-grid">
                                 <?php foreach ($alternativas as $alt): ?>
-                                    <label class="alternativa-label">
-                                        <input type="radio" name="alternativa_id" value="<?= $alt['id'] ?>" required>
-                                        <span class="alternativa-btn"><?= htmlspecialchars($alt['texto_alternativa']) ?></span>
+                                    <?php
+                                    $isChecked = ($progresso && $progresso['resposta_dada'] == $alt['id']) ? 'checked' : '';
+                                    $classeAlt = '';
+                                    if ($isChecked && $progresso['status'] === 'aprovado') $classeAlt = 'alt-aprovada';
+                                    if ($isChecked && $emCooldown) $classeAlt = 'alt-reprovada';
+                                    ?>
+                                    <label class="alternativa-label <?= $disabled ? 'disabled-label' : '' ?>">
+                                        <input type="radio" name="alternativa_id" value="<?= $alt['id'] ?>" <?= $isChecked ?> <?= $disabled ?> required>
+                                        <span class="alternativa-btn <?= $classeAlt ?>"><?= htmlspecialchars($alt['texto_alternativa']) ?></span>
                                     </label>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
 
-                        <button type="submit" class="button btn-submit-quiz">Confirmar Resposta</button>
-                        <div id="quiz-feedback" class="feedback-msg"></div>
+                        <?php if ($progresso && $progresso['status'] === 'aprovado'): ?>
+                            <div class="feedback-msg" style="color: #00e5ff; margin-top: 20px;">✔ Você já concluiu esta missão.</div>
+                        <?php elseif ($emCooldown): ?>
+                            <div class="feedback-msg" style="color: #ff3366; margin-top: 20px;">
+                                ⏳ Você errou. Aguarde <strong id="cooldown-timer" data-time="<?= $tempoRestante ?>">--:--</strong> para tentar novamente.
+                            </div>
+                        <?php else: ?>
+                            <button type="submit" class="button btn-submit-quiz">Confirmar Resposta</button>
+                            <div id="quiz-feedback" class="feedback-msg"></div>
+                        <?php endif; ?>
                     </form>
                 </div>
             <?php endif; ?>

@@ -176,6 +176,15 @@
     font-weight: 600;
 }
 
+/* Respostas travadas/antigas */
+.alt-aprovada { background: rgba(0, 229, 255, 0.2) !important; border-color: #00e5ff !important; color: #fff; }
+.alt-reprovada { background: rgba(255, 51, 102, 0.2) !important; border-color: #ff3366 !important; color: #fff; }
+
+.lacuna-aprovada { border-bottom-color: #00e5ff !important; color: #00e5ff !important; }
+.lacuna-reprovada { border-bottom-color: #ff3366 !important; color: #ff3366 !important; }
+
+.disabled-label { cursor: not-allowed; opacity: 0.8; }
+
 /* Animação de erro */
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
