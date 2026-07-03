@@ -24,6 +24,18 @@ try {
   $userFollowers = getFollowersCount($pdo, $_SESSION['user']);
   $xpNecessario = xpNecessario($userLevel);
   $porcentagem = ($userPoints / $xpNecessario) * 100;
+  // =====================================
+  // CÁLCULO DA POSIÇÃO NO RANKING
+  // =====================================
+  $stmtRank = $pdo->prepare("
+      SELECT COUNT(*) + 1 
+      FROM userLevel ul
+      JOIN userPoints up ON ul.emailLevel = up.emailPoints
+      WHERE ul.userLevel > :myLevel
+         OR (ul.userLevel = :myLevel AND up.userPoints > :myPoints)
+  ");
+  $stmtRank->execute(['myLevel' => $userLevel, 'myPoints' => $userPoints]);
+  $userRank = $stmtRank->fetchColumn();
 
   // Busca os últimos 6 artigos e faz um JOIN para descobrir se o usuário acertou ou errou
   $stmtArtigos = $pdo->prepare("
@@ -99,7 +111,8 @@ try {
       </div>
 
       <div class="user-extra-stats">
-        <div class="extra-stats-row">
+        <div class="extra-stats-grid">
+
           <div class="extra-card">
             <img src="medalha.png" alt="Medalha" class="extra-icon" />
             <span class="extra-title">Conquistas</span>
@@ -111,14 +124,19 @@ try {
             <span class="extra-title">Camada</span>
             <span class="extra-value">Núcleo</span>
           </div>
-        </div>
 
-        <div class="extra-card pontos-card">
-          <span class="extra-title">Pontos Estelares</span>
-          <div class="pontos-destaque">
-            <img src="estrela.png" alt="Estrela" class="star-icon" />
-            <span class="pontos-value"><?php echo $userPoints . " / " . $xpNecessario; ?> XP</span>
+          <div class="extra-card" id="btn-ranking" style="cursor: pointer;">
+            <img src="../img/rank-icon.png" alt="Ranking" class="extra-icon" />
+            <span class="extra-title">Ranking</span>
+            <span class="extra-value ranking-destaque">#<?= $userRank ?></span>
           </div>
+
+          <div class="extra-card">
+            <img src="estrela.png" alt="Estrela" class="extra-icon" />
+            <span class="extra-title">XP Atual</span>
+            <span class="extra-value xp-value-small"><?php echo $userPoints . " / " . $xpNecessario; ?></span>
+          </div>
+
         </div>
       </div>
     </section>
@@ -277,13 +295,39 @@ try {
       </div>
     </div>
 
-    <div id="user-hover-card" class="hover-card-overlay hidden">
-      <div class="hc-header">
-        <img id="hc-avatar" src="" alt="Avatar">
-        <div class="hc-names">
-          <span id="hc-username"></span>
-          <span id="hc-fullname"></span>
+    <div id="ranking-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-card ranking-modal-content">
+        <div class="modal-header">
+          <h3 id="ranking-modal-title">🏆 Ranking Espacial</h3>
+          <button id="close-ranking" class="close-btn">&times;</button>
         </div>
+
+        <div class="ranking-tabs">
+          <button class="rank-tab active" data-limit="10">Top 10</button>
+          <button class="rank-tab" data-limit="50">Top 50</button>
+        </div>
+
+        <div class="modal-body ranking-body">
+          <ul id="ranking-list-container" class="user-list">
+          </ul>
+        </div>
+
+        <div class="ranking-my-position" id="my-ranking-container">
+        </div>
+      </div>
+    </div>
+
+    <div id="user-hover-card" class="hover-card-overlay hidden">
+
+      <div class="hc-header" style="justify-content: space-between; align-items: center;">
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <img id="hc-avatar" src="" alt="Avatar">
+          <div class="hc-names">
+            <span id="hc-username"></span>
+            <span id="hc-fullname"></span>
+          </div>
+        </div>
+        <button id="hc-follow-btn" class="btn-action" style="padding: 4px 10px; font-size: 11px;">Seguir</button>
       </div>
 
       <div class="hc-stats">
@@ -296,6 +340,7 @@ try {
           <span class="hc-label">XP</span>
         </div>
       </div>
+
       <div class="hc-stats hc-stats-bottom">
         <div class="hc-stat-box">
           <span id="hc-followers" class="hc-val"></span>
@@ -306,6 +351,7 @@ try {
           <span class="hc-label">Seguindo</span>
         </div>
       </div>
+
     </div>
   </main>
 
