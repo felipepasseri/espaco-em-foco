@@ -205,7 +205,6 @@
 /* =========================================
    AJUSTES PARA OS CARDS DO TOPICS.CSS
 ========================================= */
-/* Container para a seção de missões (2 itens lado a lado) */
 .missions-list-custom {
     display: flex;
     gap: 20px;
@@ -214,11 +213,10 @@
 }
 .missions-list-custom .topic-card {
     flex: 1;
-    width: 100%; /* Remove a trava de 400px do topics.css para preencher o flexbox */
+    width: 100%;
     min-height: 350px;
 }
 
-/* Container para a seção de exploração (Grid com 3 colunas) */
 .explore-list-custom {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -234,7 +232,7 @@
 .article-item.article-aprovado { background-color: rgba(0, 229, 255, 0.08); border-color: rgba(0, 229, 255, 0.4); }
 .article-item.article-aprovado .article-name, .article-item.article-aprovado .article-xp { color: #00e5ff; }
 
-.article-item.article-bloqueado { background-color: rgba(255, 51, 102, 0.08); border-color: rgba(255, 51, 102, 0.4); opacity: 0.7; }
+.article-item.article-bloqueado { background-color: rgba(255, 51, 102, 0.08); border-color: rgba(255, 51, 102, 0.4); opacity: 0.7; pointer-events: none; }
 .article-item.article-bloqueado .article-name, .article-item.article-bloqueado .article-xp { color: #ff3366; }
 
 .article-item.article-tente-novamente { background-color: rgba(255, 174, 0, 0.08); border-color: rgba(255, 174, 0, 0.4); }
@@ -244,35 +242,103 @@
    RESPONSIVIDADE (Telas menores)
 ========================================= */
 @media (max-width: 900px) {
-    .profile-dashboard {
-        flex-direction: column;
-        align-items: center;
-    }
-    .user-status {
-        padding: 0 30px 20px 30px;
-        margin-top: auto;
-    }
-    .user-info, .user-extra-stats {
-        width: 100%;
-        flex: none;
-    }
-    
-    .user-profile {
-        flex-direction: column;
-        text-align: center;
-    }
+    .profile-dashboard { flex-direction: column; align-items: center; }
+    .user-status { padding: 0 30px 20px 30px; margin-top: auto; }
+    .user-info, .user-extra-stats { width: 100%; flex: none; }
+    .user-profile { flex-direction: column; text-align: center; }
     .profile-avatar { margin-top: -55px; margin-bottom: 10px; }
     .profile-details { margin-left: 0; }
     .profile-stats { margin: 20px 0; justify-content: center; }
-    .dashboard-row-2 {
-        flex-direction: column;
-    }
-    
-    /* Faz as listas de cards quebrarem para uma coluna no celular */
-    .missions-list-custom {
-        flex-direction: column;
-    }
-    .explore-list-custom {
-        grid-template-columns: 1fr;
-    }
+    .dashboard-row-2 { flex-direction: column; }
+    .missions-list-custom { flex-direction: column; }
+    .explore-list-custom { grid-template-columns: 1fr; }
+}
+
+/* =========================================
+   MODAL DE SEGUIDORES E SEGUINDO
+========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(4, 2, 15, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-overlay .modal-content {
+    width: 100%;
+    max-width: 400px;
+    background-color: #0b0722;
+    border-radius: 16px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(85, 43, 226, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 { font-size: 16px; color: #fff; font-weight: 600; }
+
+.close-btn {
+    background: none; border: none;
+    color: #a09bba; font-size: 24px; cursor: pointer; transition: color 0.2s;
+}
+.close-btn:hover { color: #fff; }
+
+.modal-body { overflow-y: auto; padding: 10px 0; }
+
+.user-list { list-style: none; }
+.user-list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; transition: background 0.2s; }
+.user-list-item:hover { background: rgba(255, 255, 255, 0.03); }
+
+.user-list-info { display: flex; align-items: center; gap: 12px; }
+.user-list-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+.user-list-names { display: flex; flex-direction: column; }
+
+.user-list-username { font-size: 14px; color: #fff; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.user-list-fullname { font-size: 13px; color: #a09bba; margin-top: 2px; }
+
+.follow-back-btn { font-size: 13px; color: #00e5ff; font-weight: 600; cursor: pointer; }
+.follow-back-btn::before { content: "• "; color: #a09bba; font-weight: normal; }
+.follow-back-btn:hover { color: #fff; }
+
+.btn-action {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff; padding: 6px 16px; border-radius: 8px;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+
+.btn-seguindo:hover { border-color: rgba(255, 255, 255, 0.4); }
+.btn-remover { background: transparent; }
+.btn-remover:hover { border-color: #ff3366; color: #ff3366; background: rgba(255, 51, 102, 0.1); }
+
+.btn-seguir {
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid #00e5ff;
+    color: #00e5ff;
+}
+
+.btn-seguir:hover {
+    background: #00e5ff;
+    color: #0b0722;
+    border-color: #00e5ff;
 }

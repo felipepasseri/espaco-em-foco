@@ -10,15 +10,15 @@
                 <h2>Redes sociais</h2>
                 <ul>
                     <li>
-                        <img src="img/instagram-icon.jpg" alt="" />
+                        <img src="/img/instagram-icon.jpg" alt="" />
                         <a href="https://www.instagram.com/felipe.passeri/" target="_blank"> Felipe </a>
                     </li>
                     <li>
-                        <img src="img/instagram-icon.jpg" alt="" />
+                        <img src="/img/instagram-icon.jpg" alt="" />
                         <a href="https://www.instagram.com/lucasguidettig/" target="_blank">Lucas</a>
                     </li>
                     <li>
-                        <img src="img/instagram-icon.jpg" alt="" />
+                        <img src="/img/instagram-icon.jpg" alt="" />
                         <a href="https://www.instagram.com/gui.m.gmeiner/" target="_blank">Guilherme</a>
                     </li>
                 </ul>
