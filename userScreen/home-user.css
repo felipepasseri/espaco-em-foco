@@ -342,3 +342,100 @@
     color: #0b0722;
     border-color: #00e5ff;
 }
+
+/* =========================================
+   HOVER CARD (MINI PERFIL FLUTUANTE)
+========================================= */
+.hover-card-overlay {
+    position: fixed;
+    z-index: 10000; /* Tem que ser maior que o do Modal */
+    width: 280px;
+    background: rgba(15, 10, 35, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 229, 255, 0.1);
+    padding: 16px;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    transform: translateY(0);
+}
+
+.hover-card-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.hc-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 12px;
+}
+
+#hc-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00e5ff;
+}
+
+.hc-names {
+    display: flex;
+    flex-direction: column;
+}
+
+#hc-username {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
+#hc-fullname {
+    font-size: 12px;
+    color: #a09bba;
+}
+
+.hc-stats {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.hc-stats-bottom {
+    margin-top: 12px;
+}
+
+.hc-stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hc-val {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.hc-destaque {
+    color: #FFAE00; /* Cor espacial para o Nível e XP */
+}
+
+.hc-label {
+    font-size: 11px;
+    color: #a09bba;
+    margin-top: 2px;
+}
+
+/* Indicador visual de que o nome é clicável/interativo */
+.hover-trigger {
+    cursor: pointer;
+}
+.hover-trigger:hover {
+    text-decoration: underline;
+}

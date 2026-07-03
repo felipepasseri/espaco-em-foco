@@ -277,6 +277,36 @@ try {
       </div>
     </div>
 
+    <div id="user-hover-card" class="hover-card-overlay hidden">
+      <div class="hc-header">
+        <img id="hc-avatar" src="" alt="Avatar">
+        <div class="hc-names">
+          <span id="hc-username"></span>
+          <span id="hc-fullname"></span>
+        </div>
+      </div>
+
+      <div class="hc-stats">
+        <div class="hc-stat-box">
+          <span id="hc-level" class="hc-val hc-destaque"></span>
+          <span class="hc-label">Nível</span>
+        </div>
+        <div class="hc-stat-box">
+          <span id="hc-xp" class="hc-val hc-destaque"></span>
+          <span class="hc-label">XP</span>
+        </div>
+      </div>
+      <div class="hc-stats hc-stats-bottom">
+        <div class="hc-stat-box">
+          <span id="hc-followers" class="hc-val"></span>
+          <span class="hc-label">Seguidores</span>
+        </div>
+        <div class="hc-stat-box">
+          <span id="hc-following" class="hc-val"></span>
+          <span class="hc-label">Seguindo</span>
+        </div>
+      </div>
+    </div>
   </main>
 
   <?php include_once "../footer.php" ?>
