@@ -395,13 +395,24 @@
     pointer-events: none;
 }
 
+/* Cabeçalho do Hover Card */
 .hc-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
     margin-bottom: 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 12px;
+}
+
+/* Container do perfil que impede que o texto empurre o botão */
+.hc-profile-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0; /* CRUCIAL: Permite que os textos internos sejam cortados */
 }
 
 #hc-avatar {
@@ -410,22 +421,40 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #00e5ff;
+    flex-shrink: 0; /* Impede que a imagem seja esmagada */
 }
 
 .hc-names {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-width: 0; /* CRUCIAL: Permite que os textos internos sejam cortados */
 }
 
 #hc-username {
     font-size: 15px;
     font-weight: 700;
     color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona os "..." no final se o nome for gigante */
+    display: block;
 }
 
 #hc-fullname {
     font-size: 12px;
     color: #a09bba;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* Blindagem do botão */
+.hc-btn-fixed {
+    padding: 4px 10px;
+    font-size: 11px;
+    flex-shrink: 0; /* Impede que o botão seja esmagado ou empurrado pra fora */
 }
 
 .hc-stats {

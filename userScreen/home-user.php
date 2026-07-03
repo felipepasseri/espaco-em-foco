@@ -319,15 +319,15 @@ try {
 
     <div id="user-hover-card" class="hover-card-overlay hidden">
 
-      <div class="hc-header" style="justify-content: space-between; align-items: center;">
-        <div style="display: flex; gap: 12px; align-items: center;">
+      <div class="hc-header">
+        <div class="hc-profile-info">
           <img id="hc-avatar" src="" alt="Avatar">
           <div class="hc-names">
             <span id="hc-username"></span>
             <span id="hc-fullname"></span>
           </div>
         </div>
-        <button id="hc-follow-btn" class="btn-action" style="padding: 4px 10px; font-size: 11px;">Seguir</button>
+        <button id="hc-follow-btn" class="btn-action hc-btn-fixed">Seguir</button>
       </div>
 
       <div class="hc-stats">
