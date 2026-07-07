@@ -73,7 +73,7 @@ try {
     <section class="profile-dashboard">
       <div class="user-info">
         <div class="user-banner">
-          <img src="banner-exemplo.jpg" alt="Banner do Perfil" class="banner-img" />
+          <img src="../<?= $userData['bannerPerfil'] ?>" alt="Banner do Perfil" class="banner-img" />
         </div>
 
         <div class="user-profile">
@@ -95,7 +95,7 @@ try {
             </div>
           </div>
           <div class="profile-actions">
-            <button class="button btn-edit">Editar Perfil</button>
+            <a href="edit-profile/editar-perfil.php" class="button btn-edit" style="font-size: 0.9rem;">Editar Perfil</a>
           </div>
         </div>
 

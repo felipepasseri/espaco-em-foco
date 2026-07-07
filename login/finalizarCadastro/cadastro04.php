@@ -18,12 +18,6 @@ $emailSessao = $_SESSION['user'];
 $nickname = isset($_POST['nickname']) ? trim($_POST['nickname']) : '';
 $caminhoFotoDB = 'img/user-profile-default.jpg'; // Caminho padrão caso o usuário não envie foto
 
-// (Ajuste a variável $pdo para a sua variável de conexão)
-// $pdo = novaConexao();
-
-// ==========================================
-// 2. PROCESSAR A FOTO DE PERFIL
-// ==========================================
 // ==========================================
 // 2. PROCESSAR A FOTO DE PERFIL
 // ==========================================
@@ -38,7 +32,7 @@ if (isset($_FILES['profilePic']) && $_FILES['profilePic']['error'] === UPLOAD_ER
 
         // dirname(__DIR__, 2) pega o caminho absoluto deste arquivo e volta 2 pastas cravadas.
         // Fica algo como: C:/xampp/htdocs/seu_projeto/img/
-        $pastaDestino = dirname(__DIR__, 2) . '/img/';
+        $pastaDestino = dirname(__DIR__, 2) . '/img/uploads/profile/';
 
         // Se a pasta 'img' não existir na raiz, o PHP cria ela agora mesmo
         if (!is_dir($pastaDestino)) {
@@ -49,7 +43,7 @@ if (isset($_FILES['profilePic']) && $_FILES['profilePic']['error'] === UPLOAD_ER
 
         // Tenta mover o arquivo
         if (move_uploaded_file($foto['tmp_name'], $destinoFisico)) {
-            $caminhoFotoDB = 'img/' . $novoNomeFoto;
+            $caminhoFotoDB = 'img/uploads/profile/' . $novoNomeFoto;
         } else {
             // Se ainda assim der erro, o código vai parar e te mostrar exatamente qual caminho ele tentou usar
             die("Erro fatal: Não foi possível salvar a imagem no caminho: " . $destinoFisico);

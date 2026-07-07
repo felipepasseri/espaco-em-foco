@@ -1,0 +1,145 @@
+.edit-profile-main {
+    padding: 40px 20px;
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.edit-container {
+    width: 100%;
+    max-width: 700px;
+    padding: 40px;
+    background-color: rgba(11, 7, 34, 0.8); 
+}
+
+.edit-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+}
+
+.back-link {
+    display: inline-block;
+    color: #a09bba;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+.back-link:hover { color: #00e5ff; }
+
+.edit-header h2 { font-size: 1.8rem; color: #ffffff; }
+
+/* Mensagem de Erro */
+.alert-error {
+    background: rgba(255, 51, 102, 0.1);
+    border: 1px solid #ff3366;
+    color: #ff3366;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Imagens */
+.images-section {
+    position: relative;
+    margin-bottom: 60px; 
+}
+.banner-upload {
+    width: 100%; height: 160px;
+    border-radius: 12px; overflow: hidden; position: relative;
+    background-color: #1a1532; border: 1px dashed rgba(85, 43, 226, 0.5);
+}
+.banner-upload img { width: 100%; height: 100%; object-fit: cover; }
+
+.avatar-upload {
+    width: 120px; height: 120px;
+    border-radius: 50%; position: absolute;
+    bottom: -40px; left: 40px;
+    border: 4px solid #0b0722; overflow: hidden;
+    background-color: #e0e0e0; z-index: 10;
+}
+.avatar-upload img { width: 100%; height: 100%; object-fit: cover; }
+
+.upload-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6); display: flex;
+    justify-content: center; align-items: center;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.banner-upload:hover .upload-overlay, .avatar-upload:hover .upload-overlay { opacity: 1; }
+
+.upload-btn {
+    background: rgba(255, 255, 255, 0.1); color: #fff;
+    padding: 8px 16px; border-radius: 20px; border: 1px solid #fff;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    backdrop-filter: blur(4px); transition: background 0.3s;
+}
+.upload-btn:hover { background: #00e5ff; border-color: #00e5ff; color: #0b0722; }
+.avatar-btn { padding: 12px; font-size: 18px; border-radius: 50%; } 
+
+/* Inputs */
+.form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;
+}
+.full-width { grid-column: 1 / -1; }
+
+.input-group { display: flex; flex-direction: column; gap: 8px; }
+.input-group label { font-size: 13px; color: #a09bba; font-weight: 500; }
+.input-group input {
+    background: rgba(15, 10, 35, 0.6); border: 1px solid #2a2254; color: #ffffff;
+    padding: 12px 16px; border-radius: 8px; font-size: 1rem; transition: all 0.3s ease; outline: none;
+}
+.input-group input:focus {
+    border-color: #00e5ff; box-shadow: 0 0 10px rgba(0, 229, 255, 0.2); background: rgba(0, 229, 255, 0.05);
+}
+
+/* Segurança */
+.security-header {
+    margin-top: 10px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.security-header h3 { color: #FFAE00; font-size: 1.1rem; }
+.required { color: #ff3366; }
+.optional { color: #a09bba; font-size: 11px; font-weight: normal; }
+
+.forgot-pwd-link {
+    font-size: 12px; color: #00e5ff; text-decoration: none;
+    align-self: flex-start; margin-top: 2px;
+}
+.forgot-pwd-link:hover { text-decoration: underline; }
+
+/* Botões Finais - BLINDADOS */
+.form-actions {
+    display: flex; justify-content: flex-end; align-items: center;
+    gap: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.btn-cancelar {
+    color: #a09bba; text-decoration: none; font-weight: 600; font-size: 14px; transition: color 0.3s;
+}
+.btn-cancelar:hover { color: #ff3366; }
+
+/* Correção definitiva da quebra de texto */
+.btn-salvar {
+    padding: 12px 30px;
+    font-size: 15px;
+    background: #6236ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap; /* Proíbe o texto de pular linha */
+    transition: all 0.3s ease;
+}
+.btn-salvar:hover {
+    background: #00e5ff;
+    color: #0b0722;
+}
+
+@media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .avatar-upload { left: 50%; transform: translateX(-50%); }
+}
