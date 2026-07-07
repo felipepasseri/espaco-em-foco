@@ -3,7 +3,7 @@
 
 function getUserData($pdo, $email)
 {
-    $stmt = $pdo->prepare('SELECT nome, sobrenome, nomeDeUsuario, fotoPerfil FROM user WHERE email = :email;');
+    $stmt = $pdo->prepare('SELECT nome, sobrenome, nomeDeUsuario, fotoPerfil, bannerPerfil FROM user WHERE email = :email;');
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
