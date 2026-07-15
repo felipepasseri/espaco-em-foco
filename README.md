@@ -18,8 +18,6 @@
   <a href="#-tecnologias">Tecnologias</a> •
   <a href="#-arquitetura">Arquitetura</a> •
   <a href="#-estrutura-de-pastas">Estrutura</a> •
-  <a href="#-banco-de-dados">Banco de Dados</a> •
-  <a href="#-como-executar">Como Executar</a> •
   <a href="#-autores">Autores</a>
 </p>
 
