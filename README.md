@@ -109,7 +109,7 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 |---|---|
 | **Frontend** | HTML5, CSS3 (Vanilla, modular), JavaScript ES6+ (módulos, Fetch API, Intersection Observer) |
 | **Backend** | PHP 8.x (OOP, PDO, Sessions, Password Hashing) |
-| **Banco de Dados** | MySQL / MariaDB |
+| **Banco de Dados** | MySQL |
 | **Servidor** | Apache com `.htaccess` para segurança e CORS |
 | **Tipografia** | Google Fonts — Poppins |
 | **Segurança** | bcrypt (password_hash), Prepared Statements (PDO), proteção de arquivos sensíveis via .htaccess, session_regenerate_id, validação server-side |
