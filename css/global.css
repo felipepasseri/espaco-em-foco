@@ -95,6 +95,7 @@ table {
 body {
     background: url('../img/ceu-estrelado.jpg');
     color: var(--text-primary-color);
+    padding-top: 90px;
 }
 
 section {

@@ -1,30 +1,22 @@
 export default function abrirMenu() {
-    const botaoMenu = document.getElementById('menu-header')
+    const botaoMenu = document.getElementById('hamburger-btn')
     const menuPrincipal = document.getElementById('main-nav-container')
-    const botaoLogin = document.getElementById('login-container')
-    botaoMenu.addEventListener('click', () => {
-        if (window.innerWidth <= 425) {
-            if (botaoMenu.checked) {
-                menuPrincipal.style.display = 'block'
-                botaoLogin.style.display = 'block'
-            }
-            else {
-                menuPrincipal.style.display = 'none'
-                botaoLogin.style.display = 'none'
-            }
-        }
-        else {
-            return
-        }
-    })
+
+    if (botaoMenu) {
+        botaoMenu.addEventListener('click', () => {
+            botaoMenu.classList.toggle('open')
+            menuPrincipal.classList.toggle('mobile-open')
+        })
+    }
+
     window.addEventListener('resize', () => {
         if (window.innerWidth > 425) {
-            menuPrincipal.style.display = 'flex'
-            botaoLogin.style.display = 'flex'
-        }
-        else {
-            menuPrincipal.style.display = 'none'
-            botaoLogin.style.display = 'none'
+            if (menuPrincipal.classList.contains('mobile-open')) {
+                menuPrincipal.classList.remove('mobile-open')
+            }
+            if (botaoMenu && botaoMenu.classList.contains('open')) {
+                botaoMenu.classList.remove('open')
+            }
         }
     })
 }

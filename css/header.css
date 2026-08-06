@@ -2,6 +2,11 @@
     padding: 20px 40px;
     background-color: var(--background-primary-color);
     color: var(--text-primary-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
 }
 
 #main-header nav {
@@ -46,6 +51,71 @@
     
 }
 
+/* Hover effect for navbar buttons */
+#main-header nav #main-nav-container li,
+#main-header nav #main-nav-container li a {
+    color: var(--text-primary-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+#main-header nav #main-nav-container li:hover,
+#main-header nav #main-nav-container li a:hover {
+    color: #bfa6ff; /* Lavender */
+    text-shadow: 0 0 8px rgba(191, 166, 255, 0.5);
+}
+
+/* Dropdown styling to match the site */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 60px; /* Below the icon */
+    background-color: var(--background-primary-color);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    border: 1px solid var(--background-secondary-color);
+    border-radius: 12px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.profile-dropdown .dropdown-content.show {
+    display: block;
+    animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-content a {
+    color: var(--text-primary-color);
+    padding: 14px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--background-tertiary-color);
+    padding-left: 20px;
+}
+
 #main-header nav #login-container #login-icon {
     background-position: center;
     background-size: cover;
@@ -54,17 +124,38 @@
     height: 50px;
 }
 
-#main-header #menu-header {
-        display: none;
+.mobile-profile-container, .mobile-login-link {
+    display: none !important;
 }
 
-#main-header label {
-        display: none;
+/* Hamburger icon styles */
+.hamburger-icon {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 35px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 3000;
 }
 
-#main-header label img {
-    width: 60px;
-    height: 60px;
+.hamburger-icon .bar {
+    width: 100%;
+    height: 3px;
+    background-color: var(--text-primary-color);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Animate into X when opened via JS */
+.hamburger-icon.open .bar:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+}
+.hamburger-icon.open .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-icon.open .bar:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
 }
 
 @media screen and (max-width: 768px) {
@@ -76,55 +167,69 @@
         padding: 20px 20px;
     }
 
-    #main-header nav #login-container #login-icon {
+    /* #main-header nav #login-container #login-icon {
        display: none;
-    }
+    } */
 }
 
 @media screen and (max-width: 425px) {
-    #main-header {
-        position: relative;
+    .hamburger-icon {
+        display: flex;
+    }
+    .mobile-profile-container {
+        display: flex !important;
+        gap: 10px;
+        margin-top: 10px;
+        width: 100%;
     }
 
-    #main-header label {
-        display: block;
+    .mobile-profile-link {
+        flex: 1;
+        display: block !important;
+        background-color: var(--background-secondary-color);
+        border-radius: 8px;
+        text-align: center;
+        color: #fff !important;
+        font-weight: 500;
+        padding: 12px;
     }
-    
+
+    .mobile-login-link {
+        display: flex !important;
+        justify-content: center;
+        margin-top: 15px;
+    }
+
+    .mobile-login-link a.button {
+        width: 100%;
+    }
 
     #main-header nav #main-nav-container {
-        display: none;
+        display: flex;
+        flex-direction: column;
         position: absolute;
         background-color: var(--background-primary-color);
-        opacity: 100%;
         width: 100%;
         left: 0;
         top: 100%;
-        padding: 10px 20px;
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease, padding 0.5s ease;
+        opacity: 1; /* ignore JS inline styles */
+    }
+
+    #main-header nav #main-nav-container.mobile-open {
+        max-height: 500px; /* Big enough to show all items */
+        padding: 20px 20px;
     }
 
     #main-header nav #main-nav-container li {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        width: 100%;
     }
 
-    
     #main-header nav #login-container {
-        display: none;
-        position: absolute;
-        top: 220%;
-        left: 0;
-        background-color: var(--background-primary-color);
-        width: 100%;
-        padding: 10px 20px;
+        display: none !important;
     }
-
-    #main-header nav #login-container li{
-        width: 100%;
-        margin-bottom: 8px;
-    }
-    #main-header nav #login-container li a {
-        width: 100%;
-    }
-
-
-
 }

@@ -295,3 +295,46 @@ const modal = document.getElementById('follow-modal');
     hoverCard.addEventListener('mouseout', () => {
         hoverTimeout = setTimeout(() => hoverCard.classList.add('hidden'), 300);
     });
+
+
+    // Abre um dropdown quando clica na foto de perfil
+    function toggleProfileDropdown(e) {
+        e.stopPropagation();
+        document.getElementById('profile-dropdown-content').classList.toggle('show');
+    }
+    window.addEventListener('click', function(event) {
+        var dropdown = document.getElementById('profile-dropdown-content');
+        if (dropdown && dropdown.classList.contains('show') && !event.target.matches('#login-icon')) {
+            dropdown.classList.remove('show');
+        }
+    });
+
+    // ==========================================
+    // 5. NAVBAR SCROLL FUNCIONALIDADE
+    // ==========================================
+    const btnInicio = document.getElementById('nav-inicio');
+    if (btnInicio) {
+        btnInicio.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    const btnMissoes = document.getElementById('nav-missoes');
+    if (btnMissoes) {
+        btnMissoes.addEventListener('click', () => {
+            const missoesSection = document.querySelector('.dashboard-row-2');
+            if (missoesSection) {
+                missoesSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    const btnTopicos = document.getElementById('nav-topicos');
+    if (btnTopicos) {
+        btnTopicos.addEventListener('click', () => {
+            const topicosSection = document.querySelector('.topics');
+            if (topicosSection) {
+                topicosSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
