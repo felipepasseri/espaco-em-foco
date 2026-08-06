@@ -68,12 +68,12 @@ const modal = document.getElementById('follow-modal');
                           data-name="${user.nome} ${user.sobrenome}" data-level="${user.userLevel}"
                           data-xp="${user.userPoints}" data-followers="${user.total_followers}"
                           data-following="${user.total_following}"
-                          data-email="${user.email}" data-isfollowing="${isFollowing}" data-isme="false">
+                          data-username="${user.nomeDeUsuario}" data-isfollowing="${isFollowing}" data-isme="false">
                       ${user.nomeDeUsuario}
                     </span>
             `;
             if (currentType === 'followers' && !user.segue_de_volta) {
-                html += `<span class="follow-back-btn" onclick="handleAction('follow', '${user.email}', this, '${currentType}')">Seguir</span>`;
+                html += `<span class="follow-back-btn" onclick="handleAction('follow', '${user.nomeDeUsuario}', this, '${currentType}')">Seguir</span>`;
             }
             html += `
                   </div>
@@ -83,9 +83,9 @@ const modal = document.getElementById('follow-modal');
               <div class="user-list-actions">
             `;
             if (currentType === 'followers') {
-                html += `<button class="btn-action btn-remover" onclick="handleAction('remove_follower', '${user.email}', this, '${currentType}')">Remover</button>`;
+                html += `<button class="btn-action btn-remover" onclick="handleAction('remove_follower', '${user.nomeDeUsuario}', this, '${currentType}')">Remover</button>`;
             } else {
-                html += `<button class="btn-action btn-seguindo" onclick="handleAction('unfollow', '${user.email}', this, '${currentType}')">Seguindo</button>`;
+                html += `<button class="btn-action btn-seguindo" onclick="handleAction('unfollow', '${user.nomeDeUsuario}', this, '${currentType}')">Seguindo</button>`;
             }
             html += `</div>`;
             li.innerHTML = html;
@@ -124,7 +124,7 @@ const modal = document.getElementById('follow-modal');
             if(user.rank === 3) rankBadgeClass += ' rank-3';
 
             // Verifica se este usuário do ranking sou "Eu"
-            const isMe = user.email === me.email;
+            const isMe = user.nomeDeUsuario === me.nomeDeUsuario;
             const displayName = isMe 
                 ? `<span style="color: #FFAE00;">${user.nomeDeUsuario} (Você)</span>` 
                 : user.nomeDeUsuario;
@@ -139,7 +139,7 @@ const modal = document.getElementById('follow-modal');
                           data-name="${user.nome} ${user.sobrenome}" data-level="${user.userLevel}"
                           data-xp="${user.userPoints}" data-followers="${user.total_followers}"
                           data-following="${user.total_following}"
-                          data-email="${user.email}" data-isfollowing="${user.estou_seguindo}" data-isme="${isMe}">
+                          data-username="${user.nomeDeUsuario}" data-isfollowing="${user.estou_seguindo}" data-isme="${isMe}">
                       ${displayName}
                     </span>
                     <span style="font-size: 11px; color: #00e5ff; background: rgba(0, 229, 255, 0.1); padding: 2px 6px; border-radius: 4px;">Lv. ${user.userLevel}</span>
@@ -176,7 +176,7 @@ const modal = document.getElementById('follow-modal');
     // ==========================================
     // 3. AÇÃO UNIVERSAL (SEGUIR/REMOVER/UNFOLLOW)
     // ==========================================
-    function handleAction(action, targetEmail, element, currentType) {
+    function handleAction(action, targetUsername, element, currentType) {
         if (element.disabled) return;
         element.disabled = true;
         const originalText = element.innerText;
@@ -185,7 +185,7 @@ const modal = document.getElementById('follow-modal');
         fetch('../api/api-follow-action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action, targetEmail })
+            body: JSON.stringify({ action, targetUsername })
         })
         .then(res => res.json())
         .then(data => {
@@ -201,18 +201,18 @@ const modal = document.getElementById('follow-modal');
                     element.innerText = 'Seguir';
                     element.classList.remove('btn-seguindo');
                     element.classList.add('btn-seguir');
-                    element.setAttribute('onclick', `handleAction('follow', '${targetEmail}', this, '${currentType}')`);
+                    element.setAttribute('onclick', `handleAction('follow', '${targetUsername}', this, '${currentType}')`);
                     
                     // Se foi pelo hover, atualiza o data-attribute para o próximo mouseover
-                    if(currentType === 'hover') updateHoverTriggerData(targetEmail, '0');
+                    if(currentType === 'hover') updateHoverTriggerData(targetUsername, '0');
                 } 
                 else if (action === 'follow' && element.classList.contains('btn-action')) {
                     element.innerText = 'Seguindo';
                     element.classList.remove('btn-seguir');
                     element.classList.add('btn-seguindo');
-                    element.setAttribute('onclick', `handleAction('unfollow', '${targetEmail}', this, '${currentType}')`);
+                    element.setAttribute('onclick', `handleAction('unfollow', '${targetUsername}', this, '${currentType}')`);
                     
-                    if(currentType === 'hover') updateHoverTriggerData(targetEmail, '1');
+                    if(currentType === 'hover') updateHoverTriggerData(targetUsername, '1');
                 }
                 else if (action === 'follow' && element.classList.contains('follow-back-btn')) {
                     element.remove(); 
@@ -231,8 +231,8 @@ const modal = document.getElementById('follow-modal');
     }
 
     // Atualiza silenciosamente a lista por trás caso o card suma
-    function updateHoverTriggerData(email, isFollowingStr) {
-        const trigger = document.querySelector(`.hover-trigger[data-email="${email}"]`);
+    function updateHoverTriggerData(username, isFollowingStr) {
+        const trigger = document.querySelector(`.hover-trigger[data-username="${username}"]`);
         if(trigger) trigger.setAttribute('data-isfollowing', isFollowingStr);
     }
 
@@ -264,16 +264,16 @@ const modal = document.getElementById('follow-modal');
             } else {
                 hcFollowBtn.style.display = 'inline-block';
                 const isFollowing = trigger.dataset.isfollowing === '1';
-                const userEmail = trigger.dataset.email;
+                const userUsername = trigger.dataset.username;
 
                 if (isFollowing) {
                     hcFollowBtn.className = 'btn-action btn-seguindo';
                     hcFollowBtn.innerText = 'Seguindo';
-                    hcFollowBtn.setAttribute('onclick', `handleAction('unfollow', '${userEmail}', this, 'hover')`);
+                    hcFollowBtn.setAttribute('onclick', `handleAction('unfollow', '${userUsername}', this, 'hover')`);
                 } else {
                     hcFollowBtn.className = 'btn-action btn-seguir';
                     hcFollowBtn.innerText = 'Seguir';
-                    hcFollowBtn.setAttribute('onclick', `handleAction('follow', '${userEmail}', this, 'hover')`);
+                    hcFollowBtn.setAttribute('onclick', `handleAction('follow', '${userUsername}', this, 'hover')`);
                 }
             }
 

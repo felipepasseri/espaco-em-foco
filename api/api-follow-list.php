@@ -17,7 +17,7 @@ try {
     if ($type === 'followers') {
         // Busca quem TE segue, e pega Level, XP, e as contagens do perfil deles
         $stmt = $pdo->prepare("
-            SELECT u.email, u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
+            SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
                    COALESCE(ul.userLevel, 1) as userLevel,
                    COALESCE(up.userPoints, 0) as userPoints,
                    (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
@@ -32,7 +32,7 @@ try {
     } else {
         // Busca quem VOCÊ segue, e pega as informações deles
         $stmt = $pdo->prepare("
-            SELECT u.email, u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
+            SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
                    COALESCE(ul.userLevel, 1) as userLevel,
                    COALESCE(up.userPoints, 0) as userPoints,
                    (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,

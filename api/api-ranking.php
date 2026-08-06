@@ -18,7 +18,7 @@ try {
 
     // Busca o Ranking e descobre se VOCÊ já segue cada um deles
     $stmtTop = $pdo->prepare("
-        SELECT u.email, u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
+        SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
                COALESCE(ul.userLevel, 1) as userLevel,
                COALESCE(up.userPoints, 0) as userPoints,
                (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
@@ -38,12 +38,11 @@ try {
     $rankPosition = 1;
     foreach ($topUsers as &$user) {
         $user['rank'] = $rankPosition++;
-        // Mantivemos o e-mail aqui para o botão de "Seguir" funcionar!
     }
 
     // Busca os SEUS dados exatos (Para o rodapé e para o destaque de "Você")
     $stmtMe = $pdo->prepare("
-        SELECT u.email, u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
+        SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
                COALESCE(ul.userLevel, 1) as userLevel,
                COALESCE(up.userPoints, 0) as userPoints
         FROM user u
