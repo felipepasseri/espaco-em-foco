@@ -2,12 +2,14 @@
 session_start();
 if (!isset($_SESSION['user'])) {
     header("Location: ../index.php");
+    exit;
 }
 
 require_once __DIR__ . '/../login/verify-user.php';
 $userRoles = verificarUsuario($_SESSION['user']);
 if ($userRoles['codTypeRoles'] == 0) {
     header("Location: ../userScreen/home-user.php");
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -24,7 +26,8 @@ try {
     $nameTopic = trim($_POST['title']);
     $descTopic = trim($_POST['description']);
 
-    $uploadDir = 'img/';
+    $uploadDir = '../img/';
+    $uploadDirBD = 'img/';
 
     $imagemFile = $_FILES['image'];
 
@@ -35,6 +38,7 @@ try {
     if (!move_uploaded_file($imagemFile['tmp_name'], $caminhoCompleto)) {
         throw new Exception('Erro ao salvar imagem');
     }
+    $caminhoCompleto = $uploadDirBD . $nomeUnico;
 
     $sql = "INSERT INTO topicCards (tipoTopic, imgCard, nameTopic, descTopic) 
             VALUES (?, ?, ?, ?)";
@@ -42,10 +46,8 @@ try {
     $stmt->execute([$tipoTopic, $caminhoCompleto, $nameTopic, $descTopic]);
 
     $_SESSION['sucesso'] = "✅ Card '{$nameTopic}' salvo!";
-    print("DEU CERTO AE");
 } catch (Exception $e) {
     $_SESSION['erro'] = $e->getMessage();
-    print("DEU ERRADO AE");
 }
 
 header("Location: adicionaCard.php");

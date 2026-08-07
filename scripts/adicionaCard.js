@@ -1,11 +1,11 @@
-document.addEventListener("click", (e) => {
+document.addEventListener("click", async (e) => {
     if (e.target.classList.contains("delete")) {
         const id = e.target.dataset.id;
 
         if (!confirm("Deseja realmente excluir este card?")) {
             return;
         }
-        const response = await fetch("./admScreen/excluirCard.php", {
+        const response = await fetch("excluiCard.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
