@@ -31,7 +31,7 @@ async function apiCards() {
                     <footer>
                         <p>${card.descTopic}</p>
                         <a href="#" class="button">Editar</a>
-                        <a href="#" class="button delete">X</a>
+                        <a href="#" class="button delete" data-id="${card.id}">X</a>
                     </footer>
                 </article>
             `;

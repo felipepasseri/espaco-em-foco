@@ -11,10 +11,10 @@ if ($userRoles['codTypeRoles'] == 0) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.html');
+    header('Location: adicionaCard.php');
     exit;
 }
-require_once 'config.php';
+require_once '../config.php';
 
 
 try {
@@ -42,9 +42,11 @@ try {
     $stmt->execute([$tipoTopic, $caminhoCompleto, $nameTopic, $descTopic]);
 
     $_SESSION['sucesso'] = "✅ Card '{$nameTopic}' salvo!";
+    print("DEU CERTO AE");
 } catch (Exception $e) {
     $_SESSION['erro'] = $e->getMessage();
+    print("DEU ERRADO AE");
 }
 
-header("Location: index.html");
+header("Location: adicionaCard.php");
 exit;
