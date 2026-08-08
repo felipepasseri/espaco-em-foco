@@ -1,10 +1,22 @@
 <?php
 session_start();
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.html');
+if (!isset($_SESSION['user'])) {
+    header("Location: ../index.php");
     exit;
 }
-require_once 'config.php';
+
+require_once __DIR__ . '/../login/verify-user.php';
+$userRoles = verificarUsuario($_SESSION['user']);
+if ($userRoles['codTypeRoles'] == 0) {
+    header("Location: ../userScreen/home-user.php");
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: adicionaCard.php');
+    exit;
+}
+require_once '../config.php';
 
 
 try {
@@ -14,7 +26,8 @@ try {
     $nameTopic = trim($_POST['title']);
     $descTopic = trim($_POST['description']);
 
-    $uploadDir = 'img/';
+    $uploadDir = '../img/';
+    $uploadDirBD = 'img/';
 
     $imagemFile = $_FILES['image'];
 
@@ -25,6 +38,7 @@ try {
     if (!move_uploaded_file($imagemFile['tmp_name'], $caminhoCompleto)) {
         throw new Exception('Erro ao salvar imagem');
     }
+    $caminhoCompleto = $uploadDirBD . $nomeUnico;
 
     $sql = "INSERT INTO topicCards (tipoTopic, imgCard, nameTopic, descTopic) 
             VALUES (?, ?, ?, ?)";
@@ -36,5 +50,5 @@ try {
     $_SESSION['erro'] = $e->getMessage();
 }
 
-header("Location: index.html");
+header("Location: adicionaCard.php");
 exit;
