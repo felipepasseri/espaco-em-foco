@@ -71,6 +71,7 @@
     border-radius: 12px;
     text-decoration: none;
     transition: all 0.3s ease;
+    gap: 15px;
 }
 
 .article-mission-card:hover {
@@ -92,6 +93,11 @@
 }
 
 /* Estilos de Status */
+.mission-status {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 .badge-pending {
     background: rgba(98, 54, 255, 0.2);
     color: #a09bba;
@@ -135,4 +141,10 @@
     border: 1px dashed #2a2254;
     border-radius: 12px;
     color: #a09bba;
+}
+
+@media screen and (max-width: 425px) {
+    .articles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
 }

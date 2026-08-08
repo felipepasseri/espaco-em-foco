@@ -216,10 +216,11 @@
     background-color: transparent;
     text-decoration: none;
     transition: background-color 0.2s, border-color 0.2s;
+    gap: 15px;
 }
 .article-item:hover { background-color: rgba(85, 43, 226, 0.15); border-color: #552be2; }
-.article-name { font-size: 13px; color: #ffffff; font-weight: 500; }
-.article-xp { font-size: 12px; color: #a09bba; }
+.article-name { font-size: 13px; color: #ffffff; font-weight: 500; flex-grow: 1; }
+.article-xp { font-size: 12px; color: #a09bba; white-space: nowrap; flex-shrink: 0; text-align: right; }
 
 
 /* =========================================

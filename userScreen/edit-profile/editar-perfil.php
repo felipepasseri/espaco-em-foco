@@ -14,7 +14,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 try {
     $userData = getUserData($pdo, $_SESSION['user']);
     $fotoAtual = $userData['fotoPerfil'] ? '../' . $userData['fotoPerfil'] : '../img/user-profile-default.jpg';
-    $bannerAtual = !empty($userData['bannerPerfil']) ? '../' . $userData['bannerPerfil'] : 'banner-exemplo.jpg';
+    $bannerAtual = !empty($userData['bannerPerfil']) ? '../' . $userData['bannerPerfil'] : '../banner-exemplo.jpg';
 } catch (PDOException $e) {
     die("Erro ao carregar dados: " . $e->getMessage());
 }
@@ -56,7 +56,7 @@ try {
 
                 <div class="images-section">
                     <div class="banner-upload">
-                        <img id="banner-preview" src="../<?= $bannerAtual ?>" alt="Banner Atual">
+                        <img id="banner-preview" src="../../<?= $bannerAtual ?>" alt="Banner Atual">
                         <div class="upload-overlay">
                             <label for="banner-input" class="upload-btn">Alterar Banner</label>
                             <input type="file" id="banner-input" name="banner" accept="image/png, image/jpeg" hidden>
@@ -64,7 +64,7 @@ try {
                     </div>
 
                     <div class="avatar-upload">
-                        <img id="avatar-preview" src="/espaco-em-foco/img/<?= $fotoAtual ?>" alt="Foto de Perfil Atual">
+                        <img id="avatar-preview" src="../../img/<?= $fotoAtual ?>" alt="Foto de Perfil Atual">
                         <div class="upload-overlay">
                             <label for="avatar-input" class="upload-btn avatar-btn">📷</label>
                             <input type="file" id="avatar-input" name="foto" accept="image/png, image/jpeg" hidden>

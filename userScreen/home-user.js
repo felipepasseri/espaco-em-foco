@@ -9,6 +9,20 @@ const modal = document.getElementById('follow-modal');
     let hoverTimeout;
 
     // ==========================================
+    // 0. FUNÇÃO DE FORMATAÇÃO DE XP
+    // ==========================================
+    function formatXP(xp) {
+        xp = parseInt(xp) || 0;
+        if (xp < 1000) return xp.toString();
+        if (xp < 1000000) {
+            const val = xp / 1000;
+            return (val % 1 === 0 ? val.toFixed(0) : val.toFixed(1)) + 'k';
+        }
+        const val = xp / 1000000;
+        return (val % 1 === 0 ? val.toFixed(0) : val.toFixed(1)) + 'M';
+    }
+
+    // ==========================================
     // 1. EVENTOS DOS MODAIS
     // ==========================================
     document.getElementById('btn-seguidores').addEventListener('click', () => openFollowModal('followers'));
@@ -68,12 +82,12 @@ const modal = document.getElementById('follow-modal');
                           data-name="${user.nome} ${user.sobrenome}" data-level="${user.userLevel}"
                           data-xp="${user.userPoints}" data-followers="${user.total_followers}"
                           data-following="${user.total_following}"
-                          data-email="${user.email}" data-isfollowing="${isFollowing}" data-isme="false">
+                          data-username="${user.nomeDeUsuario}" data-isfollowing="${isFollowing}" data-isme="false">
                       ${user.nomeDeUsuario}
                     </span>
             `;
             if (currentType === 'followers' && !user.segue_de_volta) {
-                html += `<span class="follow-back-btn" onclick="handleAction('follow', '${user.email}', this, '${currentType}')">Seguir</span>`;
+                html += `<span class="follow-back-btn" onclick="handleAction('follow', '${user.nomeDeUsuario}', this, '${currentType}')">Seguir</span>`;
             }
             html += `
                   </div>
@@ -83,9 +97,9 @@ const modal = document.getElementById('follow-modal');
               <div class="user-list-actions">
             `;
             if (currentType === 'followers') {
-                html += `<button class="btn-action btn-remover" onclick="handleAction('remove_follower', '${user.email}', this, '${currentType}')">Remover</button>`;
+                html += `<button class="btn-action btn-remover" onclick="handleAction('remove_follower', '${user.nomeDeUsuario}', this, '${currentType}')">Remover</button>`;
             } else {
-                html += `<button class="btn-action btn-seguindo" onclick="handleAction('unfollow', '${user.email}', this, '${currentType}')">Seguindo</button>`;
+                html += `<button class="btn-action btn-seguindo" onclick="handleAction('unfollow', '${user.nomeDeUsuario}', this, '${currentType}')">Seguindo</button>`;
             }
             html += `</div>`;
             li.innerHTML = html;
@@ -124,7 +138,7 @@ const modal = document.getElementById('follow-modal');
             if(user.rank === 3) rankBadgeClass += ' rank-3';
 
             // Verifica se este usuário do ranking sou "Eu"
-            const isMe = user.email === me.email;
+            const isMe = user.nomeDeUsuario === me.nomeDeUsuario;
             const displayName = isMe 
                 ? `<span style="color: #FFAE00;">${user.nomeDeUsuario} (Você)</span>` 
                 : user.nomeDeUsuario;
@@ -139,10 +153,11 @@ const modal = document.getElementById('follow-modal');
                           data-name="${user.nome} ${user.sobrenome}" data-level="${user.userLevel}"
                           data-xp="${user.userPoints}" data-followers="${user.total_followers}"
                           data-following="${user.total_following}"
-                          data-email="${user.email}" data-isfollowing="${user.estou_seguindo}" data-isme="${isMe}">
+                          data-username="${user.nomeDeUsuario}" data-isfollowing="${user.estou_seguindo}" data-isme="${isMe}">
                       ${displayName}
                     </span>
                     <span style="font-size: 11px; color: #00e5ff; background: rgba(0, 229, 255, 0.1); padding: 2px 6px; border-radius: 4px;">Lv. ${user.userLevel}</span>
+                    <span style="font-size: 11px; color: #FFAE00; background: rgba(255, 174, 0, 0.1); padding: 2px 6px; border-radius: 4px;">${formatXP(user.userPoints)} XP</span>
                   </div>
                   <span class="user-list-fullname">${user.nome} ${user.sobrenome}</span>
                 </div>
@@ -163,7 +178,7 @@ const modal = document.getElementById('follow-modal');
                   <img src="${foto}" alt="Perfil" class="user-list-avatar" style="border: 2px solid #FFAE00;">
                   <div class="user-list-names">
                     <span class="user-list-username" style="color: #FFAE00;">Você (${me.nomeDeUsuario})</span>
-                    <span class="user-list-fullname">Nível ${me.userLevel} • ${me.userPoints} XP</span>
+                    <span class="user-list-fullname">Nível ${me.userLevel} • ${formatXP(me.userPoints)} XP</span>
                   </div>
                 </div>
                 <div class="user-list-actions">
@@ -176,7 +191,7 @@ const modal = document.getElementById('follow-modal');
     // ==========================================
     // 3. AÇÃO UNIVERSAL (SEGUIR/REMOVER/UNFOLLOW)
     // ==========================================
-    function handleAction(action, targetEmail, element, currentType) {
+    function handleAction(action, targetUsername, element, currentType) {
         if (element.disabled) return;
         element.disabled = true;
         const originalText = element.innerText;
@@ -185,7 +200,7 @@ const modal = document.getElementById('follow-modal');
         fetch('../api/api-follow-action.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action, targetEmail })
+            body: JSON.stringify({ action, targetUsername })
         })
         .then(res => res.json())
         .then(data => {
@@ -201,18 +216,18 @@ const modal = document.getElementById('follow-modal');
                     element.innerText = 'Seguir';
                     element.classList.remove('btn-seguindo');
                     element.classList.add('btn-seguir');
-                    element.setAttribute('onclick', `handleAction('follow', '${targetEmail}', this, '${currentType}')`);
+                    element.setAttribute('onclick', `handleAction('follow', '${targetUsername}', this, '${currentType}')`);
                     
                     // Se foi pelo hover, atualiza o data-attribute para o próximo mouseover
-                    if(currentType === 'hover') updateHoverTriggerData(targetEmail, '0');
+                    if(currentType === 'hover') updateHoverTriggerData(targetUsername, '0');
                 } 
                 else if (action === 'follow' && element.classList.contains('btn-action')) {
                     element.innerText = 'Seguindo';
                     element.classList.remove('btn-seguir');
                     element.classList.add('btn-seguindo');
-                    element.setAttribute('onclick', `handleAction('unfollow', '${targetEmail}', this, '${currentType}')`);
+                    element.setAttribute('onclick', `handleAction('unfollow', '${targetUsername}', this, '${currentType}')`);
                     
-                    if(currentType === 'hover') updateHoverTriggerData(targetEmail, '1');
+                    if(currentType === 'hover') updateHoverTriggerData(targetUsername, '1');
                 }
                 else if (action === 'follow' && element.classList.contains('follow-back-btn')) {
                     element.remove(); 
@@ -231,8 +246,8 @@ const modal = document.getElementById('follow-modal');
     }
 
     // Atualiza silenciosamente a lista por trás caso o card suma
-    function updateHoverTriggerData(email, isFollowingStr) {
-        const trigger = document.querySelector(`.hover-trigger[data-email="${email}"]`);
+    function updateHoverTriggerData(username, isFollowingStr) {
+        const trigger = document.querySelector(`.hover-trigger[data-username="${username}"]`);
         if(trigger) trigger.setAttribute('data-isfollowing', isFollowingStr);
     }
 
@@ -250,7 +265,7 @@ const modal = document.getElementById('follow-modal');
             document.getElementById('hc-username').innerText = trigger.dataset.user;
             document.getElementById('hc-fullname').innerText = trigger.dataset.name;
             document.getElementById('hc-level').innerText = trigger.dataset.level;
-            document.getElementById('hc-xp').innerText = trigger.dataset.xp;
+            document.getElementById('hc-xp').innerText = formatXP(trigger.dataset.xp);
             document.getElementById('hc-followers').innerText = trigger.dataset.followers;
             document.getElementById('hc-following').innerText = trigger.dataset.following;
             
@@ -264,16 +279,16 @@ const modal = document.getElementById('follow-modal');
             } else {
                 hcFollowBtn.style.display = 'inline-block';
                 const isFollowing = trigger.dataset.isfollowing === '1';
-                const userEmail = trigger.dataset.email;
+                const userUsername = trigger.dataset.username;
 
                 if (isFollowing) {
                     hcFollowBtn.className = 'btn-action btn-seguindo';
                     hcFollowBtn.innerText = 'Seguindo';
-                    hcFollowBtn.setAttribute('onclick', `handleAction('unfollow', '${userEmail}', this, 'hover')`);
+                    hcFollowBtn.setAttribute('onclick', `handleAction('unfollow', '${userUsername}', this, 'hover')`);
                 } else {
                     hcFollowBtn.className = 'btn-action btn-seguir';
                     hcFollowBtn.innerText = 'Seguir';
-                    hcFollowBtn.setAttribute('onclick', `handleAction('follow', '${userEmail}', this, 'hover')`);
+                    hcFollowBtn.setAttribute('onclick', `handleAction('follow', '${userUsername}', this, 'hover')`);
                 }
             }
 
@@ -295,3 +310,59 @@ const modal = document.getElementById('follow-modal');
     hoverCard.addEventListener('mouseout', () => {
         hoverTimeout = setTimeout(() => hoverCard.classList.add('hidden'), 300);
     });
+
+    // ==========================================
+    // 4.1 CLICK NO USERNAME → PERFIL PÚBLICO
+    // ==========================================
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.hover-trigger');
+        if (trigger) {
+            const username = trigger.dataset.username;
+            if (username && trigger.dataset.isme !== 'true') {
+                window.location.href = `/espaco-em-foco/userScreen/profile.php?user=${encodeURIComponent(username)}`;
+            }
+        }
+    });
+
+
+    // Abre um dropdown quando clica na foto de perfil
+    function toggleProfileDropdown(e) {
+        e.stopPropagation();
+        document.getElementById('profile-dropdown-content').classList.toggle('show');
+    }
+    window.addEventListener('click', function(event) {
+        var dropdown = document.getElementById('profile-dropdown-content');
+        if (dropdown && dropdown.classList.contains('show') && !event.target.matches('#login-icon')) {
+            dropdown.classList.remove('show');
+        }
+    });
+
+    // ==========================================
+    // 5. NAVBAR SCROLL FUNCIONALIDADE
+    // ==========================================
+    const btnInicio = document.getElementById('nav-inicio');
+    if (btnInicio) {
+        btnInicio.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    const btnMissoes = document.getElementById('nav-missoes');
+    if (btnMissoes) {
+        btnMissoes.addEventListener('click', () => {
+            const missoesSection = document.querySelector('.dashboard-row-2');
+            if (missoesSection) {
+                missoesSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    const btnTopicos = document.getElementById('nav-topicos');
+    if (btnTopicos) {
+        btnTopicos.addEventListener('click', () => {
+            const topicosSection = document.querySelector('.topics');
+            if (topicosSection) {
+                topicosSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }

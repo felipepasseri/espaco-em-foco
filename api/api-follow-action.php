@@ -19,10 +19,25 @@ if (!$data) {
 }
 
 $action = $data['action'];
-$targetEmail = $data['targetEmail'];
+$targetUsername = $data['targetUsername'] ?? null;
+
+if (!$targetUsername || !$action) {
+    echo json_encode(['success' => false]);
+    exit();
+}
 
 try {
     $pdo = getDB();
+
+    // Resolve o nomeDeUsuario para email no servidor (nunca expõe o email ao cliente)
+    $stmtUser = $pdo->prepare("SELECT email FROM user WHERE nomeDeUsuario = :username");
+    $stmtUser->execute(['username' => $targetUsername]);
+    $targetEmail = $stmtUser->fetchColumn();
+
+    if (!$targetEmail) {
+        echo json_encode(['success' => false, 'error' => 'Usuário não encontrado']);
+        exit();
+    }
 
     if ($action === 'follow') {
         $stmt = $pdo->prepare("INSERT IGNORE INTO userFollowers (emailFollower, emailFollowed) VALUES (:me, :target)");
