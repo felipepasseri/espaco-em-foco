@@ -22,19 +22,22 @@ try {
   $userLevel = getUserLevel($pdo, $_SESSION['user']);
   $userFollowing = getFollowingCount($pdo, $_SESSION['user']);
   $userFollowers = getFollowersCount($pdo, $_SESSION['user']);
-  $xpNecessario = xpNecessario($userLevel);
-  $porcentagem = ($userPoints / $xpNecessario) * 100;
+  // XP necessário para o nível ATUAL e para o PRÓXIMO (cumulativo)
+  $xpNivelAtual = xpNecessario($userLevel);
+  $xpProximoNivel = xpNecessario($userLevel + 1);
+  $xpDelta = $xpProximoNivel - $xpNivelAtual;
+  $xpProgresso = $userPoints - $xpNivelAtual;
+  $porcentagem = $xpDelta > 0 ? ($xpProgresso / $xpDelta) * 100 : 100;
+  $porcentagem = max(0, min(100, $porcentagem));
   // =====================================
   // CÁLCULO DA POSIÇÃO NO RANKING
   // =====================================
   $stmtRank = $pdo->prepare("
       SELECT COUNT(*) + 1 
-      FROM userLevel ul
-      JOIN userPoints up ON ul.emailLevel = up.emailPoints
-      WHERE ul.userLevel > :myLevel
-         OR (ul.userLevel = :myLevel AND up.userPoints > :myPoints)
+      FROM userPoints up
+      WHERE up.userPoints > :myPoints
   ");
-  $stmtRank->execute(['myLevel' => $userLevel, 'myPoints' => $userPoints]);
+  $stmtRank->execute(['myPoints' => $userPoints]);
   $userRank = $stmtRank->fetchColumn();
 
   // Busca os últimos 6 artigos e faz um JOIN para descobrir se o usuário acertou ou errou
@@ -102,7 +105,7 @@ try {
         <div class="user-status">
           <div class="status-info">
             <span class="level-text">Nível <?php echo $userLevel; ?></span>
-            <span class="xp-text"><?php echo $userPoints . " / " . $xpNecessario;   ?> XP</span>
+            <span class="xp-text"><?php echo formatarXP($userPoints) . " / " . formatarXP($xpProximoNivel);   ?> XP</span>
           </div>
           <div class="progress-bar-container">
             <div class="progress-bar-fill" style="width: <?php echo $porcentagem ?>%"></div>
@@ -134,7 +137,7 @@ try {
           <div class="extra-card">
             <img src="estrela.png" alt="Estrela" class="extra-icon" />
             <span class="extra-title">XP Atual</span>
-            <span class="extra-value xp-value-small"><?php echo $userPoints . " / " . $xpNecessario; ?></span>
+            <span class="extra-value xp-value-small"><?php echo formatarXP($userPoints) . " / " . formatarXP($xpProximoNivel); ?></span>
           </div>
 
         </div>

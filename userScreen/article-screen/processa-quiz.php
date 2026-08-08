@@ -104,6 +104,7 @@ try {
     $stmtUpdatePoints = $pdo->prepare("UPDATE userPoints SET userPoints = userPoints + :xp WHERE emailPoints = :email");
     $stmtUpdatePoints->execute(['xp' => $xp_recompensa, 'email' => $email]);
 
+    // Busca XP total acumulado (nunca é zerado)
     $stmtGetXP = $pdo->prepare("SELECT userPoints FROM userPoints WHERE emailPoints = :email");
     $stmtGetXP->execute(['email' => $email]);
     $pontosAtuais = $stmtGetXP->fetchColumn();
@@ -112,21 +113,13 @@ try {
     $stmtGetLevel->execute(['email' => $email]);
     $nivelAtual = $stmtGetLevel->fetchColumn();
 
-    $upouDeNivel = false;
-    $novoNivel = $nivelAtual;
-
-    while ($pontosAtuais >= xpNecessario($novoNivel)) {
-        $pontosAtuais -= xpNecessario($novoNivel);
-        $novoNivel++;
-        $upouDeNivel = true;
-    }
+    // Calcula o nível correto baseado no XP total acumulado
+    $novoNivel = calcularNivelPorXP($pontosAtuais);
+    $upouDeNivel = ($novoNivel > $nivelAtual);
 
     if ($upouDeNivel) {
         $stmtLvlUp = $pdo->prepare("UPDATE userLevel SET userLevel = :novo_nivel WHERE emailLevel = :email");
         $stmtLvlUp->execute(['novo_nivel' => $novoNivel, 'email' => $email]);
-
-        $stmtUpdateRestante = $pdo->prepare("UPDATE userPoints SET userPoints = :pontos_restantes WHERE emailPoints = :email");
-        $stmtUpdateRestante->execute(['pontos_restantes' => $pontosAtuais, 'email' => $email]);
     }
 
     $pdo->commit();

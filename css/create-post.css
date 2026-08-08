@@ -1,0 +1,281 @@
+/* =========================================
+   CRIAR POSTAGEM — Layout Geral
+========================================= */
+.create-post-main {
+    padding: 0 20px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.create-back-btn {
+    display: inline-block;
+    color: #a09bba;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin: 20px 0;
+    transition: color 0.3s ease;
+}
+
+.create-back-btn:hover {
+    color: #FFAE00;
+}
+
+.create-post-container {
+    background: rgba(15, 10, 35, 0.6);
+    border: 1px solid #231d45;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.create-post-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 28px;
+}
+
+/* =========================================
+   FORMULÁRIO
+========================================= */
+.create-post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #c7c3d4;
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 12px 16px;
+    background: #17113a;
+    border: 1px solid #2a2254;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: #6236ff;
+}
+
+.form-select option {
+    background: #0b0722;
+    color: #fff;
+}
+
+/* =========================================
+   EDITOR RICH TEXT
+========================================= */
+.editor-toolbar {
+    display: flex;
+    gap: 4px;
+    padding: 8px 12px;
+    background: #17113a;
+    border: 1px solid #2a2254;
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    flex-wrap: wrap;
+}
+
+.toolbar-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #a09bba;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    transition: all 0.2s;
+    min-width: 32px;
+    text-align: center;
+}
+
+.toolbar-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.toolbar-btn.active {
+    background: rgba(0, 229, 255, 0.1);
+    border-color: #00e5ff;
+    color: #00e5ff;
+}
+
+.toolbar-separator {
+    width: 1px;
+    background: #2a2254;
+    margin: 0 4px;
+    align-self: stretch;
+}
+
+.post-editor {
+    min-height: 200px;
+    padding: 16px;
+    background: #17113a;
+    border: 1px solid #2a2254;
+    border-radius: 0 0 10px 10px;
+    color: #fff;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    line-height: 1.7;
+    outline: none;
+    transition: border-color 0.2s;
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+.post-editor:focus {
+    border-color: #6236ff;
+}
+
+.post-editor:empty::before {
+    content: attr(data-placeholder);
+    color: #554f72;
+    pointer-events: none;
+}
+
+/* =========================================
+   UPLOAD DE IMAGENS
+========================================= */
+.upload-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.upload-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(98, 54, 255, 0.1);
+    border: 1px solid rgba(98, 54, 255, 0.4);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+}
+
+.upload-btn:hover {
+    background: rgba(98, 54, 255, 0.2);
+}
+
+.upload-info {
+    font-size: 12px;
+    color: #a09bba;
+}
+
+.image-previews {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #2a2254;
+}
+
+.image-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    background: rgba(255, 51, 102, 0.9);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.image-preview-remove:hover {
+    background: #ff3366;
+}
+
+/* =========================================
+   BOTÃO SUBMIT
+========================================= */
+.submit-post-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #6236ff, #00e5ff);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    box-shadow: 0 4px 20px rgba(98, 54, 255, 0.3);
+}
+
+.submit-post-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(98, 54, 255, 0.5);
+}
+
+.submit-post-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.submit-note {
+    text-align: center;
+    font-size: 12px;
+    color: #a09bba;
+    margin-top: -8px;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+@media (max-width: 600px) {
+    .create-post-container {
+        padding: 20px;
+    }
+
+    .create-post-title {
+        font-size: 20px;
+    }
+}

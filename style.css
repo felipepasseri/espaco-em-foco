@@ -9,3 +9,7 @@
 @import url(login/login.css);
 @import url(login/mudarsenha.css);
 @import url(userScreen/home-user.css);
+@import url(css/profile.css);
+@import url(css/community.css);
+@import url(css/post.css);
+@import url(css/create-post.css);

@@ -9,6 +9,20 @@ const modal = document.getElementById('follow-modal');
     let hoverTimeout;
 
     // ==========================================
+    // 0. FUNÇÃO DE FORMATAÇÃO DE XP
+    // ==========================================
+    function formatXP(xp) {
+        xp = parseInt(xp) || 0;
+        if (xp < 1000) return xp.toString();
+        if (xp < 1000000) {
+            const val = xp / 1000;
+            return (val % 1 === 0 ? val.toFixed(0) : val.toFixed(1)) + 'k';
+        }
+        const val = xp / 1000000;
+        return (val % 1 === 0 ? val.toFixed(0) : val.toFixed(1)) + 'M';
+    }
+
+    // ==========================================
     // 1. EVENTOS DOS MODAIS
     // ==========================================
     document.getElementById('btn-seguidores').addEventListener('click', () => openFollowModal('followers'));
@@ -143,6 +157,7 @@ const modal = document.getElementById('follow-modal');
                       ${displayName}
                     </span>
                     <span style="font-size: 11px; color: #00e5ff; background: rgba(0, 229, 255, 0.1); padding: 2px 6px; border-radius: 4px;">Lv. ${user.userLevel}</span>
+                    <span style="font-size: 11px; color: #FFAE00; background: rgba(255, 174, 0, 0.1); padding: 2px 6px; border-radius: 4px;">${formatXP(user.userPoints)} XP</span>
                   </div>
                   <span class="user-list-fullname">${user.nome} ${user.sobrenome}</span>
                 </div>
@@ -163,7 +178,7 @@ const modal = document.getElementById('follow-modal');
                   <img src="${foto}" alt="Perfil" class="user-list-avatar" style="border: 2px solid #FFAE00;">
                   <div class="user-list-names">
                     <span class="user-list-username" style="color: #FFAE00;">Você (${me.nomeDeUsuario})</span>
-                    <span class="user-list-fullname">Nível ${me.userLevel} • ${me.userPoints} XP</span>
+                    <span class="user-list-fullname">Nível ${me.userLevel} • ${formatXP(me.userPoints)} XP</span>
                   </div>
                 </div>
                 <div class="user-list-actions">
@@ -250,7 +265,7 @@ const modal = document.getElementById('follow-modal');
             document.getElementById('hc-username').innerText = trigger.dataset.user;
             document.getElementById('hc-fullname').innerText = trigger.dataset.name;
             document.getElementById('hc-level').innerText = trigger.dataset.level;
-            document.getElementById('hc-xp').innerText = trigger.dataset.xp;
+            document.getElementById('hc-xp').innerText = formatXP(trigger.dataset.xp);
             document.getElementById('hc-followers').innerText = trigger.dataset.followers;
             document.getElementById('hc-following').innerText = trigger.dataset.following;
             
@@ -294,6 +309,19 @@ const modal = document.getElementById('follow-modal');
     hoverCard.addEventListener('mouseover', () => clearTimeout(hoverTimeout));
     hoverCard.addEventListener('mouseout', () => {
         hoverTimeout = setTimeout(() => hoverCard.classList.add('hidden'), 300);
+    });
+
+    // ==========================================
+    // 4.1 CLICK NO USERNAME → PERFIL PÚBLICO
+    // ==========================================
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('.hover-trigger');
+        if (trigger) {
+            const username = trigger.dataset.username;
+            if (username && trigger.dataset.isme !== 'true') {
+                window.location.href = `/espaco-em-foco/userScreen/profile.php?user=${encodeURIComponent(username)}`;
+            }
+        }
     });
 
 

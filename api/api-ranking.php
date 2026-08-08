@@ -27,7 +27,7 @@ try {
         FROM user u
         LEFT JOIN userLevel ul ON u.email = ul.emailLevel
         LEFT JOIN userPoints up ON u.email = up.emailPoints
-        ORDER BY ul.userLevel DESC, up.userPoints DESC, u.nomeDeUsuario ASC
+        ORDER BY up.userPoints DESC, u.nomeDeUsuario ASC
         LIMIT :limit
     ");
     $stmtTop->bindValue(':limit', $limit, PDO::PARAM_INT);
@@ -57,13 +57,10 @@ try {
     if ($myData) {
         $stmtMyRank = $pdo->prepare("
             SELECT COUNT(*) + 1 
-            FROM userLevel ul
-            JOIN userPoints up ON ul.emailLevel = up.emailPoints
-            WHERE ul.userLevel > :myLevel
-               OR (ul.userLevel = :myLevel AND up.userPoints > :myPoints)
+            FROM userPoints up
+            WHERE up.userPoints > :myPoints
         ");
         $stmtMyRank->execute([
-            'myLevel' => $myData['userLevel'],
             'myPoints' => $myData['userPoints']
         ]);
         $myRank = $stmtMyRank->fetchColumn();

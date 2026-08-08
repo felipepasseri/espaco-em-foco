@@ -2,9 +2,9 @@
 // 1. Defina um valor padrão caso o usuário não esteja logado
 $userProfilePhoto = 'img/user-profile-default.jpg';
 
+require_once __DIR__ . "/config.php";
+$pdo = getDB();
 if (isset($_SESSION['user'])) {
-    require_once __DIR__ . "/config.php";
-    $pdo = getDB();
     $stmt7 = $pdo->prepare('SELECT fotoPerfil FROM user WHERE email = :email;');
     $stmt7->execute(['email' => $_SESSION['user']]);
     $user = $stmt7->fetch(PDO::FETCH_ASSOC);
@@ -13,7 +13,11 @@ if (isset($_SESSION['user'])) {
     }
 }
 
-$isHomeUser = (basename($_SERVER['PHP_SELF']) == 'home-user.php');
+$sql = "SELECT user.nomeDeUsuario, userroles.codTypeRoles, roletypes.descTypes FROM `user` INNER JOIN userroles ON userroles.emailRoles = user.email LEFT JOIN roletypes ON roletypes.codTypes = userroles.codTypeRoles WHERE user.email = :email;";
+$stmt = $pdo->prepare($sql);
+$stmt->execute(['email' => $_SESSION['user']]);
+$userRole = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ?>
 
 <nav>
@@ -22,7 +26,7 @@ $isHomeUser = (basename($_SERVER['PHP_SELF']) == 'home-user.php');
         <h1>Espaço em Foco</h1>
     </ul>
     <ul id="main-nav-container">
-        <?php if ($isHomeUser) { ?>
+        <?php if ($userRole['descTypes'] === "Usuario") { ?>
             <li><a id="nav-inicio">Início</a></li>
             <li><a id="nav-missoes">Missões</a></li>
             <li><a id="nav-topicos">Tópicos</a></li>
