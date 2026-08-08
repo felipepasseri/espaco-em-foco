@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header("Location: ../../index.php");
 }
-require_once __DIR__ . '../../login/verify-user.php';
+require_once __DIR__ . '/../../login/verify-user.php';
 $userRoles = verificarUsuario($_SESSION['user']);
 if ($userRoles['codTypeRoles'] == 0) {
     header("Location: ../../userScreen/home-user.php");
@@ -17,10 +17,10 @@ if ($userRoles['codTypeRoles'] == 0) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css" />
-    <script src="../scripts/index.js" type="module" defer></script>
-    <script src="../scripts/apiCardsAdiciona.js" defer></script>
-    <script src="../scripts/adicionaCard.js" type="module" defer></script>
+    <link rel="stylesheet" href="../../style.css" />
+    <script src="../../scripts/index.js" type="module" defer></script>
+    <script src="../../scripts/apiCardsAdiciona.js" defer></script>
+    <script src="../../scripts/adicionaCard.js" type="module" defer></script>
     <title>Adicionar Card</title>
 </head>
 

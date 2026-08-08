@@ -1,6 +1,6 @@
 async function apiCards() {
     try {
-        const response = await fetch('../api/apiCard.php');
+        const response = await fetch('../../../api/apiCard.php');
         
         const data = await response.json();
         

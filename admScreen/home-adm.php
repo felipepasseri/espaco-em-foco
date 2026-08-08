@@ -27,7 +27,7 @@ if ($userRoles['codTypeRoles'] == 0) {
         <?php include __DIR__ . "/../navBar.php"; ?>
     </header>
     <li>
-        <a href="adicionaCard.php" class="button"><span>Adicionar Tópico</span></a>
+        <a href="AdicionaCard/adicionaCard.php" class="button"><span>Adicionar Tópico</span></a>
     </li>
 </body>
 

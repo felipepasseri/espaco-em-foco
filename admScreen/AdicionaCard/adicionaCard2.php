@@ -26,7 +26,7 @@ try {
     $nameTopic = trim($_POST['title']);
     $descTopic = trim($_POST['description']);
 
-    $uploadDir = '../img/';
+    $uploadDir = '../../img/';
     $uploadDirBD = 'img/';
 
     $imagemFile = $_FILES['image'];
