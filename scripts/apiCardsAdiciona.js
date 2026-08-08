@@ -30,7 +30,7 @@ async function apiCards() {
                     </header>
                     <footer>
                         <p>${card.descTopic}</p>
-                        <a href="#" class="button">Editar</a>
+                        <a href="editaCard.php?id=${card.id}" class="button">Editar</a>
                         <a href="adicionaCard.php" class="button delete" data-id="${card.id}">X</a>
                     </footer>
                 </article>
