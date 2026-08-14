@@ -85,7 +85,7 @@ try {
 
     echo json_encode(['posts' => $posts, 'page' => $page]);
 } catch (PDOException $e) {
-    echo json_encode(['error' => 'Erro interno']);
+    echo json_encode(['error' => 'Erro interno' . $e->getMessage()]);
 }
 
 function tempoRelativo($datetime) {

@@ -355,25 +355,38 @@
 }
 
 /* =========================================
-   FAB — CRIAR POSTAGEM
+   FAB — CRIAR POSTAGEM E ARTIGO
 ========================================= */
-.fab-create-post {
+.fab-container {
     position: fixed;
     bottom: 30px;
     right: 30px;
     display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+}
+
+.fab-btn {
+    display: flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #6236ff, #00e5ff);
     color: #fff;
     padding: 14px 24px;
     border-radius: 50px;
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    box-shadow: 0 8px 30px rgba(98, 54, 255, 0.4);
     transition: all 0.3s ease;
-    z-index: 100;
+}
+
+.fab-btn svg {
+    flex-shrink: 0;
+}
+
+.fab-create-post {
+    background: linear-gradient(135deg, #6236ff, #00e5ff);
+    box-shadow: 0 8px 30px rgba(98, 54, 255, 0.4);
 }
 
 .fab-create-post:hover {
@@ -381,8 +394,14 @@
     box-shadow: 0 12px 40px rgba(98, 54, 255, 0.6);
 }
 
-.fab-create-post svg {
-    flex-shrink: 0;
+.fab-create-article {
+    background: linear-gradient(135deg, #6236ff, #00e5ff);
+    box-shadow: 0 8px 30px rgba(98, 54, 255, 0.4);
+}
+
+.fab-create-article:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(98, 54, 255, 0.6);
 }
 
 /* =========================================
@@ -447,11 +466,11 @@
         padding: 8px 12px;
     }
 
-    .fab-create-post span {
+    .fab-btn span {
         display: none;
     }
 
-    .fab-create-post {
+    .fab-btn {
         padding: 16px;
         border-radius: 50%;
     }

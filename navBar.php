@@ -11,12 +11,12 @@ if (isset($_SESSION['user'])) {
     if ($user && !empty($user['fotoPerfil'])) {
         $userProfilePhoto = $user['fotoPerfil'];
     }
+    $sql = "SELECT user.nomeDeUsuario, userroles.codTypeRoles, roletypes.descTypes FROM `user` INNER JOIN userroles ON userroles.emailRoles = user.email LEFT JOIN roletypes ON roletypes.codTypes = userroles.codTypeRoles WHERE user.email = :email;";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['email' => $_SESSION['user']]);
+    $userRole = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-$sql = "SELECT user.nomeDeUsuario, userroles.codTypeRoles, roletypes.descTypes FROM `user` INNER JOIN userroles ON userroles.emailRoles = user.email LEFT JOIN roletypes ON roletypes.codTypes = userroles.codTypeRoles WHERE user.email = :email;";
-$stmt = $pdo->prepare($sql);
-$stmt->execute(['email' => $_SESSION['user']]);
-$userRole = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
 <nav>
@@ -25,7 +25,7 @@ $userRole = $stmt->fetch(PDO::FETCH_ASSOC);
         <h1>Espaço em Foco</h1>
     </ul>
     <ul id="main-nav-container">
-        <?php if ($userRole['descTypes'] === "Usuario") { ?>
+        <?php if (isset($_SESSION['user']) && $userRole['descTypes'] === "Usuario") { ?>
             <li><a id="nav-inicio">Início</a></li>
             <li><a id="nav-missoes">Missões</a></li>
             <li><a id="nav-topicos">Tópicos</a></li>

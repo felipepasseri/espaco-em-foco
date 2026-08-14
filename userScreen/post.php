@@ -201,7 +201,7 @@ try {
         </div>
         <div class="modal-body report-modal-body">
           <form id="report-post-form">
-            <input type="hidden" name="nome_usuario_alvo" value="<?= htmlspecialchars($post['nome_usuario']) ?>" />
+            <input type="hidden" name="nome_usuario_alvo" value="<?= htmlspecialchars($post['nome_usuario_post']) ?>" />
             <input type="hidden" name="tipo_alvo" value="post" />
 
             <label class="report-label">Motivo da denúncia</label>
