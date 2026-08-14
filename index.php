@@ -23,7 +23,7 @@ if (isset($_SESSION['user'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <script src="scripts/index.js" type="module" defer></script>
-  <script src="scripts/apiCards.js"></script>
+  <script src="scripts/apiCards.js" defer></script>
   <title>Espaço em Foco</title>
 </head>
 

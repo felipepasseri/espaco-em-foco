@@ -15,6 +15,7 @@ $me = $_SESSION['user'];
 $motivo = $_POST['motivo'] ?? null;
 $nomeUsuarioAlvo = $_POST['nome_usuario_alvo'] ?? null;
 $tipoAlvo = $_POST['tipo_alvo'] ?? null;
+$categoria = $_POST['categoria'];
 
 if (!$motivo || !$nomeUsuarioAlvo || !$tipoAlvo) {
     echo json_encode(['success' => false, 'error' => 'Dados incompletos']);
@@ -36,13 +37,14 @@ try {
 
     // Insere a denúncia
     $stmt = $pdo->prepare("
-        INSERT INTO denuncias (nome_usuario_denunciante, nome_usuario_alvo, tipo_alvo, motivo, status)
-        VALUES (:denunciante, :alvo, :tipo_alvo, :motivo, 'Pendente')
+        INSERT INTO denuncias (nome_usuario_denunciante, nome_usuario_alvo, tipo_alvo, categoria_denuncia, motivo, status)
+        VALUES (:denunciante, :alvo, :tipo_alvo, :categoria_denuncia, :motivo, 'Em Análise')
     ");
     $stmt->execute([
         'denunciante' => $meuUsername,
         'alvo' => $nomeUsuarioAlvo,
         'tipo_alvo' => $tipoAlvo,
+        'categoria_denuncia' => $categoria,
         'motivo' => $motivo
     ]);
 

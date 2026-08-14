@@ -43,6 +43,7 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 ## ✨ Funcionalidades
 
 ### 🔐 Autenticação & Contas
+
 - **Cadastro completo em etapas** — registro com nome, sobrenome, email e senha, seguido de personalização de perfil (nickname + foto)
 - **Login seguro** com senhas criptografadas via `password_hash()` (bcrypt)
 - **Controle de sessão** — gerenciamento de sessões PHP com `session_regenerate_id()` para proteção contra session fixation
@@ -52,12 +53,14 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 - **Login social** — botões preparados para integração com Google e Microsoft
 
 ### 👤 Perfil do Usuário
+
 - **Dashboard personalizado** com foto de perfil, banner, nome completo e username
 - **Upload de imagens** — foto de perfil e banner com upload para o servidor, validação de extensões e nomes únicos
 - **Edição completa de perfil** — alteração de nome, sobrenome, username, email e senha, com verificação da senha atual para autorizar mudanças
 - **Geração automática de nickname** — caso o usuário não defina, o sistema gera um username único baseado no nome
 
 ### 🎮 Sistema de Gamificação
+
 - **Pontos de Experiência (XP)** — ganho de XP ao completar quizzes dos artigos corretamente
 - **Sistema de Níveis** — progressão com fórmula exponencial: `XP_necessário = 500 × 1.2^(nível - 1)`
 - **Barra de progresso visual** — exibição percentual do XP atual em relação ao próximo nível
@@ -65,6 +68,7 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 - **Cards de estatísticas** — conquistas, camada, XP atual e posição no ranking
 
 ### 🏆 Ranking & Rede Social
+
 - **Ranking Espacial** — classificação global de usuários ordenada por nível e XP, com visualizações Top 10 e Top 50
 - **Sistema de Seguidores** — follow/unfollow completo, com contagem de seguidores e seguindo
 - **Modais interativos** — listas de seguidores e seguindo em modais com glassmorphism
@@ -72,6 +76,7 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 - **Ações em tempo real** — seguir, deixar de seguir e remover seguidor com atualização instantânea via `fetch()` (sem reload)
 
 ### 📚 Conteúdo Educacional
+
 - **Tópicos categorizados** — Planetas 🪐, Estrelas ⭐, Galáxias 🚀, Cosmologia 💥 e Outros 🔭
 - **Cards de tópicos dinâmicos** — carregados via API REST do banco de dados, com imagem, título e descrição
 - **Sistema de filtragem por abas** — alternância entre categorias com animações de transição
@@ -79,6 +84,7 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 - **Artigos completos** — páginas de artigo com conteúdo renderizado em HTML, badge de XP e navegação de retorno
 
 ### 📝 Sistema de Quizzes
+
 - **Quizzes integrados aos artigos** — perguntas vinculadas a artigos com duas modalidades:
   - **Múltipla escolha** — alternativas exibidas em grid, com seleção via radio buttons
   - **Preenchimento de lacuna** — campo de texto embutido na frase da pergunta
@@ -89,6 +95,7 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 - **Rastreamento de progresso** — registro de cada tentativa no banco de dados com status, data e resposta dada
 
 ### 🎨 Interface & UX
+
 - **Design espacial imersivo** — paleta de cores deep space com roxos (#04001F, #4A27C8), acentos em ciano (#00e5ff) e dourado (#FFAE00)
 - **Glassmorphism** — cards com fundo translúcido e efeito de vidro
 - **Animações de scroll** — elementos surgem com `fade-in-up` ao entrar no viewport via Intersection Observer
@@ -97,6 +104,7 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 - **CSS modular** — estilos organizados em 8+ arquivos CSS separados por componente
 
 ### 🛠️ Administração
+
 - **Painel administrativo** — tela separada para administradores com controle de acesso baseado em roles
 - **CRUD de tópicos** — formulário para adição de novos cards de tópicos com upload de imagem, título, descrição e categoria
 - **Gestão de conteúdo** — inclusão de cards no banco de dados com nomes de arquivo únicos (uniqid + timestamp)
@@ -105,14 +113,14 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 
 ## 🛠️ Tecnologias
 
-| Camada | Tecnologias |
-|---|---|
-| **Frontend** | HTML5, CSS3 (Vanilla, modular), JavaScript ES6+ (módulos, Fetch API, Intersection Observer) |
-| **Backend** | PHP 8.x (OOP, PDO, Sessions, Password Hashing) |
-| **Banco de Dados** | MySQL / MariaDB |
-| **Servidor** | Apache (XAMPP) com `.htaccess` para segurança e CORS |
-| **Tipografia** | Google Fonts — Poppins |
-| **Segurança** | bcrypt (password_hash), Prepared Statements (PDO), proteção de arquivos sensíveis via .htaccess, session_regenerate_id, validação server-side |
+| Camada             | Tecnologias                                                                                                                                   |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Frontend**       | HTML5, CSS3 (Vanilla, modular), JavaScript ES6+ (módulos, Fetch API, Intersection Observer)                                                   |
+| **Backend**        | PHP 8.x (OOP, PDO, Sessions, Password Hashing)                                                                                                |
+| **Banco de Dados** | MySQL / MariaDB                                                                                                                               |
+| **Servidor**       | Apache (XAMPP) com `.htaccess` para segurança e CORS                                                                                          |
+| **Tipografia**     | Google Fonts — Poppins                                                                                                                        |
+| **Segurança**      | bcrypt (password_hash), Prepared Statements (PDO), proteção de arquivos sensíveis via .htaccess, session_regenerate_id, validação server-side |
 
 ---
 
@@ -155,6 +163,7 @@ O projeto segue uma arquitetura **MVC simplificada** com separação clara de re
 ### Fluxos Principais
 
 **🔄 Fluxo de Autenticação:**
+
 ```
 Visitante → login.php → cadastro02.php (bcrypt) → cadastro03.php (perfil)
                       → login02.php (verify) → verify-user.php (roles)
@@ -163,6 +172,7 @@ Visitante → login.php → cadastro02.php (bcrypt) → cadastro03.php (perfil)
 ```
 
 **📊 Fluxo de Quiz:**
+
 ```
 Artigo → Quiz Form (JS) → fetch('processa-quiz.php')
                          → Valida resposta (server-side)
@@ -366,18 +376,18 @@ erDiagram
 
 ### Tabelas Principais
 
-| Tabela | Descrição |
-|---|---|
-| `user` | Dados cadastrais do usuário (email como PK, foto de perfil, banner) |
-| `userRoles` | Permissões do usuário (0 = comum, 1 = admin) |
-| `userLevel` | Nível atual do usuário no sistema de gamificação |
-| `userPoints` | Pontos de XP acumulados no nível atual |
-| `userFollowers` | Relação de seguidores entre usuários |
-| `topicCards` | Cards de tópicos exibidos na landing page e dashboard |
-| `artigo` | Artigos educacionais vinculados a tópicos |
-| `quiz_pergunta` | Perguntas de quiz vinculadas a artigos |
-| `quiz_alternativa` | Alternativas de múltipla escolha |
-| `usuario_progresso` | Registro de tentativas e progresso do usuário nos quizzes |
+| Tabela              | Descrição                                                           |
+| ------------------- | ------------------------------------------------------------------- |
+| `user`              | Dados cadastrais do usuário (email como PK, foto de perfil, banner) |
+| `userRoles`         | Permissões do usuário (0 = comum, 1 = admin)                        |
+| `userLevel`         | Nível atual do usuário no sistema de gamificação                    |
+| `userPoints`        | Pontos de XP acumulados no nível atual                              |
+| `userFollowers`     | Relação de seguidores entre usuários                                |
+| `topicCards`        | Cards de tópicos exibidos na landing page e dashboard               |
+| `artigo`            | Artigos educacionais vinculados a tópicos                           |
+| `quiz_pergunta`     | Perguntas de quiz vinculadas a artigos                              |
+| `quiz_alternativa`  | Alternativas de múltipla escolha                                    |
+| `usuario_progresso` | Registro de tentativas e progresso do usuário nos quizzes           |
 
 ---
 
@@ -391,12 +401,14 @@ erDiagram
 ### Instalação
 
 1. **Clone o repositório** dentro da pasta `htdocs` do XAMPP:
+
    ```bash
    cd C:/xampp/htdocs
    git clone https://github.com/felipepasseri/espaco-em-foco.git
    ```
 
 2. **Configure o banco de dados** — crie o arquivo `config.php` na raiz do projeto:
+
    ```php
    <?php
    define('DB_HOST', 'localhost');
@@ -421,7 +433,7 @@ erDiagram
 
 5. **Acesse o projeto** no navegador:
    ```
-   http://localhost/espaco-em-foco/
+   http://localhost/
    ```
 
 ---
@@ -442,16 +454,16 @@ O projeto implementa várias camadas de segurança:
 
 ## 🎨 Design System
 
-| Token | Valor | Uso |
-|---|---|---|
-| `--background-primary-color` | `#04001F` | Fundo principal (deep space) |
-| `--background-secondary-color` | `#4A27C8` | Botões e acentos (roxo vibrante) |
-| `--background-tertiary-color` | `#2D1B48` | Cards e elementos secundários |
-| `--text-primary-color` | `#FFFFFF` | Texto principal |
-| `--text-tertiary-color` | `#6200FF` | Links e destaques |
-| Acento ciano | `#00e5ff` | Feedback positivo, badges de nível |
-| Acento dourado | `#FFAE00` | Destaque pessoal ("Você"), ranking |
-| Acento vermelho | `#ff3366` | Feedback de erro, cooldown |
+| Token                          | Valor     | Uso                                |
+| ------------------------------ | --------- | ---------------------------------- |
+| `--background-primary-color`   | `#04001F` | Fundo principal (deep space)       |
+| `--background-secondary-color` | `#4A27C8` | Botões e acentos (roxo vibrante)   |
+| `--background-tertiary-color`  | `#2D1B48` | Cards e elementos secundários      |
+| `--text-primary-color`         | `#FFFFFF` | Texto principal                    |
+| `--text-tertiary-color`        | `#6200FF` | Links e destaques                  |
+| Acento ciano                   | `#00e5ff` | Feedback positivo, badges de nível |
+| Acento dourado                 | `#FFAE00` | Destaque pessoal ("Você"), ranking |
+| Acento vermelho                | `#ff3366` | Feedback de erro, cooldown         |
 
 ---
 

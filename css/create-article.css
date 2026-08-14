@@ -1,0 +1,352 @@
+/* =========================================
+   CRIAR ARTIGO — Layout Geral
+========================================= */
+.create-article-main {
+    padding: 0 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.create-back-btn {
+    display: inline-block;
+    color: #a09bba;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin: 20px 0;
+    transition: color 0.3s ease;
+}
+
+.create-back-btn:hover {
+    color: #ffae00;
+}
+
+.create-article-container {
+    background: rgba(15, 10, 35, 0.6);
+    border: 1px solid #231d45;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.create-article-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(98, 54, 255, 0.3);
+    padding-bottom: 16px;
+}
+
+/* =========================================
+   SEÇÕES DO FORMULÁRIO
+========================================= */
+.form-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #00e5ff;
+    margin-bottom: 10px;
+}
+
+.section-desc {
+    font-size: 14px;
+    color: #a09bba;
+    margin-bottom: 20px;
+}
+
+.create-article-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #c7c3d4;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: #17113a;
+    border: 1px solid #2a2254;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: #6236ff;
+}
+
+.form-select option {
+    background: #0b0722;
+    color: #fff;
+}
+
+.form-textarea {
+    min-height: 250px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 12px;
+    color: #a09bba;
+    margin-top: -4px;
+}
+
+.char-counter.limit-reached {
+    color: #ff3366;
+}
+
+/* =========================================
+   PERGUNTAS DINÂMICAS (QUIZ)
+========================================= */
+.questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.question-block {
+    background: rgba(23, 17, 58, 0.4);
+    border: 1px solid #2a2254;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.question-number {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.btn-remove-question {
+    background: rgba(255, 51, 102, 0.1);
+    color: #ff3366;
+    border: 1px solid rgba(255, 51, 102, 0.3);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-remove-question:hover {
+    background: #ff3366;
+    color: #fff;
+}
+
+.question-options-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.question-options-row > .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Alternativas - Múltipla Escolha */
+.alternatives-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.alternative-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.alternative-radio {
+    width: 20px;
+    height: 20px;
+    accent-color: #00e5ff;
+    cursor: pointer;
+}
+
+.btn-remove-alt {
+    background: none;
+    border: none;
+    color: #ff3366;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+.btn-remove-alt:hover {
+    color: #ff0040;
+}
+
+.btn-add-alt {
+    background: rgba(0, 229, 255, 0.1);
+    color: #00e5ff;
+    border: 1px dashed #00e5ff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 8px;
+    transition: all 0.2s;
+}
+
+.btn-add-alt:hover {
+    background: #00e5ff;
+    color: #0b0722;
+}
+
+/* Lacunas */
+.lacuna-tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.btn-add-lacuna-text {
+    background: rgba(255, 174, 0, 0.1);
+    color: #ffae00;
+    border: 1px solid #ffae00;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-add-lacuna-text:hover {
+    background: #ffae00;
+    color: #0b0722;
+}
+
+.lacuna-answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.lacuna-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lacuna-label {
+    font-size: 13px;
+    color: #a09bba;
+    font-weight: 600;
+    min-width: 80px;
+}
+
+/* Botão Nova Pergunta */
+.btn-add-question {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: rgba(98, 54, 255, 0.1);
+    border: 1px dashed #6236ff;
+    color: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: all 0.2s;
+    font-family: "Poppins", sans-serif;
+}
+
+.btn-add-question:hover {
+    background: rgba(98, 54, 255, 0.2);
+    border-color: #00e5ff;
+}
+
+/* =========================================
+   BOTÃO SUBMIT
+========================================= */
+.submit-article-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #6236ff, #00e5ff);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+    box-shadow: 0 4px 20px rgba(98, 54, 255, 0.3);
+    margin-top: 20px;
+}
+
+.submit-article-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(98, 54, 255, 0.5);
+}
+
+.submit-article-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.submit-note {
+    text-align: center;
+    font-size: 12px;
+    color: #a09bba;
+    margin-top: 10px;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+@media (max-width: 600px) {
+    .create-article-container {
+        padding: 20px;
+    }
+
+    .question-options-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+}

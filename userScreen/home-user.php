@@ -2,6 +2,7 @@
 session_start();
 if (!isset($_SESSION['user'])) {
   header("Location: ../index.php");
+  exit;
 }
 require_once __DIR__ . '/../login/verify-user.php';
 require_once __DIR__ . '/../config.php';
@@ -11,11 +12,13 @@ require_once 'calcularXp.php';
 $userRoles = verificarUsuario($_SESSION['user']);
 if ($userRoles['codTypeRoles'] == 1) {
   header("Location: ../admScreen/home-adm.php");
+  exit;
 }
 
 $pdo = getDB();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+$artigos = []; // Initialize to prevent fatal error on foreach if try block fails
 try {
   $userData = getUserData($pdo, $_SESSION['user']);
   $userPoints = getUserPoints($pdo, $_SESSION['user']);
