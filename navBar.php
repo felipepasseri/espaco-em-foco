@@ -19,7 +19,6 @@ if (isset($_SESSION['user'])) {
 
 
 ?>
-
 <nav>
     <ul id="logo-container">
         <div id="logo"></div>
@@ -63,6 +62,21 @@ if (isset($_SESSION['user'])) {
             
             </script>
         <?php } ?>
+        <?php
+            session_start();
+            require_once __DIR__ . '/login/verify-user.php';
+            $userRoles = verificarUsuario($_SESSION['user']);
+            if (isset($_SESSION['user'])) {
+                $userRoles = verificarUsuario($_SESSION['user']);
+
+                if ($userRoles['codTypeRoles'] == 1) { ?>
+                    <li>
+                        <a href="https://www.espacoemfoco.online/admScreen/home-adm.php" class="button"><span>Admin</span></a>
+                    </li>
+                <?php } 
+            } ?>     
+
+        <div id="login-icon" style="background: url('/espaco-em-foco/<?= $userProfilePhoto ?>') center center / cover no-repeat;"></div>
     </ul>
     <div id="hamburger-btn" class="hamburger-icon">
         <span class="bar"></span>

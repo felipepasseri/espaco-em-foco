@@ -5,12 +5,11 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
-  <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
-  <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3" />
-  <img src="https://img.shields.io/badge/XAMPP-FB7A24?style=for-the-badge&logo=xampp&logoColor=white" alt="XAMPP" />
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
+  <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
 </p>
 
 <p align="center">
@@ -19,8 +18,6 @@
   <a href="#-tecnologias">Tecnologias</a> •
   <a href="#-arquitetura">Arquitetura</a> •
   <a href="#-estrutura-de-pastas">Estrutura</a> •
-  <a href="#-banco-de-dados">Banco de Dados</a> •
-  <a href="#-como-executar">Como Executar</a> •
   <a href="#-autores">Autores</a>
 </p>
 
@@ -117,8 +114,8 @@ Ao criar uma conta e fazer login, o usuário é levado a um **painel personaliza
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Frontend**       | HTML5, CSS3 (Vanilla, modular), JavaScript ES6+ (módulos, Fetch API, Intersection Observer)                                                   |
 | **Backend**        | PHP 8.x (OOP, PDO, Sessions, Password Hashing)                                                                                                |
-| **Banco de Dados** | MySQL / MariaDB                                                                                                                               |
-| **Servidor**       | Apache (XAMPP) com `.htaccess` para segurança e CORS                                                                                          |
+| **Banco de Dados** | MySQL                                                                                                                                         |
+| **Servidor**       | Apache com `.htaccess` para segurança e CORS                                                                                                  |
 | **Tipografia**     | Google Fonts — Poppins                                                                                                                        |
 | **Segurança**      | bcrypt (password_hash), Prepared Statements (PDO), proteção de arquivos sensíveis via .htaccess, session_regenerate_id, validação server-side |
 
@@ -285,170 +282,6 @@ espaco-em-foco/
     └── 📂 uploads/                 #   Uploads dos usuários
         └── 📂 profile/             #     Fotos de perfil enviadas pelos usuários
 ```
-
----
-
-## 🗄️ Banco de Dados
-
-O sistema utiliza **MySQL/MariaDB** com o seguinte modelo relacional:
-
-```mermaid
-erDiagram
-    user {
-        varchar email PK
-        varchar nome
-        varchar sobrenome
-        varchar nomeDeUsuario UK
-        varchar senha
-        varchar fotoPerfil
-        varchar bannerPerfil
-    }
-
-    userRoles {
-        varchar emailRoles FK
-        int codTypeRoles
-    }
-
-    userLevel {
-        varchar emailLevel FK
-        int userLevel
-    }
-
-    userPoints {
-        varchar emailPoints FK
-        int userPoints
-    }
-
-    userFollowers {
-        varchar emailFollower FK
-        varchar emailFollowed FK
-    }
-
-    topicCards {
-        int id PK
-        varchar tipoTopic
-        varchar imgCard
-        varchar nameTopic
-        text descTopic
-    }
-
-    artigo {
-        int id PK
-        int id_topic FK
-        varchar titulo
-        text conteudo
-        int xp_recompensa
-    }
-
-    quiz_pergunta {
-        int id PK
-        int id_artigo FK
-        text texto_pergunta
-        varchar tipo
-        varchar resposta_esperada
-    }
-
-    quiz_alternativa {
-        int id PK
-        int id_pergunta FK
-        varchar texto_alternativa
-        tinyint is_correct
-    }
-
-    usuario_progresso {
-        varchar email_usuario FK
-        int id_artigo FK
-        varchar status
-        datetime data_tentativa
-        varchar resposta_dada
-    }
-
-    user ||--|| userRoles : "tem"
-    user ||--|| userLevel : "tem"
-    user ||--|| userPoints : "tem"
-    user ||--o{ userFollowers : "segue"
-    user ||--o{ usuario_progresso : "progride"
-    topicCards ||--o{ artigo : "contém"
-    artigo ||--o| quiz_pergunta : "tem"
-    quiz_pergunta ||--o{ quiz_alternativa : "tem"
-    artigo ||--o{ usuario_progresso : "rastreia"
-```
-
-### Tabelas Principais
-
-| Tabela              | Descrição                                                           |
-| ------------------- | ------------------------------------------------------------------- |
-| `user`              | Dados cadastrais do usuário (email como PK, foto de perfil, banner) |
-| `userRoles`         | Permissões do usuário (0 = comum, 1 = admin)                        |
-| `userLevel`         | Nível atual do usuário no sistema de gamificação                    |
-| `userPoints`        | Pontos de XP acumulados no nível atual                              |
-| `userFollowers`     | Relação de seguidores entre usuários                                |
-| `topicCards`        | Cards de tópicos exibidos na landing page e dashboard               |
-| `artigo`            | Artigos educacionais vinculados a tópicos                           |
-| `quiz_pergunta`     | Perguntas de quiz vinculadas a artigos                              |
-| `quiz_alternativa`  | Alternativas de múltipla escolha                                    |
-| `usuario_progresso` | Registro de tentativas e progresso do usuário nos quizzes           |
-
----
-
-## ⚙️ Como Executar
-
-### Pré-requisitos
-
-- [XAMPP](https://www.apachefriends.org/) (Apache + PHP 8.x + MySQL/MariaDB)
-- Navegador web moderno (Chrome, Firefox, Edge)
-
-### Instalação
-
-1. **Clone o repositório** dentro da pasta `htdocs` do XAMPP:
-
-   ```bash
-   cd C:/xampp/htdocs
-   git clone https://github.com/felipepasseri/espaco-em-foco.git
-   ```
-
-2. **Configure o banco de dados** — crie o arquivo `config.php` na raiz do projeto:
-
-   ```php
-   <?php
-   define('DB_HOST', 'localhost');
-   define('DB_NAME', 'nome_do_banco');
-   define('DB_USER', 'root');
-   define('DB_PASS', '');
-
-   function getDB() {
-       $pdo = new PDO(
-           "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8",
-           DB_USER,
-           DB_PASS
-       );
-       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-       return $pdo;
-   }
-   ```
-
-3. **Importe o banco de dados** — execute o script SQL no phpMyAdmin para criar as tabelas necessárias (`user`, `userRoles`, `userLevel`, `userPoints`, `userFollowers`, `topicCards`, `artigo`, `quiz_pergunta`, `quiz_alternativa`, `usuario_progresso`).
-
-4. **Inicie o XAMPP** — ative o Apache e o MySQL no painel de controle.
-
-5. **Acesse o projeto** no navegador:
-   ```
-   http://localhost/
-   ```
-
----
-
-## 🔒 Segurança
-
-O projeto implementa várias camadas de segurança:
-
-- **Senhas** — criptografia com `password_hash()` usando o algoritmo bcrypt
-- **SQL Injection** — proteção via Prepared Statements (PDO) em todas as queries
-- **Arquivos sensíveis** — `config.php`, `.env` e dotfiles bloqueados via `.htaccess`
-- **Session Fixation** — uso de `session_regenerate_id(true)` após login bem-sucedido
-- **Validação server-side** — respostas de quiz nunca expostas ao frontend
-- **Transações** — operações críticas (cadastro, XP) protegidas com `beginTransaction()` / `commit()` / `rollBack()`
-- **Upload seguro** — validação de extensões permitidas e nomes únicos para arquivos enviados
 
 ---
 
