@@ -6,7 +6,7 @@ if (!isset($_SESSION['user'])) {
 }
 
 require_once __DIR__ . '/../../config.php';
-
+require_once __DIR__ . '/../user-functions.php';
 $pdo = getDB();
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $email = $_SESSION['user'];
@@ -29,20 +29,24 @@ try {
         die("Tópico não encontrado.");
     }
 
-    // 2. Busca todos os artigos deste tópico E verifica se o usuário já concluiu
-    // O LEFT JOIN verifica se existe um registro na tabela usuario_progresso para aquele artigo e usuário
+    // Puxa o nome de usuário (para o artigo_completo)
+    $userData = getUserData($pdo, $email);
+    $nomeUsuario = $userData['nomeDeUsuario'];
+
+    // 2. Busca todos os artigos deste tópico
     $sqlArtigos = "
-        SELECT a.id, a.titulo, a.xp_recompensa, 
-               IF(up.id_artigo IS NOT NULL, 1, 0) AS concluido
+        SELECT a.id, a.titulo, 
+               COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa,
+               (SELECT COUNT(*) FROM artigo_completo WHERE id_artigo = a.id AND nome_usuario_artigo = :username) AS concluido,
+               (SELECT COUNT(*) FROM quiz_pergunta WHERE id_artigo = a.id) AS total_perguntas,
+               (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos
         FROM artigo a
-        LEFT JOIN usuario_progresso up 
-               ON a.id = up.id_artigo AND up.email_usuario = :email
-        WHERE a.id_topic = :id_topico
+        WHERE a.id_topic = :id_topico AND a.avaliacao_adm = 'Aprovado'
         ORDER BY a.id ASC
     ";
 
     $stmtArtigos = $pdo->prepare($sqlArtigos);
-    $stmtArtigos->execute(['email' => $email, 'id_topico' => $id_topico]);
+    $stmtArtigos->execute(['email' => $email, 'username' => $nomeUsuario, 'id_topico' => $id_topico]);
     $artigos = $stmtArtigos->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die('Erro ao carregar o tópico: ' . $e->getMessage());
@@ -84,17 +88,35 @@ try {
                 <div class="articles-grid">
                     <?php if (!empty($artigos)): ?>
                         <?php foreach ($artigos as $artigo): ?>
-                            <a href="../article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-mission-card <?= $artigo['concluido'] ? 'mission-completed' : '' ?>">
+                            <?php 
+                                $acertos = (int)$artigo['acertos'];
+                                $total = (int)$artigo['total_perguntas'];
+                                $passou = ($total > 0 && $acertos >= ceil($total / 2));
+                                
+                                if ($artigo['concluido']) {
+                                    $statusClasse = 'mission-completed';
+                                    $badgeHTML = '<span class="badge-done">✔ Concluído</span>';
+                                } else if ($passou) {
+                                    $statusClasse = 'mission-completed';
+                                    $badgeHTML = '<span class="badge-done">✔ ' . $acertos . '/' . $total . ' Acertos</span>';
+                                    $cooldownEnd = false;
+                                } else {
+                                    $cooldownEnd = getArticleCooldown($pdo, $_SESSION['user'], $artigo['id']);
+                                    if ($cooldownEnd) {
+                                        $statusClasse = 'mission-blocked article-bloqueado';
+                                        $badgeHTML = '<span class="badge-pending article-xp" style="background: rgba(255, 51, 102, 0.2); color: #ff3366; border: 1px solid #ff3366;">⏳ Tente novamente</span>';
+                                    } else {
+                                        $badgeHTML = '<span class="badge-pending">Iniciar</span>';
+                                    }
+                                }
+                            ?>
+                            <a href="../article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-mission-card <?= $statusClasse ?>" <?= $cooldownEnd ? 'data-cooldown="' . $cooldownEnd . '" data-texto-padrao="' . htmlspecialchars($textoPadrao) . '"' : '' ?>>
                                 <div class="mission-info">
                                     <h3 class="mission-title"><?= htmlspecialchars($artigo['titulo']) ?></h3>
                                     <span class="mission-xp">+<?= htmlspecialchars($artigo['xp_recompensa']) ?> XP</span>
                                 </div>
                                 <div class="mission-status">
-                                    <?php if ($artigo['concluido']): ?>
-                                        <span class="badge-done">✔ Concluído</span>
-                                    <?php else: ?>
-                                        <span class="badge-pending">Iniciar</span>
-                                    <?php endif; ?>
+                                    <?= $badgeHTML ?>
                                 </div>
                             </a>
                         <?php endforeach; ?>
@@ -110,6 +132,49 @@ try {
     </main>
 
     <?php include_once "../../footer.php" ?>
+    
+    <script>
+    function updateCooldowns() {
+      const articles = document.querySelectorAll('.article-mission-card[data-cooldown]');
+      const now = Math.floor(Date.now() / 1000);
+      
+      articles.forEach(article => {
+        const cooldownEnd = parseInt(article.getAttribute('data-cooldown'), 10);
+        const xpSpan = article.querySelector('.article-xp'); // A tag com o timer
+        
+        if (cooldownEnd > now) {
+          let diff = cooldownEnd - now;
+          let days = Math.floor(diff / 86400);
+          diff -= days * 86400;
+          let hours = Math.floor(diff / 3600);
+          diff -= hours * 3600;
+          let mins = Math.floor(diff / 60);
+          let secs = diff % 60;
+          
+          let timeString = '';
+          if (days > 0) timeString = `${days}d `;
+          else if (hours > 0) timeString = `${hours}h `;
+          else if (mins > 0) timeString = `${mins}m ${secs}s`;
+          else timeString = `${secs}s`;
+          
+          if (xpSpan) xpSpan.textContent = `⏳ Tente em ${timeString}`;
+        } else {
+          // Cooldown acabou!
+          article.classList.remove('mission-blocked', 'article-bloqueado');
+          if (xpSpan) {
+              const txtPadrao = article.getAttribute('data-texto-padrao');
+              xpSpan.textContent = txtPadrao ? txtPadrao : 'Iniciar';
+              xpSpan.style = ''; // Remove inline styles
+              xpSpan.classList.remove('article-xp');
+          }
+          article.removeAttribute('data-cooldown');
+        }
+      });
+    }
+
+    setInterval(updateCooldowns, 1000);
+    updateCooldowns();
+    </script>
 </body>
 
 </html>

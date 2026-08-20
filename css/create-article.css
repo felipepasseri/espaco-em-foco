@@ -45,7 +45,7 @@
     margin-bottom: 40px;
 }
 
-.section-title {
+.form-section .section-title {
     font-size: 20px;
     font-weight: 600;
     color: #00e5ff;
@@ -173,7 +173,7 @@
     margin-bottom: 16px;
 }
 
-.question-options-row > .form-group {
+.question-options-row>.form-group {
     flex: 1;
     margin-bottom: 0;
 }

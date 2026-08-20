@@ -74,13 +74,13 @@ try {
 
   // Artigos completados recentemente
   $stmtArtigos = $pdo->prepare("
-    SELECT a.id, a.titulo, a.xp_recompensa, up2.data_tentativa
-    FROM usuario_progresso up2
-    JOIN artigo a ON a.id = up2.id_artigo
-    WHERE up2.email_usuario = :email AND up2.status = 'aprovado'
-    ORDER BY up2.data_tentativa DESC LIMIT 6
+    SELECT a.id, a.titulo, COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa
+    FROM artigo_completo ac
+    JOIN artigo a ON a.id = ac.id_artigo
+    WHERE ac.nome_usuario_artigo = :username AND a.avaliacao_adm = 'Aprovado'
+    ORDER BY ac.id DESC LIMIT 6
   ");
-  $stmtArtigos->execute(['email' => $targetEmail]);
+  $stmtArtigos->execute(['username' => $targetUsername]);
   $artigosCompletados = $stmtArtigos->fetchAll(PDO::FETCH_ASSOC);
 
   // Tópicos mais feitos
@@ -89,7 +89,7 @@ try {
     FROM usuario_progresso up2
     JOIN artigo a ON a.id = up2.id_artigo
     JOIN topiccards tc ON tc.id = a.id_topic
-    WHERE up2.email_usuario = :email AND up2.status = 'aprovado'
+    WHERE up2.email_usuario = :email AND up2.status = 'aprovado' AND a.avaliacao_adm = 'Aprovado'
     GROUP BY tc.id, tc.nameTopic ORDER BY total DESC LIMIT 5
   ");
   $stmtTopicos->execute(['email' => $targetEmail]);

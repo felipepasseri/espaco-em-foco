@@ -3,128 +3,146 @@ session_start();
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user'])) {
-    echo json_encode(['erro' => 'Usuário não autenticado']);
+    echo json_encode(['success' => false, 'error' => 'Não autenticado']);
     exit();
 }
 
 require_once __DIR__ . '/../../config.php';
+require_once __DIR__ . '/../user-functions.php';
 require_once __DIR__ . '/../calcularXp.php';
 
 $email = $_SESSION['user'];
-$data = json_decode(file_get_contents('php://input'), true);
 
-if (!$data) {
-    echo json_encode(['erro' => 'Dados inválidos']);
+if (!isset($_SESSION['quiz_atual']) || empty($_SESSION['quiz_atual']['respostas'])) {
+    echo json_encode(['success' => false, 'error' => 'Nenhuma resposta encontrada para processar.']);
     exit();
 }
 
-$pergunta_id = $data['pergunta_id'];
-$artigo_id = $data['artigo_id'];
-$resposta_usuario = $data['resposta'];
-$tipo = $data['tipo'];
+$id_artigo = $_SESSION['quiz_atual']['id_artigo'];
+$respostas = $_SESSION['quiz_atual']['respostas']; // Array associativo de id_pergunta => [...]
 
 try {
     $pdo = getDB();
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // ==========================================
-    // 1. VERIFICA SE ESTÁ EM COOLDOWN OU JÁ FOI APROVADO
-    // ==========================================
-    $stmtProg = $pdo->prepare("SELECT status, data_tentativa FROM usuario_progresso WHERE email_usuario = :email AND id_artigo = :artigo_id");
-    $stmtProg->execute(['email' => $email, 'artigo_id' => $artigo_id]);
-    $progresso = $stmtProg->fetch(PDO::FETCH_ASSOC);
-
-    if ($progresso) {
-        if ($progresso['status'] === 'aprovado') {
-            echo json_encode(['acertou' => true, 'xp_ganho' => 0, 'ja_feito' => true]);
-            exit();
-        }
-
-        // Se foi reprovado, checa se passaram 5 minutos (300 segundos)
-        $tentativa_time = strtotime($progresso['data_tentativa']);
-        $agora = time();
-        $diferenca = $agora - $tentativa_time;
-        if ($diferenca < 300) {
-            echo json_encode(['erro' => 'cooldown', 'restante' => (300 - $diferenca)]);
-            exit();
-        }
-    }
-
-    // ==========================================
-    // 2. VALIDA A RESPOSTA
-    // ==========================================
-    $acertou = false;
-    if ($tipo === 'multipla_escolha') {
-        $stmt = $pdo->prepare("SELECT is_correct FROM quiz_alternativa WHERE id = :resposta_id AND id_pergunta = :pergunta_id");
-        $stmt->execute(['resposta_id' => $resposta_usuario, 'pergunta_id' => $pergunta_id]);
-        $alt = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($alt && $alt['is_correct'] == 1) $acertou = true;
-    } else {
-        $stmt = $pdo->prepare("SELECT resposta_esperada FROM quiz_pergunta WHERE id = :pergunta_id");
-        $stmt->execute(['pergunta_id' => $pergunta_id]);
-        $perg = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($perg && strtolower(trim($perg['resposta_esperada'])) === strtolower(trim($resposta_usuario))) {
-            $acertou = true;
-        }
-    }
-
     $pdo->beginTransaction();
 
-    // ==========================================
-    // 3. SE ERROU (Salva o erro e aciona cooldown)
-    // ==========================================
-    if (!$acertou) {
-        if ($progresso) { // Já tinha errado antes, atualiza a tentativa
-            $stmtUp = $pdo->prepare("UPDATE usuario_progresso SET status = 'reprovado', data_tentativa = NOW(), resposta_dada = :resp WHERE email_usuario = :email AND id_artigo = :artigo_id");
-            $stmtUp->execute(['resp' => $resposta_usuario, 'email' => $email, 'artigo_id' => $artigo_id]);
-        } else { // Primeira vez que errou
-            $stmtIn = $pdo->prepare("INSERT INTO usuario_progresso (email_usuario, id_artigo, data_tentativa, status, resposta_dada) VALUES (:email, :artigo_id, NOW(), 'reprovado', :resp)");
-            $stmtIn->execute(['email' => $email, 'artigo_id' => $artigo_id, 'resp' => $resposta_usuario]);
+    // 1. Pega total de perguntas do artigo
+    $stmtTotal = $pdo->prepare("SELECT COUNT(*) FROM quiz_pergunta WHERE id_artigo = :id");
+    $stmtTotal->execute(['id' => $id_artigo]);
+    $totalArtigo = (int)$stmtTotal->fetchColumn();
+
+    // 2. Conta quantas ele já acertou antes (para a regra dos 50%)
+    $stmtAcertosAntigos = $pdo->prepare("SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE email_usuario = :email AND id_artigo = :id_artigo AND status = 'aprovado'");
+    $stmtAcertosAntigos->execute(['email' => $email, 'id_artigo' => $id_artigo]);
+    $acertosAntigos = (int)$stmtAcertosAntigos->fetchColumn();
+
+    // 3. Processa a tentativa atual
+    $acertosAtuais = 0;
+    $errosAtuais = 0;
+    $xpGanhoTotal = 0;
+    $idsCorretasAtuais = [];
+    $dataTentativa = date('Y-m-d H:i:s'); // Mesma data para todas as inserções desta sessão
+
+    $totalFinalAcertos = $acertosAntigos;
+
+    foreach ($respostas as $id_pergunta => $respData) {
+        $is_correct = $respData['is_correct'];
+        $resposta_dada = $respData['resposta_dada'];
+        
+        $status = $is_correct ? 'aprovado' : 'reprovado';
+
+        if ($is_correct) {
+            $acertosAtuais++;
+            $totalFinalAcertos++;
+            $idsCorretasAtuais[] = $id_pergunta;
+        } else {
+            $errosAtuais++;
         }
-        $pdo->commit();
-        echo json_encode(['acertou' => false]);
-        exit();
+
+        // Insere na tabela usuario_progresso
+        $stmtIn = $pdo->prepare("
+            INSERT INTO usuario_progresso (email_usuario, id_artigo, id_pergunta, data_tentativa, status, resposta_dada) 
+            VALUES (:email, :id_artigo, :id_pergunta, :dt, :status, :resp)
+        ");
+        $stmtIn->execute([
+            'email' => $email,
+            'id_artigo' => $id_artigo,
+            'id_pergunta' => $id_pergunta,
+            'dt' => $dataTentativa,
+            'status' => $status,
+            'resp' => $resposta_dada
+        ]);
     }
 
-    // ==========================================
-    // 4. SE ACERTOU (Salva o acerto e dá o XP)
-    // ==========================================
-    $stmtArt = $pdo->prepare("SELECT xp_recompensa FROM artigo WHERE id = :artigo_id");
-    $stmtArt->execute(['artigo_id' => $artigo_id]);
-    $xp_recompensa = $stmtArt->fetchColumn();
+    $metade = ceil($totalArtigo / 2);
+    $aprovado = ($totalFinalAcertos >= $metade);
 
-    if ($progresso) {
-        $stmtUp = $pdo->prepare("UPDATE usuario_progresso SET status = 'aprovado', data_tentativa = NOW(), resposta_dada = :resp WHERE email_usuario = :email AND id_artigo = :artigo_id");
-        $stmtUp->execute(['resp' => $resposta_usuario, 'email' => $email, 'artigo_id' => $artigo_id]);
-    } else {
-        $stmtIn = $pdo->prepare("INSERT INTO usuario_progresso (email_usuario, id_artigo, data_tentativa, status, resposta_dada) VALUES (:email, :artigo_id, NOW(), 'aprovado', :resp)");
-        $stmtIn->execute(['email' => $email, 'artigo_id' => $artigo_id, 'resp' => $resposta_usuario]);
-    }
+    $upouDeNivel = false;
+    $novoNivel = 0;
 
-    $stmtUpdatePoints = $pdo->prepare("UPDATE userPoints SET userPoints = userPoints + :xp WHERE emailPoints = :email");
-    $stmtUpdatePoints->execute(['xp' => $xp_recompensa, 'email' => $email]);
+    if ($aprovado) {
+        // Pega o XP apenas das perguntas que ele acertou NESTA TENTATIVA
+        if (!empty($idsCorretasAtuais)) {
+            $inQuery = implode(',', array_fill(0, count($idsCorretasAtuais), '?'));
+            $stmtXp = $pdo->prepare("SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id IN ($inQuery)");
+            $stmtXp->execute($idsCorretasAtuais);
+            $xpGanhoTotal = (int)$stmtXp->fetchColumn();
 
-    // Busca XP total acumulado (nunca é zerado)
-    $stmtGetXP = $pdo->prepare("SELECT userPoints FROM userPoints WHERE emailPoints = :email");
-    $stmtGetXP->execute(['email' => $email]);
-    $pontosAtuais = $stmtGetXP->fetchColumn();
+            if ($xpGanhoTotal > 0) {
+                // Adiciona os pontos
+                $stmtUpdatePoints = $pdo->prepare("UPDATE userpoints SET userPoints = userPoints + :xp WHERE emailPoints = :email");
+                $stmtUpdatePoints->execute(['xp' => $xpGanhoTotal, 'email' => $email]);
 
-    $stmtGetLevel = $pdo->prepare("SELECT userLevel FROM userLevel WHERE emailLevel = :email");
-    $stmtGetLevel->execute(['email' => $email]);
-    $nivelAtual = $stmtGetLevel->fetchColumn();
+                // Verifica nivel
+                $pontosAtuais = getUserPoints($pdo, $email);
+                $nivelAtual = getUserLevel($pdo, $email);
+                $nivelCalculado = calcularNivelPorXP($pontosAtuais);
 
-    // Calcula o nível correto baseado no XP total acumulado
-    $novoNivel = calcularNivelPorXP($pontosAtuais);
-    $upouDeNivel = ($novoNivel > $nivelAtual);
+                if ($nivelCalculado > $nivelAtual) {
+                    $stmtLevelUp = $pdo->prepare("UPDATE userlevel SET userLevel = :novo_nivel WHERE emailLevel = :email");
+                    $stmtLevelUp->execute(['novo_nivel' => $nivelCalculado, 'email' => $email]);
+                    $upouDeNivel = true;
+                    $novoNivel = $nivelCalculado;
+                }
+            }
+        }
 
-    if ($upouDeNivel) {
-        $stmtLvlUp = $pdo->prepare("UPDATE userLevel SET userLevel = :novo_nivel WHERE emailLevel = :email");
-        $stmtLvlUp->execute(['novo_nivel' => $novoNivel, 'email' => $email]);
+        // Verifica se completou 100% para colocar no artigo_completo
+        if ($totalFinalAcertos >= $totalArtigo) {
+            // Pega o username
+            $stmtUser = $pdo->prepare("SELECT nomeDeUsuario FROM user WHERE email = :email");
+            $stmtUser->execute(['email' => $email]);
+            $nomeUsuario = $stmtUser->fetchColumn();
+
+            // Verifica se já não está lá
+            $stmtCheckCompl = $pdo->prepare("SELECT COUNT(*) FROM artigo_completo WHERE id_artigo = :id_artigo AND nome_usuario_artigo = :username");
+            $stmtCheckCompl->execute(['id_artigo' => $id_artigo, 'username' => $nomeUsuario]);
+            if ($stmtCheckCompl->fetchColumn() == 0) {
+                $stmtInCompl = $pdo->prepare("INSERT INTO artigo_completo (id_artigo, nome_usuario_artigo) VALUES (:id_artigo, :username)");
+                $stmtInCompl->execute(['id_artigo' => $id_artigo, 'username' => $nomeUsuario]);
+            }
+        }
     }
 
     $pdo->commit();
-    echo json_encode(['acertou' => true, 'xp_ganho' => $xp_recompensa, 'ja_feito' => false, 'upou_de_nivel' => $upouDeNivel, 'novo_nivel' => $novoNivel]);
-} catch (PDOException $e) {
-    if ($pdo->inTransaction()) $pdo->rollBack();
-    echo json_encode(['erro' => 'Erro interno.', 'detalhe' => $e->getMessage()]);
+
+    // Limpa a sessão do quiz
+    unset($_SESSION['quiz_atual']);
+
+    echo json_encode([
+        'success' => true,
+        'aprovado' => $aprovado,
+        'acertos_sessao' => $acertosAtuais,
+        'total_sessao' => count($respostas),
+        'total_acertos_geral' => $totalFinalAcertos,
+        'total_artigo' => $totalArtigo,
+        'xp_ganho' => $xpGanhoTotal,
+        'upou_de_nivel' => $upouDeNivel,
+        'novo_nivel' => $novoNivel
+    ]);
+
+} catch (Exception $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    echo json_encode(['success' => false, 'error' => 'Erro interno ao processar o quiz: ' . $e->getMessage()]);
 }

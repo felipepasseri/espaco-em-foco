@@ -50,5 +50,5 @@ try {
 
     echo json_encode(['success' => true]);
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'error' => 'Erro interno']);
+    echo json_encode(['success' => false, 'error' => 'Erro interno' . $e->getMessage()]);
 }

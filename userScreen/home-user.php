@@ -45,12 +45,16 @@ try {
 
   // Busca os últimos 6 artigos e faz um JOIN para descobrir se o usuário acertou ou errou
   $stmtArtigos = $pdo->prepare("
-      SELECT a.id, a.titulo, a.xp_recompensa, up.status, up.data_tentativa 
+      SELECT a.id, a.titulo, 
+             COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa,
+             (SELECT COUNT(*) FROM artigo_completo WHERE id_artigo = a.id AND nome_usuario_artigo = :username) AS is_completo,
+             (SELECT COUNT(*) FROM quiz_pergunta WHERE id_artigo = a.id) AS total_perguntas,
+             (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos
       FROM artigo a 
-      LEFT JOIN usuario_progresso up ON a.id = up.id_artigo AND up.email_usuario = :email
+      WHERE a.avaliacao_adm = 'Aprovado'
       ORDER BY a.id DESC LIMIT 6
   ");
-  $stmtArtigos->execute(['email' => $_SESSION['user']]);
+  $stmtArtigos->execute(['email' => $_SESSION['user'], 'username' => $userData['nomeDeUsuario']]);
   $artigos = $stmtArtigos->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   echo 'Erro: ' . $e->getMessage();
@@ -188,22 +192,32 @@ try {
               $classeStatus = '';
               $textoXp = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
 
-              if ($artigo['status'] === 'aprovado') {
+              $cooldownEnd = false;
+              $textoPadrao = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
+
+              $acertos = (int)$artigo['acertos'];
+              $total = (int)$artigo['total_perguntas'];
+              $passou = ($total > 0 && $acertos >= ceil($total / 2));
+
+              if ($artigo['is_completo'] > 0) {
                 $classeStatus = 'article-aprovado';
                 $textoXp = '✔ Concluído';
-              } elseif ($artigo['status'] === 'reprovado') {
-                $tentativa = strtotime($artigo['data_tentativa']);
-                $agora = time();
-                if (($agora - $tentativa) < 300) { // Menos de 5 minutos
+              } else if ($passou) {
+                $classeStatus = 'article-aprovado';
+                $textoXp = '✔ ' . $acertos . '/' . $total . ' Acertos';
+                $cooldownEnd = false;
+              } else {
+                $cooldownEnd = getArticleCooldown($pdo, $_SESSION['user'], $artigo['id']);
+                if ($cooldownEnd) {
                   $classeStatus = 'article-bloqueado';
                   $textoXp = '⏳ Tente novamente';
-                } else { // Já pode tentar de novo
+                } else {
                   $classeStatus = 'article-tente-novamente';
-                  $textoXp = '↻ Tente de Novo';
+                  $textoXp = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
                 }
               }
               ?>
-              <a href="article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-item <?= $classeStatus ?>">
+              <a href="article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-item <?= $classeStatus ?>" <?= $cooldownEnd ? 'data-cooldown="' . $cooldownEnd . '" data-texto-padrao="' . htmlspecialchars($textoPadrao) . '"' : '' ?>>
                 <span class="article-name"><?= htmlspecialchars($artigo['titulo']) ?></span>
                 <span class="article-xp"><?= $textoXp ?></span>
               </a>
@@ -362,6 +376,50 @@ try {
   </main>
 
   <?php include_once "../footer.php" ?>
+
+  <script>
+    // Lógica para contagem regressiva de Cooldown nos artigos
+    function updateCooldowns() {
+      const articles = document.querySelectorAll('.article-item[data-cooldown]');
+      const now = Math.floor(Date.now() / 1000);
+      
+      articles.forEach(article => {
+        const cooldownEnd = parseInt(article.getAttribute('data-cooldown'), 10);
+        const xpSpan = article.querySelector('.article-xp');
+        
+        if (cooldownEnd > now) {
+          let diff = cooldownEnd - now;
+          let days = Math.floor(diff / 86400);
+          diff -= days * 86400;
+          let hours = Math.floor(diff / 3600);
+          diff -= hours * 3600;
+          let mins = Math.floor(diff / 60);
+          let secs = diff % 60;
+          
+          let timeString = '';
+          if (days > 0) timeString = `${days}d `;
+          else if (hours > 0) timeString = `${hours}h `;
+          else if (mins > 0) timeString = `${mins}m ${secs}s`;
+          else timeString = `${secs}s`;
+          
+          xpSpan.textContent = `⏳ Tente em ${timeString}`;
+        } else {
+          // Cooldown acabou!
+          article.classList.remove('article-bloqueado');
+          article.classList.add('article-tente-novamente');
+          
+          const txtPadrao = article.getAttribute('data-texto-padrao');
+          xpSpan.textContent = txtPadrao ? txtPadrao : '↻ Tente de Novo';
+          
+          article.removeAttribute('data-cooldown');
+        }
+      });
+    }
+
+    // Atualiza a cada segundo
+    setInterval(updateCooldowns, 1000);
+    updateCooldowns();
+  </script>
 </body>
 
 </html>
