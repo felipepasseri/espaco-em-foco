@@ -71,28 +71,28 @@ try {
 
     // Artigos completados recentemente
     $stmtArtigos = $pdo->prepare("
-        SELECT a.id, a.titulo, a.xp_recompensa, up2.status, up2.data_tentativa
-        FROM usuario_progresso up2
-        JOIN artigo a ON a.id = up2.id_artigo
-        WHERE up2.email_usuario = :targetEmail AND up2.status = 'aprovado'
-        ORDER BY up2.data_tentativa DESC
+        SELECT a.id, a.titulo, COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa
+        FROM artigo_completo ac
+        JOIN artigo a ON a.id = ac.id_artigo
+        WHERE ac.nome_usuario_artigo = :targetUsername AND a.avaliacao_adm = 'Aprovado'
+        ORDER BY ac.id DESC
         LIMIT 6
     ");
-    $stmtArtigos->execute(['targetEmail' => $targetEmail]);
+    $stmtArtigos->execute(['targetUsername' => $targetUsername]);
     $userData['artigosCompletados'] = $stmtArtigos->fetchAll(PDO::FETCH_ASSOC);
 
     // Tópicos mais feitos (agrupando pelo tópico do artigo via topiccards)
     $stmtTopicos = $pdo->prepare("
-        SELECT tc.nameTopic as topico, COUNT(*) as total
-        FROM usuario_progresso up2
-        JOIN artigo a ON a.id = up2.id_artigo
+        SELECT tc.nameTopic as topico, COUNT(DISTINCT a.id) as total
+        FROM artigo_completo ac
+        JOIN artigo a ON a.id = ac.id_artigo
         JOIN topiccards tc ON tc.id = a.id_topic
-        WHERE up2.email_usuario = :targetEmail AND up2.status = 'aprovado'
+        WHERE ac.nome_usuario_artigo = :targetUsername AND a.avaliacao_adm = 'Aprovado'
         GROUP BY tc.id, tc.nameTopic
         ORDER BY total DESC
         LIMIT 5
     ");
-    $stmtTopicos->execute(['targetEmail' => $targetEmail]);
+    $stmtTopicos->execute(['targetUsername' => $targetUsername]);
     $userData['topicosFrequentes'] = $stmtTopicos->fetchAll(PDO::FETCH_ASSOC);
 
     // Publicações no fórum (aprovadas)

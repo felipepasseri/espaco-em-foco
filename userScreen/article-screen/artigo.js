@@ -11,7 +11,6 @@ if (quizForm) {
             resposta: tipo === 'lacuna' ? document.getElementById('lacuna-input').value : document.querySelector('input[name="alternativa_id"]:checked').value,
             tipo: tipo
         };
-        console.log(dados)
         // Enviará para o PHP validar (Criaremos na próxima etapa)
         fetch('processa-quiz.php', {
                 method: 'POST',
