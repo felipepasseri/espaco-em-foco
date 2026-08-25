@@ -131,6 +131,92 @@ try {
                     Resolver denúncia
                 </button>
             </div>
+            <div id="modalResolucao" class="modal">
+                <div class="modal-conteudo">
+
+                    <div class="modal-header">
+                        <h2>Resolver denúncia</h2>
+
+                        <button id="fecharResolucao" class="fechar-modal">
+                            &times;
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <p>Escolha o que deseja fazer com o usuário denunciado:</p>
+
+                        <div class="opcoes-resolucao">
+
+                            <label class="opcao-resolucao">
+                                <input 
+                                    type="radio" 
+                                    name="acaoResolucao" 
+                                    value="aviso_email"
+                                >
+
+                                <div>
+                                    <strong>✉️ Enviar aviso por e-mail</strong>
+                                    <p>
+                                        Envia um aviso ao usuário sobre a denúncia.
+                                    </p>
+                                </div>
+                            </label>
+
+
+                            <label class="opcao-resolucao">
+                                <input 
+                                    type="radio" 
+                                    name="acaoResolucao" 
+                                    value="banir_7_dias"
+                                >
+
+                                <div>
+                                    <strong>🔨 Banir por 7 dias</strong>
+                                    <p>
+                                        O usuário ficará impedido de acessar a conta por 7 dias.
+                                    </p>
+                                </div>
+                            </label>
+
+
+                            <label class="opcao-resolucao">
+                                <input 
+                                    type="radio" 
+                                    name="acaoResolucao" 
+                                    value="banir_permanente"
+                                >
+
+                                <div>
+                                    <strong>🔨 Banir permanentemente</strong>
+                                    <p>
+                                        O usuário perderá permanentemente o acesso à conta.
+                                    </p>
+                                </div>
+                            </label>
+
+                        </div>
+
+
+                        <div class="campo">
+                            <strong>Observação do administrador</strong>
+                            <textarea 
+                                id="observacaoResolucao"
+                                placeholder="Explique o motivo da decisão..."
+                                rows="5"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="cancelarResolucao" class="btn-recusar">
+                            Cancelar
+                        </button>
+                        <button id="confirmarResolucao" class="btn-resolver">
+                            Confirmar resolução
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
