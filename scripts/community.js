@@ -296,7 +296,7 @@
             e.preventDefault();
             const username = trigger.dataset.username;
             if (username) {
-                window.location.href = `/espaco-em-foco/userScreen/profile.php?user=${encodeURIComponent(username)}`;
+                window.location.href = `/userScreen/profile.php?user=${encodeURIComponent(username)}`;
             }
         }
     });

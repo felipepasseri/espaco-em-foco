@@ -319,7 +319,7 @@ const modal = document.getElementById('follow-modal');
         if (trigger) {
             const username = trigger.dataset.username;
             if (username && trigger.dataset.isme !== 'true') {
-                window.location.href = `/espaco-em-foco/userScreen/profile.php?user=${encodeURIComponent(username)}`;
+                window.location.href = `/userScreen/profile.php?user=${encodeURIComponent(username)}`;
             }
         }
     });

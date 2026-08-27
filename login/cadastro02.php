@@ -60,12 +60,22 @@ $senha_cripto = password_hash($passwordSign, PASSWORD_BCRYPT);
 
 $pdo = getDB();
 
+require_once 'enviar_email.php';
+
 $criar = new Criar($pdo);
 $criou = $criar->cadastro($emailSign, $nameSign, $lastNameSign, $senha_cripto);
 
 if ($criou) {
-    $_SESSION['user'] = $emailSign;
-    header("Location: finalizarCadastro/cadastro03.php");
+    // Cadastro ok, tenta enviar o e-mail de verificação
+    $enviouEmail = enviarEmailConfirmacao($pdo, $emailSign);
+    
+    $_SESSION['email_verificacao'] = $emailSign; // Mantém a sessão do email para reenvios, etc.
+    
+    if ($enviouEmail) {
+        header("Location: finalizarCadastro/cadastro03.php?sucesso=1");
+    } else {
+        header("Location: finalizarCadastro/cadastro03.php?erro_email=1");
+    }
     exit;
 } else {
     ob_clean();

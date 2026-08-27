@@ -2,3 +2,5 @@ config.php
 error_log
 *.log
 instrucoes.md
+projeto.md
+contexto.md

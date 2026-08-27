@@ -34,7 +34,7 @@ class Auth
     public function login($emailLogin, $passwordLogin)
     {
 
-        $sql = "SELECT email, senha FROM user WHERE email = ?";
+        $sql = "SELECT email, senha, email_verified, nome, sobrenome, nomeDeUsuario, fotoPerfil, bannerPerfil FROM user WHERE email = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$emailLogin]);
 
@@ -50,6 +50,53 @@ class Auth
         );
 
         if (password_verify($passwordLogin, $user->getSenha())) {
+            if ($dados['email_verified'] == 0) {
+                return 'not_verified';
+            }
+
+            // Geração de dados faltantes (se o usuário for antigo e estiver com campos nulos)
+            if (is_null($dados['nomeDeUsuario']) || is_null($dados['fotoPerfil']) || is_null($dados['bannerPerfil'])) {
+                $updFields = [];
+                $params = [];
+                
+                if (is_null($dados['nomeDeUsuario'])) {
+                    $nomeBase = strtolower(trim($dados['nome'] . $dados['sobrenome']));
+                    $nomeBase = preg_replace('/[^a-z0-9]/', '', $nomeBase);
+                    
+                    $nicknameUnico = false;
+                    $nickname = $nomeBase;
+                    while (!$nicknameUnico) {
+                        $stmtCheck = $this->db->prepare("SELECT email FROM user WHERE nomeDeUsuario = :nickname");
+                        $stmtCheck->bindValue(':nickname', $nickname);
+                        $stmtCheck->execute();
+                        if ($stmtCheck->rowCount() == 0) {
+                            $nicknameUnico = true;
+                        } else {
+                            $nickname = $nomeBase . rand(10, 9999);
+                        }
+                    }
+                    $updFields[] = "nomeDeUsuario = :nickname";
+                    $params[':nickname'] = $nickname;
+                }
+                
+                if (is_null($dados['fotoPerfil'])) {
+                    $updFields[] = "fotoPerfil = :foto";
+                    $params[':foto'] = 'img/user-profile-default.jpg';
+                }
+                
+                if (is_null($dados['bannerPerfil'])) {
+                    $updFields[] = "bannerPerfil = :banner";
+                    $params[':banner'] = 'img/banner-default.jpg'; 
+                }
+                
+                if (count($updFields) > 0) {
+                    $sqlUpd = "UPDATE user SET " . implode(', ', $updFields) . " WHERE email = :email";
+                    $params[':email'] = $dados['email'];
+                    $stmtUpd = $this->db->prepare($sqlUpd);
+                    $stmtUpd->execute($params);
+                }
+            }
+
             return $user;
         } else {
             return false;
@@ -78,7 +125,12 @@ $conn = getDB();
 $auth = new Auth($conn);
 $user = $auth->login($email, $senha);
 
-if ($user) {
+if ($user === 'not_verified') {
+    $_SESSION['email_verificacao'] = $email;
+    ob_clean();
+    header("Location: login.php?erro_verif=1");
+    exit;
+} elseif ($user) {
     session_regenerate_id(true);
     $_SESSION['user'] = $user->getEmail();
     require_once "verify-user.php";
@@ -90,6 +142,7 @@ if ($user) {
     }
     exit;
 } else {
+    ob_clean();
     header("Location: login.php?erro=1");
     exit;
 }
