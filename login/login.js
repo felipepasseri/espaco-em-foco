@@ -105,3 +105,5 @@ termsScreenLink.addEventListener('click', () => {
 termsScreenBtn.addEventListener('click', () => {
     termsScreen.style.display = 'none'
 })
+
+

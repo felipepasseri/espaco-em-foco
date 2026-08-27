@@ -24,6 +24,7 @@ if (isset($_SESSION['user'])) {
   <link rel="stylesheet" href="../style.css" />
   <script src="../scripts/index.js" type="module" defer></script>
   <script src="login.js" defer></script>
+  <script src="../scripts/reenviar-email.js" defer></script>
 </head>
 
 <body>
@@ -215,6 +216,17 @@ if (isset($_SESSION['user'])) {
           <?php
           if (isset($_GET['erro'])) {
             echo "<p style='color:red;'>Email ou senha incorretos!</p>";
+          ?>
+            <script>
+              document.querySelector('.sign-up-section').classList.add('is-login');
+            </script>
+          <?php
+          } elseif (isset($_GET['erro_verif'])) {
+            echo "<p style='color:red; font-size:14px; margin-bottom: 10px;'>
+                    Você precisa confirmar o seu email antes de acessar! <br> 
+                    <a href='#' id='resendLink' style='color:#ff3366; text-decoration:underline;' onclick=\"event.preventDefault(); reenviarEmail({ linkId: 'resendLink', feedbackId: 'resendFeedback', apiPath: '../api/api-resend-email.php' })\">Não recebeu o email? Clique aqui para reenviar</a>
+                    <span id='resendFeedback' style='display:block; margin-top:5px; font-weight:bold;'></span>
+                  </p>";
           ?>
             <script>
               document.querySelector('.sign-up-section').classList.add('is-login');

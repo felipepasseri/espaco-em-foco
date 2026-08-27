@@ -29,7 +29,7 @@ if (isset($_SESSION['user'])) {
             <li><a id="nav-inicio">Início</a></li>
             <li><a id="nav-missoes">Missões</a></li>
             <li><a id="nav-topicos">Tópicos</a></li>
-            <li><a href="/espaco-em-foco/userScreen/community.php">Comunidade</a></li>
+            <li><a href="/userScreen/community.php">Comunidade</a></li>
         <?php } else { ?>
             <li>Início</li>
             <li>Tópicos</li>
@@ -38,24 +38,24 @@ if (isset($_SESSION['user'])) {
         <?php } ?>
         <?php if (isset($_SESSION['user'])) { ?>
             <li class="mobile-profile-container">
-                <a href="/espaco-em-foco/userScreen/edit-profile/editar-perfil.php" class="mobile-profile-link">Editar Perfil</a>
-                <a href="/espaco-em-foco/logoff.php" class="mobile-profile-link">Sair</a>
+                <a href="/userScreen/edit-profile/editar-perfil.php" class="mobile-profile-link">Editar Perfil</a>
+                <a href="/logoff.php" class="mobile-profile-link">Sair</a>
             </li>
         <?php } else { ?>
-            <li class="mobile-login-link"><a href="/espaco-em-foco/login/login.php" class="button"><span>Login</span></a></li>
+            <li class="mobile-login-link"><a href="/login/login.php" class="button"><span>Login</span></a></li>
         <?php } ?>
     </ul>
     <ul id="login-container">
         <?php if (!isset($_SESSION['user'])) { ?>
             <li>
-                <a href="/espaco-em-foco/login/login.php" class="button"><span>Login</span></a>
+                <a href="/login/login.php" class="button"><span>Login</span></a>
             </li>
         <?php } else { ?>
             <div class="profile-dropdown">
-                <div id="login-icon" style="background: url('/espaco-em-foco/<?= $userProfilePhoto ?>') center center / cover no-repeat; cursor: pointer;" onclick="toggleProfileDropdown(event)"></div>
+                <div id="login-icon" style="background: url('/<?= $userProfilePhoto ?>') center center / cover no-repeat; cursor: pointer;" onclick="toggleProfileDropdown(event)"></div>
                 <div id="profile-dropdown-content" class="dropdown-content">
-                    <a href="/espaco-em-foco/userScreen/edit-profile/editar-perfil.php">Editar Perfil</a>
-                    <a href="/espaco-em-foco/logoff.php">Sair</a>
+                    <a href="/userScreen/edit-profile/editar-perfil.php">Editar Perfil</a>
+                    <a href="/logoff.php">Sair</a>
                 </div>
             </div>
             <script>
