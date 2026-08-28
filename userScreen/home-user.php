@@ -49,7 +49,8 @@ try {
              COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa,
              (SELECT COUNT(*) FROM artigo_completo WHERE id_artigo = a.id AND nome_usuario_artigo = :username) AS is_completo,
              (SELECT COUNT(*) FROM quiz_pergunta WHERE id_artigo = a.id) AS total_perguntas,
-             (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos
+             (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos,
+             (SELECT COUNT(*) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email) AS total_tentativas
       FROM artigo a 
       WHERE a.avaliacao_adm = 'Aprovado'
       ORDER BY a.id DESC LIMIT 6
@@ -211,8 +212,12 @@ try {
                 if ($cooldownEnd) {
                   $classeStatus = 'article-bloqueado';
                   $textoXp = '⏳ Tente novamente';
-                } else {
+                } else if ($artigo['total_tentativas'] > 0) {
                   $classeStatus = 'article-tente-novamente';
+                  $textoXp = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
+                } else {
+                  // Artigo 100% novo, sem tentativas
+                  $classeStatus = ''; // Sem classe, cor normal
                   $textoXp = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
                 }
               }
