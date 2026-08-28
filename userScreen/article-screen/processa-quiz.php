@@ -35,27 +35,38 @@ try {
     $stmtAcertosAntigos->execute(['email' => $email, 'id_artigo' => $id_artigo]);
     $acertosAntigos = (int)$stmtAcertosAntigos->fetchColumn();
 
-    // 3. Processa a tentativa atual
+    // 3. Processa a tentativa atual (pré-calculo)
     $acertosAtuais = 0;
     $errosAtuais = 0;
     $xpGanhoTotal = 0;
     $idsCorretasAtuais = [];
     $dataTentativa = date('Y-m-d H:i:s'); // Mesma data para todas as inserções desta sessão
 
-    $totalFinalAcertos = $acertosAntigos;
+    foreach ($respostas as $id_pergunta => $respData) {
+        if ($respData['is_correct']) {
+            $acertosAtuais++;
+            $idsCorretasAtuais[] = $id_pergunta;
+        } else {
+            $errosAtuais++;
+        }
+    }
 
+    $totalSessao = count($respostas);
+    $metadeSessao = ceil($totalSessao / 2);
+    $aprovado = ($acertosAtuais >= $metadeSessao); // Ele precisa passar de 50% APENAS do que sobrou!
+
+    $totalFinalAcertos = $acertosAntigos + $acertosAtuais; // Usado apenas para saber se chegou a 100% do artigo
+
+    // 4. Insere de fato no banco
     foreach ($respostas as $id_pergunta => $respData) {
         $is_correct = $respData['is_correct'];
         $resposta_dada = $respData['resposta_dada'];
         
-        $status = $is_correct ? 'aprovado' : 'reprovado';
-
-        if ($is_correct) {
-            $acertosAtuais++;
-            $totalFinalAcertos++;
-            $idsCorretasAtuais[] = $id_pergunta;
+        // Se a pessoa acertou, mas a tentativa inteira foi reprovada, anulamos o acerto no bd para ela refazer e ganhar xp depois
+        if ($is_correct && $aprovado) {
+            $status = 'aprovado';
         } else {
-            $errosAtuais++;
+            $status = 'reprovado';
         }
 
         // Insere na tabela usuario_progresso
@@ -73,9 +84,6 @@ try {
         ]);
     }
 
-    $metade = ceil($totalArtigo / 2);
-    $aprovado = ($totalFinalAcertos >= $metade);
-
     $upouDeNivel = false;
     $novoNivel = 0;
 
@@ -89,7 +97,7 @@ try {
 
             if ($xpGanhoTotal > 0) {
                 // Adiciona os pontos
-                $stmtUpdatePoints = $pdo->prepare("UPDATE userpoints SET userPoints = userPoints + :xp WHERE emailPoints = :email");
+                $stmtUpdatePoints = $pdo->prepare("UPDATE userpoints SET userpoints = userpoints + :xp WHERE emailPoints = :email");
                 $stmtUpdatePoints->execute(['xp' => $xpGanhoTotal, 'email' => $email]);
 
                 // Verifica nivel
@@ -98,7 +106,7 @@ try {
                 $nivelCalculado = calcularNivelPorXP($pontosAtuais);
 
                 if ($nivelCalculado > $nivelAtual) {
-                    $stmtLevelUp = $pdo->prepare("UPDATE userlevel SET userLevel = :novo_nivel WHERE emailLevel = :email");
+                    $stmtLevelUp = $pdo->prepare("UPDATE userlevel SET userlevel = :novo_nivel WHERE emailLevel = :email");
                     $stmtLevelUp->execute(['novo_nivel' => $nivelCalculado, 'email' => $email]);
                     $upouDeNivel = true;
                     $novoNivel = $nivelCalculado;

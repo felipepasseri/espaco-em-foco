@@ -134,10 +134,10 @@ if ($user === 'not_verified') {
     session_regenerate_id(true);
     $_SESSION['user'] = $user->getEmail();
     require_once "verify-user.php";
-    $userRoles = verificarUsuario($_SESSION['user']);
-    if ($userRoles['codTypeRoles'] == 0) {
+    $userroles = verificarUsuario($_SESSION['user']);
+    if ($userroles['codTypeRoles'] == 0) {
         header("Location: ../userScreen/home-user.php");
-    } else if ($userRoles['codTypeRoles'] == 1) {
+    } else if ($userroles['codTypeRoles'] == 1) {
         header('Location: ../admScreen/home-adm.php');
     }
     exit;

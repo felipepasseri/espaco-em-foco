@@ -18,17 +18,17 @@ class Criar
             $stmt1 = $this->db->prepare($sql1);
             $stmt1->execute([$emailLogin, $nomeLogin, $sobrenomeLogin, $passwordLogin]);
 
-            $sql2 = "INSERT INTO userLevel(emailLevel, userLevel)
+            $sql2 = "INSERT INTO userlevel(emailLevel, userlevel)
                         VALUES (?, 1)";
             $stmt2 = $this->db->prepare($sql2);
             $stmt2->execute([$emailLogin]);
 
-            $sql3 = "INSERT INTO userPoints(emailPoints, userPoints)
+            $sql3 = "INSERT INTO userpoints(emailPoints, userpoints)
                         VALUES (?, 0)";
             $stmt3 = $this->db->prepare($sql3);
             $stmt3->execute([$emailLogin]);
 
-            $sql4 = "INSERT INTO userRoles(emailRoles, codTypeRoles)
+            $sql4 = "INSERT INTO userroles(emailRoles, codTypeRoles)
                         VALUES (?, 0)";
             $stmt4 = $this->db->prepare($sql4);
             $stmt4->execute([$emailLogin]);

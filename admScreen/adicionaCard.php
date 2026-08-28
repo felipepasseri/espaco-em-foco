@@ -4,8 +4,8 @@ if (!isset($_SESSION['user'])) {
     header("Location: ../index.php");
 }
 require_once __DIR__ . '/../login/verify-user.php';
-$userRoles = verificarUsuario($_SESSION['user']);
-if ($userRoles['codTypeRoles'] == 0) {
+$userroles = verificarUsuario($_SESSION['user']);
+if ($userroles['codTypeRoles'] == 0) {
     header("Location: ../userScreen/home-user.php");
 }
 

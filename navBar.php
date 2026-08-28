@@ -65,9 +65,9 @@ if (isset($_SESSION['user'])) {
         <?php
             require_once __DIR__ . '/login/verify-user.php';
             if (isset($_SESSION['user'])) {
-                $userRoles = verificarUsuario($_SESSION['user']);
+                $userroles = verificarUsuario($_SESSION['user']);
 
-                if ($userRoles['codTypeRoles'] == 1) { ?>
+                if ($userroles['codTypeRoles'] == 1) { ?>
                     <li>
                         <a href="https://www.espacoemfoco.online/admScreen/home-adm.php" class="button"><span>Admin</span></a>
                     </li>

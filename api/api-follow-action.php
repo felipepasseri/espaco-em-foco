@@ -40,13 +40,13 @@ try {
     }
 
     if ($action === 'follow') {
-        $stmt = $pdo->prepare("INSERT IGNORE INTO userFollowers (emailFollower, emailFollowed) VALUES (:me, :target)");
+        $stmt = $pdo->prepare("INSERT IGNORE INTO userfollowers (emailFollower, emailFollowed) VALUES (:me, :target)");
         $stmt->execute(['me' => $me, 'target' => $targetEmail]);
     } elseif ($action === 'unfollow') {
-        $stmt = $pdo->prepare("DELETE FROM userFollowers WHERE emailFollower = :me AND emailFollowed = :target");
+        $stmt = $pdo->prepare("DELETE FROM userfollowers WHERE emailFollower = :me AND emailFollowed = :target");
         $stmt->execute(['me' => $me, 'target' => $targetEmail]);
     } elseif ($action === 'remove_follower') {
-        $stmt = $pdo->prepare("DELETE FROM userFollowers WHERE emailFollower = :target AND emailFollowed = :me");
+        $stmt = $pdo->prepare("DELETE FROM userfollowers WHERE emailFollower = :target AND emailFollowed = :me");
         $stmt->execute(['me' => $me, 'target' => $targetEmail]);
     }
 

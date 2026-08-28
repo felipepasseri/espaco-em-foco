@@ -9,7 +9,7 @@
 
         public function verificar($emailSubmit, $code) {
 
-            $sql = "SELECT codigo FROM userResetCode WHERE email = ?";
+            $sql = "SELECT codigo FROM userresetcode WHERE email = ?";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$emailSubmit]);
 

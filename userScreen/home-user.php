@@ -9,8 +9,8 @@ require_once __DIR__ . '/../config.php';
 require_once 'user-functions.php';
 require_once 'calcularXp.php';
 
-$userRoles = verificarUsuario($_SESSION['user']);
-if ($userRoles['codTypeRoles'] == 1) {
+$userroles = verificarUsuario($_SESSION['user']);
+if ($userroles['codTypeRoles'] == 1) {
   header("Location: ../admScreen/home-adm.php");
   exit;
 }
@@ -21,15 +21,15 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $artigos = []; // Initialize to prevent fatal error on foreach if try block fails
 try {
   $userData = getUserData($pdo, $_SESSION['user']);
-  $userPoints = getUserPoints($pdo, $_SESSION['user']);
-  $userLevel = getUserLevel($pdo, $_SESSION['user']);
+  $userpoints = getUserPoints($pdo, $_SESSION['user']);
+  $userlevel = getUserLevel($pdo, $_SESSION['user']);
   $userFollowing = getFollowingCount($pdo, $_SESSION['user']);
-  $userFollowers = getFollowersCount($pdo, $_SESSION['user']);
+  $userfollowers = getFollowersCount($pdo, $_SESSION['user']);
   // XP necessário para o nível ATUAL e para o PRÓXIMO (cumulativo)
-  $xpNivelAtual = xpNecessario($userLevel);
-  $xpProximoNivel = xpNecessario($userLevel + 1);
+  $xpNivelAtual = xpNecessario($userlevel);
+  $xpProximoNivel = xpNecessario($userlevel + 1);
   $xpDelta = $xpProximoNivel - $xpNivelAtual;
-  $xpProgresso = $userPoints - $xpNivelAtual;
+  $xpProgresso = $userpoints - $xpNivelAtual;
   $porcentagem = $xpDelta > 0 ? ($xpProgresso / $xpDelta) * 100 : 100;
   $porcentagem = max(0, min(100, $porcentagem));
   // =====================================
@@ -37,10 +37,10 @@ try {
   // =====================================
   $stmtRank = $pdo->prepare("
       SELECT COUNT(*) + 1 
-      FROM userPoints up
-      WHERE up.userPoints > :myPoints
+      FROM userpoints up
+      WHERE up.userpoints > :myPoints
   ");
-  $stmtRank->execute(['myPoints' => $userPoints]);
+  $stmtRank->execute(['myPoints' => $userpoints]);
   $userRank = $stmtRank->fetchColumn();
 
   // Busca os últimos 6 artigos e faz um JOIN para descobrir se o usuário acertou ou errou
@@ -49,7 +49,8 @@ try {
              COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa,
              (SELECT COUNT(*) FROM artigo_completo WHERE id_artigo = a.id AND nome_usuario_artigo = :username) AS is_completo,
              (SELECT COUNT(*) FROM quiz_pergunta WHERE id_artigo = a.id) AS total_perguntas,
-             (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos
+             (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos,
+             (SELECT COUNT(*) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email) AS total_tentativas
       FROM artigo a 
       WHERE a.avaliacao_adm = 'Aprovado'
       ORDER BY a.id DESC LIMIT 6
@@ -96,7 +97,7 @@ try {
           </div>
           <div class="profile-stats">
             <div class="stat-item" id="btn-seguidores" style="cursor: pointer;">
-              <span class="stat-count" id="count-seguidores"><?php echo $userFollowers; ?></span>
+              <span class="stat-count" id="count-seguidores"><?php echo $userfollowers; ?></span>
               <span class="stat-label">Seguidores</span>
             </div>
             <div class="stat-item" id="btn-seguindo" style="cursor: pointer;">
@@ -111,8 +112,8 @@ try {
 
         <div class="user-status">
           <div class="status-info">
-            <span class="level-text">Nível <?php echo $userLevel; ?></span>
-            <span class="xp-text"><?php echo formatarXP($userPoints) . " / " . formatarXP($xpProximoNivel);   ?> XP</span>
+            <span class="level-text">Nível <?php echo $userlevel; ?></span>
+            <span class="xp-text"><?php echo formatarXP($userpoints) . " / " . formatarXP($xpProximoNivel);   ?> XP</span>
           </div>
           <div class="progress-bar-container">
             <div class="progress-bar-fill" style="width: <?php echo $porcentagem ?>%"></div>
@@ -144,7 +145,7 @@ try {
           <div class="extra-card">
             <img src="estrela.png" alt="Estrela" class="extra-icon" />
             <span class="extra-title">XP Atual</span>
-            <span class="extra-value xp-value-small"><?php echo formatarXP($userPoints) . " / " . formatarXP($xpProximoNivel); ?></span>
+            <span class="extra-value xp-value-small"><?php echo formatarXP($userpoints) . " / " . formatarXP($xpProximoNivel); ?></span>
           </div>
 
         </div>
@@ -211,8 +212,12 @@ try {
                 if ($cooldownEnd) {
                   $classeStatus = 'article-bloqueado';
                   $textoXp = '⏳ Tente novamente';
-                } else {
+                } else if ($artigo['total_tentativas'] > 0) {
                   $classeStatus = 'article-tente-novamente';
+                  $textoXp = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
+                } else {
+                  // Artigo 100% novo, sem tentativas
+                  $classeStatus = ''; // Sem classe, cor normal
                   $textoXp = '+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP';
                 }
               }

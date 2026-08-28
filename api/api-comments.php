@@ -37,16 +37,16 @@ try {
             $stmt = $pdo->prepare("
                 SELECT cp.id, cp.nome_usuario, cp.comentario, cp.likes, cp.created_at,
                        u.fotoPerfil, u.nome, u.sobrenome,
-                       COALESCE(ul.userLevel, 1) as userLevel,
-                       COALESCE(up2.userPoints, 0) as userPoints,
-                       (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-                       (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following,
+                       COALESCE(ul.userlevel, 1) as userlevel,
+                       COALESCE(up2.userpoints, 0) as userpoints,
+                       (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+                       (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following,
                        (SELECT COUNT(*) FROM comentarios_post WHERE parent_id = cp.id) as total_respostas,
                        (SELECT COUNT(*) FROM interacao_post WHERE nome_usuario = :myUser AND id_comentario = cp.id AND tipo = 'Like') as eu_curti
                 FROM comentarios_post cp
                 JOIN user u ON u.nomeDeUsuario = cp.nome_usuario
-                LEFT JOIN userLevel ul ON ul.emailLevel = u.email
-                LEFT JOIN userPoints up2 ON up2.emailPoints = u.email
+                LEFT JOIN userlevel ul ON ul.emailLevel = u.email
+                LEFT JOIN userpoints up2 ON up2.emailPoints = u.email
                 WHERE cp.id_post = :postId AND cp.parent_id = :parentId
                 ORDER BY cp.created_at ASC
                 LIMIT :limit OFFSET :offset
@@ -61,16 +61,16 @@ try {
             $stmt = $pdo->prepare("
                 SELECT cp.id, cp.nome_usuario, cp.comentario, cp.likes, cp.created_at,
                        u.fotoPerfil, u.nome, u.sobrenome,
-                       COALESCE(ul.userLevel, 1) as userLevel,
-                       COALESCE(up2.userPoints, 0) as userPoints,
-                       (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-                       (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following,
+                       COALESCE(ul.userlevel, 1) as userlevel,
+                       COALESCE(up2.userpoints, 0) as userpoints,
+                       (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+                       (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following,
                        (SELECT COUNT(*) FROM comentarios_post WHERE parent_id = cp.id) as total_respostas,
                        (SELECT COUNT(*) FROM interacao_post WHERE nome_usuario = :myUser AND id_comentario = cp.id AND tipo = 'Like') as eu_curti
                 FROM comentarios_post cp
                 JOIN user u ON u.nomeDeUsuario = cp.nome_usuario
-                LEFT JOIN userLevel ul ON ul.emailLevel = u.email
-                LEFT JOIN userPoints up2 ON up2.emailPoints = u.email
+                LEFT JOIN userlevel ul ON ul.emailLevel = u.email
+                LEFT JOIN userpoints up2 ON up2.emailPoints = u.email
                 WHERE cp.id_post = :postId AND cp.parent_id IS NULL
                 ORDER BY cp.created_at DESC
                 LIMIT :limit OFFSET :offset

@@ -9,8 +9,8 @@ require_once __DIR__ . '/../config.php';
 require_once 'user-functions.php';
 require_once 'calcularXp.php';
 
-$userRoles = verificarUsuario($_SESSION['user']);
-if ($userRoles['codTypeRoles'] == 1) {
+$userroles = verificarUsuario($_SESSION['user']);
+if ($userroles['codTypeRoles'] == 1) {
   header("Location: ../admScreen/home-adm.php");
 }
 
@@ -37,14 +37,14 @@ try {
   // Dados do usuário alvo (pelo nomeDeUsuario, nunca usa email no client)
   $stmtTarget = $pdo->prepare("
     SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil, u.bannerPerfil,
-           COALESCE(ul.userLevel, 1) as userLevel,
-           COALESCE(up.userPoints, 0) as userPoints,
-           (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-           (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following,
-           (SELECT COUNT(*) FROM userFollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
+           COALESCE(ul.userlevel, 1) as userlevel,
+           COALESCE(up.userpoints, 0) as userpoints,
+           (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+           (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following,
+           (SELECT COUNT(*) FROM userfollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
     FROM user u
-    LEFT JOIN userLevel ul ON u.email = ul.emailLevel
-    LEFT JOIN userPoints up ON u.email = up.emailPoints
+    LEFT JOIN userlevel ul ON u.email = ul.emailLevel
+    LEFT JOIN userpoints up ON u.email = up.emailPoints
     WHERE u.nomeDeUsuario = :username
   ");
   $stmtTarget->execute(['me' => $_SESSION['user'], 'username' => $targetUsername]);
@@ -61,15 +61,15 @@ try {
   $targetEmail = $stmtEmail->fetchColumn();
 
   // XP e progresso
-  $xpNivelAtual = xpNecessario($target['userLevel']);
-  $xpProximoNivel = xpNecessario($target['userLevel'] + 1);
+  $xpNivelAtual = xpNecessario($target['userlevel']);
+  $xpProximoNivel = xpNecessario($target['userlevel'] + 1);
   $xpDelta = $xpProximoNivel - $xpNivelAtual;
-  $xpProgresso = $target['userPoints'] - $xpNivelAtual;
+  $xpProgresso = $target['userpoints'] - $xpNivelAtual;
   $porcentagem = $xpDelta > 0 ? max(0, min(100, ($xpProgresso / $xpDelta) * 100)) : 100;
 
   // Posição no ranking (por XP)
-  $stmtRank = $pdo->prepare("SELECT COUNT(*) + 1 FROM userPoints up WHERE up.userPoints > :myPoints");
-  $stmtRank->execute(['myPoints' => $target['userPoints']]);
+  $stmtRank = $pdo->prepare("SELECT COUNT(*) + 1 FROM userpoints up WHERE up.userpoints > :myPoints");
+  $stmtRank->execute(['myPoints' => $target['userpoints']]);
   $userRank = $stmtRank->fetchColumn();
 
   // Artigos completados recentemente
@@ -197,8 +197,8 @@ try {
       <!-- Barra de XP / Level -->
       <div class="profile-xp-bar">
         <div class="profile-xp-info">
-          <span class="profile-level-text">Nível <?= $target['userLevel'] ?></span>
-          <span class="profile-xp-text"><?= formatarXP($target['userPoints']) ?> / <?= formatarXP($xpProximoNivel) ?> XP</span>
+          <span class="profile-level-text">Nível <?= $target['userlevel'] ?></span>
+          <span class="profile-xp-text"><?= formatarXP($target['userpoints']) ?> / <?= formatarXP($xpProximoNivel) ?> XP</span>
         </div>
         <div class="progress-bar-container">
           <div class="progress-bar-fill" style="width: <?= $porcentagem ?>%"></div>
@@ -228,7 +228,7 @@ try {
       <div class="profile-stat-card">
         <img src="estrela.png" alt="XP" class="profile-stat-icon" />
         <span class="profile-stat-title">XP Total</span>
-        <span class="profile-stat-value xp-value-small"><?= formatarXP($target['userPoints']) ?></span>
+        <span class="profile-stat-value xp-value-small"><?= formatarXP($target['userpoints']) ?></span>
       </div>
     </section>
 

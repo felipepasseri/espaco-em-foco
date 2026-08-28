@@ -21,7 +21,7 @@ if ($id_topico === 0) {
 
 try {
     // 1. Busca os dados do Tópico selecionado
-    $stmtTopico = $pdo->prepare("SELECT id, tipoTopic, imgCard, nameTopic, descTopic FROM topicCards WHERE id = :id");
+    $stmtTopico = $pdo->prepare("SELECT id, tipoTopic, imgCard, nameTopic, descTopic FROM topiccards WHERE id = :id");
     $stmtTopico->execute(['id' => $id_topico]);
     $topico = $stmtTopico->fetch(PDO::FETCH_ASSOC);
 
@@ -37,9 +37,10 @@ try {
     $sqlArtigos = "
         SELECT a.id, a.titulo, 
                COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa,
-               (SELECT COUNT(*) FROM artigo_completo WHERE id_artigo = a.id AND nome_usuario_artigo = :username) AS concluido,
+               (SELECT COUNT(*) FROM artigo_completo WHERE id_artigo = a.id AND nome_usuario_artigo = :username) AS is_completo,
                (SELECT COUNT(*) FROM quiz_pergunta WHERE id_artigo = a.id) AS total_perguntas,
-               (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos
+               (SELECT COUNT(DISTINCT id_pergunta) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email AND status = 'aprovado') AS acertos,
+               (SELECT COUNT(*) FROM usuario_progresso WHERE id_artigo = a.id AND email_usuario = :email) AS total_tentativas
         FROM artigo a
         WHERE a.id_topic = :id_topico AND a.avaliacao_adm = 'Aprovado'
         ORDER BY a.id ASC
@@ -92,25 +93,29 @@ try {
                                 $acertos = (int)$artigo['acertos'];
                                 $total = (int)$artigo['total_perguntas'];
                                 $passou = ($total > 0 && $acertos >= ceil($total / 2));
+                                $cooldownEnd = null;
                                 
-                                if ($artigo['concluido']) {
+                                if ($artigo['is_completo'] > 0) {
                                     $statusClasse = 'mission-completed';
                                     $badgeHTML = '<span class="badge-done">✔ Concluído</span>';
                                 } else if ($passou) {
                                     $statusClasse = 'mission-completed';
                                     $badgeHTML = '<span class="badge-done">✔ ' . $acertos . '/' . $total . ' Acertos</span>';
-                                    $cooldownEnd = false;
                                 } else {
                                     $cooldownEnd = getArticleCooldown($pdo, $_SESSION['user'], $artigo['id']);
                                     if ($cooldownEnd) {
                                         $statusClasse = 'mission-blocked article-bloqueado';
                                         $badgeHTML = '<span class="badge-pending article-xp" style="background: rgba(255, 51, 102, 0.2); color: #ff3366; border: 1px solid #ff3366;">⏳ Tente novamente</span>';
+                                    } else if ($artigo['total_tentativas'] > 0) {
+                                        $statusClasse = 'article-tente-novamente';
+                                        $badgeHTML = '<span class="badge-pending">+' . htmlspecialchars($artigo['xp_recompensa']) . ' XP</span>';
                                     } else {
+                                        $statusClasse = '';
                                         $badgeHTML = '<span class="badge-pending">Iniciar</span>';
                                     }
                                 }
                             ?>
-                            <a href="../article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-mission-card <?= $statusClasse ?>" <?= $cooldownEnd ? 'data-cooldown="' . $cooldownEnd . '" data-texto-padrao="' . htmlspecialchars($textoPadrao) . '"' : '' ?>>
+                            <a href="../article-screen/artigo.php?id=<?= $artigo['id'] ?>" class="article-mission-card <?= $statusClasse ?>" <?= $cooldownEnd ? 'data-cooldown="' . $cooldownEnd . '"' : '' ?>>
                                 <div class="mission-info">
                                     <h3 class="mission-title"><?= htmlspecialchars($artigo['titulo']) ?></h3>
                                     <span class="mission-xp">+<?= htmlspecialchars($artigo['xp_recompensa']) ?> XP</span>

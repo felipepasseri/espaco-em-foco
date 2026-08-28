@@ -65,11 +65,14 @@ try {
         $statsTentativa = $stmtStatusTentativa->fetch(PDO::FETCH_ASSOC);
 
         $acertosNaTentativa = (int)$statsTentativa['acertos'];
+        $totalNaTentativa = (int)$statsTentativa['total_respondidas'];
+        
         $tempoPassado = time() - strtotime($dataTentativa);
 
-        if ($acertosNaTentativa >= ceil($totalPerguntasArtigo / 2)) {
-            // Aprovou (>50%), mas não 100%. Cooldown de 3 dias.
-            $tresDiasEmSegundos = 3 * 24 * 60 * 60;
+        if ($totalNaTentativa > 0) {
+            if ($acertosNaTentativa >= ceil($totalNaTentativa / 2)) {
+                // Aprovou (>50%), mas não 100%. Cooldown de 3 dias.
+                $tresDiasEmSegundos = 3 * 24 * 60 * 60;
             if ($tempoPassado < $tresDiasEmSegundos) {
                 echo json_encode([
                     'success' => false, 
@@ -92,6 +95,7 @@ try {
             }
         }
     }
+}
 
     // Se chegou até aqui, podemos enviar as perguntas que ele AINDA NÃO acertou
     $sqlPerguntas = "SELECT id, texto_pergunta, tipo, dificuldade, xp_recompensa FROM quiz_pergunta WHERE id_artigo = ?";

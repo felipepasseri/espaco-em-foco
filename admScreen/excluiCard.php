@@ -13,7 +13,7 @@
         }
 
         $stmt = $pdo->prepare(
-            "SELECT imgCard FROM topicCards WHERE id = ?"
+            "SELECT imgCard FROM topiccards WHERE id = ?"
         );
 
         $stmt->execute([$id]);
@@ -35,7 +35,7 @@
             }
         }
 
-        $stmt = $pdo->prepare("DELETE FROM topicCards WHERE id = ?");
+        $stmt = $pdo->prepare("DELETE FROM topiccards WHERE id = ?");
         $stmt->execute([$id]);
 
         $_SESSION['sucesso'] = "✅ Card '{$nameTopic}' salvo!";
