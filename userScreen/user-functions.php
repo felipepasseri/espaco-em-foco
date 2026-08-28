@@ -18,25 +18,25 @@ function getUserData($pdo, $email)
 // Busca os pontos do usuário
 function getUserPoints($pdo, $email)
 {
-    $stmt = $pdo->prepare('SELECT userPoints FROM userPoints WHERE emailPoints = :email;');
+    $stmt = $pdo->prepare('SELECT userpoints FROM userpoints WHERE emailPoints = :email;');
     $stmt->execute(['email' => $email]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result ? $result['userPoints'] : 0;
+    return $result ? $result['userpoints'] : 0;
 }
 
 // Busca o nível do usuário
 function getUserLevel($pdo, $email)
 {
-    $stmt = $pdo->prepare('SELECT userLevel FROM userLevel WHERE emailLevel = :email;');
+    $stmt = $pdo->prepare('SELECT userlevel FROM userlevel WHERE emailLevel = :email;');
     $stmt->execute(['email' => $email]);
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result ? $result['userLevel'] : 1; // Retorna nível 1 por padrão
+    return $result ? $result['userlevel'] : 1; // Retorna nível 1 por padrão
 }
 
 // Conta quantas pessoas o usuário segue
 function getFollowingCount($pdo, $email)
 {
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM userFollowers WHERE emailFollower = :email;');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM userfollowers WHERE emailFollower = :email;');
     $stmt->execute(['email' => $email]);
     return $stmt->fetchColumn();
 }
@@ -44,7 +44,7 @@ function getFollowingCount($pdo, $email)
 // Conta quantos seguidores o usuário tem
 function getFollowersCount($pdo, $email)
 {
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = :email;');
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = :email;');
     $stmt->execute(['email' => $email]);
     return $stmt->fetchColumn();
 }

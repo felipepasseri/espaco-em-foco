@@ -5,8 +5,8 @@ if (!isset($_SESSION['user'])) {
   exit();
 }
 require_once __DIR__ . '/../login/verify-user.php';
-$userRoles = verificarUsuario($_SESSION['user']);
-if ($userRoles['codTypeRoles'] == 1) {
+$userroles = verificarUsuario($_SESSION['user']);
+if ($userroles['codTypeRoles'] == 1) {
   header("Location: ../admScreen/home-adm.php");
 }
 ?>

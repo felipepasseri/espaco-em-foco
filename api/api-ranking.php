@@ -19,15 +19,15 @@ try {
     // Busca o Ranking e descobre se VOCÊ já segue cada um deles
     $stmtTop = $pdo->prepare("
         SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
-               COALESCE(ul.userLevel, 1) as userLevel,
-               COALESCE(up.userPoints, 0) as userPoints,
-               (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-               (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following,
-               (SELECT COUNT(*) FROM userFollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
+               COALESCE(ul.userlevel, 1) as userlevel,
+               COALESCE(up.userpoints, 0) as userpoints,
+               (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+               (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following,
+               (SELECT COUNT(*) FROM userfollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
         FROM user u
-        LEFT JOIN userLevel ul ON u.email = ul.emailLevel
-        LEFT JOIN userPoints up ON u.email = up.emailPoints
-        ORDER BY up.userPoints DESC, u.nomeDeUsuario ASC
+        LEFT JOIN userlevel ul ON u.email = ul.emailLevel
+        LEFT JOIN userpoints up ON u.email = up.emailPoints
+        ORDER BY up.userpoints DESC, u.nomeDeUsuario ASC
         LIMIT :limit
     ");
     $stmtTop->bindValue(':limit', $limit, PDO::PARAM_INT);
@@ -43,11 +43,11 @@ try {
     // Busca os SEUS dados exatos (Para o rodapé e para o destaque de "Você")
     $stmtMe = $pdo->prepare("
         SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
-               COALESCE(ul.userLevel, 1) as userLevel,
-               COALESCE(up.userPoints, 0) as userPoints
+               COALESCE(ul.userlevel, 1) as userlevel,
+               COALESCE(up.userpoints, 0) as userpoints
         FROM user u
-        LEFT JOIN userLevel ul ON u.email = ul.emailLevel
-        LEFT JOIN userPoints up ON u.email = up.emailPoints
+        LEFT JOIN userlevel ul ON u.email = ul.emailLevel
+        LEFT JOIN userpoints up ON u.email = up.emailPoints
         WHERE u.email = :me
     ");
     $stmtMe->execute(['me' => $email]);
@@ -57,11 +57,11 @@ try {
     if ($myData) {
         $stmtMyRank = $pdo->prepare("
             SELECT COUNT(*) + 1 
-            FROM userPoints up
-            WHERE up.userPoints > :myPoints
+            FROM userpoints up
+            WHERE up.userpoints > :myPoints
         ");
         $stmtMyRank->execute([
-            'myPoints' => $myData['userPoints']
+            'myPoints' => $myData['userpoints']
         ]);
         $myRank = $stmtMyRank->fetchColumn();
         $myData['rank'] = $myRank;

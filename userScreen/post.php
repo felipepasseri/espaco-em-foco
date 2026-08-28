@@ -24,15 +24,15 @@ try {
   // Busca o post
   $stmtPost = $pdo->prepare("
     SELECT pf.*, u.fotoPerfil, u.nome, u.sobrenome,
-           COALESCE(ul.userLevel, 1) as userLevel,
-           COALESCE(up.userPoints, 0) as userPoints,
-           (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-           (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following,
-           (SELECT COUNT(*) FROM userFollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
+           COALESCE(ul.userlevel, 1) as userlevel,
+           COALESCE(up.userpoints, 0) as userpoints,
+           (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+           (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following,
+           (SELECT COUNT(*) FROM userfollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
     FROM postagens_forum pf
     JOIN user u ON u.nomeDeUsuario = pf.nome_usuario_post
-    LEFT JOIN userLevel ul ON ul.emailLevel = u.email
-    LEFT JOIN userPoints up ON up.emailPoints = u.email
+    LEFT JOIN userlevel ul ON ul.emailLevel = u.email
+    LEFT JOIN userpoints up ON up.emailPoints = u.email
     WHERE pf.id = :id AND pf.avaliacao_adm = 'Aprovado'
   ");
   $stmtPost->execute(['me' => $_SESSION['user'], 'id' => $postId]);
@@ -110,7 +110,7 @@ try {
           <span class="post-author-username hover-trigger"
                 data-avatar="../<?= htmlspecialchars($fotoPerfil) ?>" data-user="<?= htmlspecialchars($post['nome_usuario_post']) ?>"
                 data-name="<?= htmlspecialchars($post['nome'] . ' ' . $post['sobrenome']) ?>"
-                data-level="<?= $post['userLevel'] ?>" data-xp="<?= $post['userPoints'] ?>"
+                data-level="<?= $post['userlevel'] ?>" data-xp="<?= $post['userpoints'] ?>"
                 data-followers="<?= $post['total_followers'] ?>" data-following="<?= $post['total_following'] ?>"
                 data-username="<?= htmlspecialchars($post['nome_usuario_post']) ?>"
                 data-isfollowing="<?= $post['estou_seguindo'] ?>"

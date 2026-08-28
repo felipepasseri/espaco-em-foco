@@ -8,7 +8,7 @@ require_once __DIR__ . '/../config.php';
 try {
     $pdo = getDB();
 
-    $stmt = $pdo->query("SELECT id, tipoTopic, nameTopic, descTopic, imgCard FROM topicCards ORDER BY id");
+    $stmt = $pdo->query("SELECT id, tipoTopic, nameTopic, descTopic, imgCard FROM topiccards ORDER BY id");
     $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode($cards);

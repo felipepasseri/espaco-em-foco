@@ -21,7 +21,7 @@ if ($id_topico === 0) {
 
 try {
     // 1. Busca os dados do Tópico selecionado
-    $stmtTopico = $pdo->prepare("SELECT id, tipoTopic, imgCard, nameTopic, descTopic FROM topicCards WHERE id = :id");
+    $stmtTopico = $pdo->prepare("SELECT id, tipoTopic, imgCard, nameTopic, descTopic FROM topiccards WHERE id = :id");
     $stmtTopico->execute(['id' => $id_topico]);
     $topico = $stmtTopico->fetch(PDO::FETCH_ASSOC);
 

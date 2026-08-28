@@ -24,14 +24,14 @@ try {
     // Busca dados do usuário alvo pelo nomeDeUsuario (nunca expõe email)
     $stmtUser = $pdo->prepare("
         SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil, u.bannerPerfil,
-               COALESCE(ul.userLevel, 1) as userLevel,
-               COALESCE(up.userPoints, 0) as userPoints,
-               (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-               (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following,
-               (SELECT COUNT(*) FROM userFollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
+               COALESCE(ul.userlevel, 1) as userlevel,
+               COALESCE(up.userpoints, 0) as userpoints,
+               (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+               (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following,
+               (SELECT COUNT(*) FROM userfollowers uf2 WHERE uf2.emailFollower = :me AND uf2.emailFollowed = u.email) as estou_seguindo
         FROM user u
-        LEFT JOIN userLevel ul ON u.email = ul.emailLevel
-        LEFT JOIN userPoints up ON u.email = up.emailPoints
+        LEFT JOIN userlevel ul ON u.email = ul.emailLevel
+        LEFT JOIN userpoints up ON u.email = up.emailPoints
         WHERE u.nomeDeUsuario = :username
     ");
     $stmtUser->execute(['me' => $email, 'username' => $targetUsername]);
@@ -50,18 +50,18 @@ try {
     // Posição no ranking (baseado em XP)
     $stmtRank = $pdo->prepare("
         SELECT COUNT(*) + 1 
-        FROM userPoints up
-        WHERE up.userPoints > :myPoints
+        FROM userpoints up
+        WHERE up.userpoints > :myPoints
     ");
-    $stmtRank->execute(['myPoints' => $userData['userPoints']]);
+    $stmtRank->execute(['myPoints' => $userData['userpoints']]);
     $userData['rank'] = $stmtRank->fetchColumn();
 
     // XP formatado
-    $userData['xpFormatado'] = formatarXP($userData['userPoints']);
-    $xpNivelAtual = xpNecessario($userData['userLevel']);
-    $xpProximoNivel = xpNecessario($userData['userLevel'] + 1);
+    $userData['xpFormatado'] = formatarXP($userData['userpoints']);
+    $xpNivelAtual = xpNecessario($userData['userlevel']);
+    $xpProximoNivel = xpNecessario($userData['userlevel'] + 1);
     $xpDelta = $xpProximoNivel - $xpNivelAtual;
-    $xpProgresso = $userData['userPoints'] - $xpNivelAtual;
+    $xpProgresso = $userData['userpoints'] - $xpNivelAtual;
     $userData['xpPorcentagem'] = $xpDelta > 0 ? round(max(0, min(100, ($xpProgresso / $xpDelta) * 100)), 1) : 100;
     $userData['xpProximoNivel'] = $xpProximoNivel;
     $userData['xpProximoNivelFormatado'] = formatarXP($xpProximoNivel);

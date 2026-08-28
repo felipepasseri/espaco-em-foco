@@ -33,15 +33,15 @@ try {
         // Busca quem segue o ALVO, e pega Level, XP, e as contagens do perfil deles
         $stmt = $pdo->prepare("
             SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
-                   COALESCE(ul.userLevel, 1) as userLevel,
-                   COALESCE(up.userPoints, 0) as userPoints,
-                   (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-                   (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following,
-                   (SELECT COUNT(*) FROM userFollowers uf2 WHERE uf2.emailFollower = :loggedUser AND uf2.emailFollowed = u.email) as segue_de_volta
-            FROM userFollowers uf
+                   COALESCE(ul.userlevel, 1) as userlevel,
+                   COALESCE(up.userpoints, 0) as userpoints,
+                   (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+                   (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following,
+                   (SELECT COUNT(*) FROM userfollowers uf2 WHERE uf2.emailFollower = :loggedUser AND uf2.emailFollowed = u.email) as segue_de_volta
+            FROM userfollowers uf
             JOIN user u ON uf.emailFollower = u.email
-            LEFT JOIN userLevel ul ON ul.emailLevel = u.email
-            LEFT JOIN userPoints up ON up.emailPoints = u.email
+            LEFT JOIN userlevel ul ON ul.emailLevel = u.email
+            LEFT JOIN userpoints up ON up.emailPoints = u.email
             WHERE uf.emailFollowed = :queryEmail
         ");
         $stmt->execute(['loggedUser' => $email, 'queryEmail' => $queryEmail]);
@@ -49,14 +49,14 @@ try {
         // Busca quem o ALVO segue, e pega as informações deles
         $stmt = $pdo->prepare("
             SELECT u.nome, u.sobrenome, u.nomeDeUsuario, u.fotoPerfil,
-                   COALESCE(ul.userLevel, 1) as userLevel,
-                   COALESCE(up.userPoints, 0) as userPoints,
-                   (SELECT COUNT(*) FROM userFollowers WHERE emailFollowed = u.email) AS total_followers,
-                   (SELECT COUNT(*) FROM userFollowers WHERE emailFollower = u.email) AS total_following
-            FROM userFollowers uf
+                   COALESCE(ul.userlevel, 1) as userlevel,
+                   COALESCE(up.userpoints, 0) as userpoints,
+                   (SELECT COUNT(*) FROM userfollowers WHERE emailFollowed = u.email) AS total_followers,
+                   (SELECT COUNT(*) FROM userfollowers WHERE emailFollower = u.email) AS total_following
+            FROM userfollowers uf
             JOIN user u ON uf.emailFollowed = u.email
-            LEFT JOIN userLevel ul ON ul.emailLevel = u.email
-            LEFT JOIN userPoints up ON up.emailPoints = u.email
+            LEFT JOIN userlevel ul ON ul.emailLevel = u.email
+            LEFT JOIN userpoints up ON up.emailPoints = u.email
             WHERE uf.emailFollower = :queryEmail
         ");
         $stmt->execute(['queryEmail' => $queryEmail]);

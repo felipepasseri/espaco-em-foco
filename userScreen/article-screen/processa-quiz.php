@@ -89,7 +89,7 @@ try {
 
             if ($xpGanhoTotal > 0) {
                 // Adiciona os pontos
-                $stmtUpdatePoints = $pdo->prepare("UPDATE userpoints SET userPoints = userPoints + :xp WHERE emailPoints = :email");
+                $stmtUpdatePoints = $pdo->prepare("UPDATE userpoints SET userpoints = userpoints + :xp WHERE emailPoints = :email");
                 $stmtUpdatePoints->execute(['xp' => $xpGanhoTotal, 'email' => $email]);
 
                 // Verifica nivel
@@ -98,7 +98,7 @@ try {
                 $nivelCalculado = calcularNivelPorXP($pontosAtuais);
 
                 if ($nivelCalculado > $nivelAtual) {
-                    $stmtLevelUp = $pdo->prepare("UPDATE userlevel SET userLevel = :novo_nivel WHERE emailLevel = :email");
+                    $stmtLevelUp = $pdo->prepare("UPDATE userlevel SET userlevel = :novo_nivel WHERE emailLevel = :email");
                     $stmtLevelUp->execute(['novo_nivel' => $nivelCalculado, 'email' => $email]);
                     $upouDeNivel = true;
                     $novoNivel = $nivelCalculado;

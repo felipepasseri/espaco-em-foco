@@ -6,8 +6,8 @@ if (!isset($_SESSION['user'])) {
 }
 
 require_once __DIR__ . '/../login/verify-user.php';
-$userRoles = verificarUsuario($_SESSION['user']);
-if ($userRoles['codTypeRoles'] == 0) {
+$userroles = verificarUsuario($_SESSION['user']);
+if ($userroles['codTypeRoles'] == 0) {
     header("Location: ../userScreen/home-user.php");
     exit;
 }
@@ -40,7 +40,7 @@ try {
     }
     $caminhoCompleto = $uploadDirBD . $nomeUnico;
 
-    $sql = "INSERT INTO topicCards (tipoTopic, imgCard, nameTopic, descTopic) 
+    $sql = "INSERT INTO topiccards (tipoTopic, imgCard, nameTopic, descTopic) 
             VALUES (?, ?, ?, ?)";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$tipoTopic, $caminhoCompleto, $nameTopic, $descTopic]);
