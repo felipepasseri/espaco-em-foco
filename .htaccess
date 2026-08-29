@@ -3,6 +3,11 @@
     Deny from all
 </Files>
 
+<Files "mail_config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
 <Files ".env">
     Order allow,deny
     Deny from all
