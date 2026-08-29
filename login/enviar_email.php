@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 require_once __DIR__ . '/../src/Exception.php';
 require_once __DIR__ . '/../src/PHPMailer.php';
 require_once __DIR__ . '/../src/SMTP.php';
+require_once __DIR__ . '/../mail_config.php';
 
 function enviarEmailConfirmacao($pdo, $emailDestino) {
     // 1. Gera token e salva no banco
@@ -25,16 +26,16 @@ function enviarEmailConfirmacao($pdo, $emailDestino) {
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = MAIL_HOST;
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'espacoemfoco509@gmail.com';
-        $mail->Password   = 'lcrzkjufkhbcyfmk';
+        $mail->Username   = MAIL_USERNAME;
+        $mail->Password   = MAIL_PASSWORD;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // 465 usually SMTPS
-        $mail->Port       = 465;
+        $mail->Port       = MAIL_PORT;
         $mail->CharSet    = 'UTF-8';
 
         // Recipients
-        $mail->setFrom('espacoemfoco509@gmail.com', 'Espaço em Foco');
+        $mail->setFrom(MAIL_FROM_ADDRESS, MAIL_FROM_NAME);
         $mail->addAddress($emailDestino);
 
         // Content
