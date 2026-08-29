@@ -28,7 +28,7 @@ function enviarEmailConfirmacao($pdo, $emailDestino) {
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'espacoemfoco509@gmail.com';
-        $mail->Password   = 'lcrzkjufkhbcyfmk';
+        $mail->Password   = 'ddkzcbiwwcypecgh';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // 465 usually SMTPS
         $mail->Port       = 465;
         $mail->CharSet    = 'UTF-8';
