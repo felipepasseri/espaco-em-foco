@@ -146,6 +146,17 @@ try {
         $mensagem .= "você foi banido por 7 dias e não poderá utilizar nosso site até o dia "
             . $dataFim
             . ".\n\n";
+
+        $sql = "INSERT INTO banimentos
+            (email, tipo_banimento, data_inicio, data_fim)
+            VALUES (?, '7_dias', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))
+            ON DUPLICATE KEY UPDATE
+                tipo_banimento = '7_dias',
+                data_inicio = NOW(),
+                data_fim = DATE_ADD(NOW(), INTERVAL 7 DAY)";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$email]);
     }
 
 
@@ -155,6 +166,17 @@ try {
 
     if ($acao === 'banir_permanente') {
         $mensagem .= "você foi banido permanentemente do nosso site e não poderá utilizar ou criar outra conta.\n\n";
+
+        $sql = "INSERT INTO banimentos
+            (email, tipo_banimento, data_inicio, data_fim)
+            VALUES (?, 'permanente', NOW(), NULL)
+            ON DUPLICATE KEY UPDATE
+                tipo_banimento = 'permanente',
+                data_inicio = NOW(),
+                data_fim = NULL";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$email]);
     }
 
 
