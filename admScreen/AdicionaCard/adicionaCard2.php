@@ -1,14 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {
-    header("Location: ../index.php");
+    header("Location: ../../index.php");
     exit;
 }
 
-require_once __DIR__ . '/../login/verify-user.php';
+require_once __DIR__ . '/../../login/verify-user.php';
 $userRoles = verificarUsuario($_SESSION['user']);
 if ($userRoles['codTypeRoles'] == 0) {
-    header("Location: ../userScreen/home-user.php");
+    header("Location: ../../userScreen/home-user.php");
     exit;
 }
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: adicionaCard.php');
     exit;
 }
-require_once '../config.php';
+require_once '../../config.php';
 
 
 try {
@@ -26,7 +26,7 @@ try {
     $nameTopic = trim($_POST['title']);
     $descTopic = trim($_POST['description']);
 
-    $uploadDir = '../img/';
+    $uploadDir = '../../img/';
     $uploadDirBD = 'img/';
 
     $imagemFile = $_FILES['image'];
