@@ -185,10 +185,10 @@
                         li.setAttribute('data-avatar', foto);
                         li.setAttribute('data-user', friend.nomeDeUsuario);
                         li.setAttribute('data-name', `${friend.nome} ${friend.sobrenome}`);
-                        li.setAttribute('data-level', friend.userLevel);
-                        li.setAttribute('data-xp', friend.userPoints);
-                        li.setAttribute('data-followers', friend.total_followers);
-                        li.setAttribute('data-following', friend.total_following);
+                        li.setAttribute('data-level', friend.userlevel ?? friend.userLevel ?? 1);
+                        li.setAttribute('data-xp', friend.userpoints ?? friend.userPoints ?? 0);
+                        li.setAttribute('data-followers', friend.total_followers ?? 0);
+                        li.setAttribute('data-following', friend.total_following ?? 0);
                         li.setAttribute('data-username', friend.nomeDeUsuario);
                         li.setAttribute('data-isfollowing', '1');
                         li.setAttribute('data-isme', 'false');
@@ -230,9 +230,9 @@
                                 <div class="user-list-names">
                                     <span class="user-list-username hover-trigger"
                                           data-avatar="${foto}" data-user="${friend.nomeDeUsuario}"
-                                          data-name="${friend.nome} ${friend.sobrenome}" data-level="${friend.userLevel}"
-                                          data-xp="${friend.userPoints}" data-followers="${friend.total_followers}"
-                                          data-following="${friend.total_following}"
+                                          data-name="${friend.nome} ${friend.sobrenome}" data-level="${friend.userlevel ?? friend.userLevel ?? 1}"
+                                          data-xp="${friend.userpoints ?? friend.userPoints ?? 0}" data-followers="${friend.total_followers ?? 0}"
+                                          data-following="${friend.total_following ?? 0}"
                                           data-username="${friend.nomeDeUsuario}" data-isfollowing="1" data-isme="false">
                                         ${friend.nomeDeUsuario}
                                     </span>
@@ -263,10 +263,10 @@
             document.getElementById('hc-avatar').src = trigger.dataset.avatar || '../img/user-profile-default.jpg';
             document.getElementById('hc-username').innerText = trigger.dataset.user || '';
             document.getElementById('hc-fullname').innerText = trigger.dataset.name || '';
-            document.getElementById('hc-level').innerText = trigger.dataset.level || '';
+            document.getElementById('hc-level').innerText = (trigger.dataset.level && trigger.dataset.level !== 'undefined') ? trigger.dataset.level : '1';
             document.getElementById('hc-xp').innerText = formatXP(trigger.dataset.xp);
-            document.getElementById('hc-followers').innerText = trigger.dataset.followers || '';
-            document.getElementById('hc-following').innerText = trigger.dataset.following || '';
+            document.getElementById('hc-followers').innerText = (trigger.dataset.followers && trigger.dataset.followers !== 'undefined') ? trigger.dataset.followers : '0';
+            document.getElementById('hc-following').innerText = (trigger.dataset.following && trigger.dataset.following !== 'undefined') ? trigger.dataset.following : '0';
 
             const hcFollowBtn = document.getElementById('hc-follow-btn');
             hcFollowBtn.style.display = 'none'; // Simplificado para community

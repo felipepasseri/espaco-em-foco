@@ -135,8 +135,8 @@
                 <span class="comment-username hover-trigger"
                       data-avatar="${foto}" data-user="${comment.nome_usuario}"
                       data-name="${comment.nome} ${comment.sobrenome}"
-                      data-level="${comment.userLevel}" data-xp="${comment.userPoints}"
-                      data-followers="${comment.total_followers}" data-following="${comment.total_following}"
+                      data-level="${comment.userlevel ?? comment.userLevel ?? 1}" data-xp="${comment.userpoints ?? comment.userPoints ?? 0}"
+                      data-followers="${comment.total_followers ?? 0}" data-following="${comment.total_following ?? 0}"
                       data-username="${comment.nome_usuario}" data-isfollowing="0" data-isme="false">
                     ${comment.nome_usuario}
                 </span>
@@ -337,10 +337,10 @@
             document.getElementById('hc-avatar').src = trigger.dataset.avatar || '../img/user-profile-default.jpg';
             document.getElementById('hc-username').innerText = trigger.dataset.user || '';
             document.getElementById('hc-fullname').innerText = trigger.dataset.name || '';
-            document.getElementById('hc-level').innerText = trigger.dataset.level || '';
+            document.getElementById('hc-level').innerText = (trigger.dataset.level && trigger.dataset.level !== 'undefined') ? trigger.dataset.level : '1';
             document.getElementById('hc-xp').innerText = formatXP(trigger.dataset.xp);
-            document.getElementById('hc-followers').innerText = trigger.dataset.followers || '';
-            document.getElementById('hc-following').innerText = trigger.dataset.following || '';
+            document.getElementById('hc-followers').innerText = (trigger.dataset.followers && trigger.dataset.followers !== 'undefined') ? trigger.dataset.followers : '0';
+            document.getElementById('hc-following').innerText = (trigger.dataset.following && trigger.dataset.following !== 'undefined') ? trigger.dataset.following : '0';
 
             const hcFollowBtn = document.getElementById('hc-follow-btn');
             hcFollowBtn.style.display = 'none';
