@@ -79,9 +79,9 @@ const modal = document.getElementById('follow-modal');
                   <div style="display: flex; align-items: center; gap: 6px;">
                     <span class="user-list-username hover-trigger" 
                           data-avatar="${foto}" data-user="${user.nomeDeUsuario}"
-                          data-name="${user.nome} ${user.sobrenome}" data-level="${user.userLevel}"
-                          data-xp="${user.userPoints}" data-followers="${user.total_followers}"
-                          data-following="${user.total_following}"
+                          data-name="${user.nome} ${user.sobrenome}" data-level="${user.userlevel ?? user.userLevel ?? 1}"
+                          data-xp="${user.userpoints ?? user.userPoints ?? 0}" data-followers="${user.total_followers ?? 0}"
+                          data-following="${user.total_following ?? 0}"
                           data-username="${user.nomeDeUsuario}" data-isfollowing="${isFollowing}" data-isme="false">
                       ${user.nomeDeUsuario}
                     </span>
@@ -150,14 +150,14 @@ const modal = document.getElementById('follow-modal');
                   <div style="display: flex; align-items: center; gap: 6px;">
                     <span class="user-list-username hover-trigger" 
                           data-avatar="${foto}" data-user="${user.nomeDeUsuario}"
-                          data-name="${user.nome} ${user.sobrenome}" data-level="${user.userLevel}"
-                          data-xp="${user.userPoints}" data-followers="${user.total_followers}"
-                          data-following="${user.total_following}"
+                          data-name="${user.nome} ${user.sobrenome}" data-level="${user.userlevel ?? user.userLevel ?? 1}"
+                          data-xp="${user.userpoints ?? user.userPoints ?? 0}" data-followers="${user.total_followers ?? 0}"
+                          data-following="${user.total_following ?? 0}"
                           data-username="${user.nomeDeUsuario}" data-isfollowing="${user.estou_seguindo}" data-isme="${isMe}">
                       ${displayName}
                     </span>
-                    <span style="font-size: 11px; color: #00e5ff; background: rgba(0, 229, 255, 0.1); padding: 2px 6px; border-radius: 4px;">Lv. ${user.userLevel}</span>
-                    <span style="font-size: 11px; color: #FFAE00; background: rgba(255, 174, 0, 0.1); padding: 2px 6px; border-radius: 4px;">${formatXP(user.userPoints)} XP</span>
+                    <span style="font-size: 11px; color: #00e5ff; background: rgba(0, 229, 255, 0.1); padding: 2px 6px; border-radius: 4px;">Lv. ${user.userlevel ?? user.userLevel ?? 1}</span>
+                    <span style="font-size: 11px; color: #FFAE00; background: rgba(255, 174, 0, 0.1); padding: 2px 6px; border-radius: 4px;">${formatXP(user.userpoints ?? user.userPoints ?? 0)} XP</span>
                   </div>
                   <span class="user-list-fullname">${user.nome} ${user.sobrenome}</span>
                 </div>
@@ -178,7 +178,7 @@ const modal = document.getElementById('follow-modal');
                   <img src="${foto}" alt="Perfil" class="user-list-avatar" style="border: 2px solid #FFAE00;">
                   <div class="user-list-names">
                     <span class="user-list-username" style="color: #FFAE00;">Você (${me.nomeDeUsuario})</span>
-                    <span class="user-list-fullname">Nível ${me.userLevel} • ${formatXP(me.userPoints)} XP</span>
+                    <span class="user-list-fullname">Nível ${me.userlevel ?? me.userLevel ?? 1} • ${formatXP(me.userpoints ?? me.userPoints ?? 0)} XP</span>
                   </div>
                 </div>
                 <div class="user-list-actions">
@@ -264,10 +264,10 @@ const modal = document.getElementById('follow-modal');
             document.getElementById('hc-avatar').src = trigger.dataset.avatar;
             document.getElementById('hc-username').innerText = trigger.dataset.user;
             document.getElementById('hc-fullname').innerText = trigger.dataset.name;
-            document.getElementById('hc-level').innerText = trigger.dataset.level;
+            document.getElementById('hc-level').innerText = (trigger.dataset.level && trigger.dataset.level !== 'undefined') ? trigger.dataset.level : '1';
             document.getElementById('hc-xp').innerText = formatXP(trigger.dataset.xp);
-            document.getElementById('hc-followers').innerText = trigger.dataset.followers;
-            document.getElementById('hc-following').innerText = trigger.dataset.following;
+            document.getElementById('hc-followers').innerText = (trigger.dataset.followers && trigger.dataset.followers !== 'undefined') ? trigger.dataset.followers : '0';
+            document.getElementById('hc-following').innerText = (trigger.dataset.following && trigger.dataset.following !== 'undefined') ? trigger.dataset.following : '0';
             
             // Lógica do botão de Seguir no Hover
             const hcFollowBtn = document.getElementById('hc-follow-btn');
