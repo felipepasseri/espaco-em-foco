@@ -72,6 +72,9 @@ try {
   $stmtRank->execute(['myPoints' => $target['userpoints']]);
   $userRank = $stmtRank->fetchColumn();
 
+  // Camada atual do usuário alvo
+  $targetCamada = getCamadaPorXP($pdo, $target['userpoints']);
+
   // Artigos completados recentemente
   $stmtArtigos = $pdo->prepare("
     SELECT a.id, a.titulo, COALESCE((SELECT SUM(xp_recompensa) FROM quiz_pergunta WHERE id_artigo = a.id), 0) AS xp_recompensa
@@ -218,7 +221,7 @@ try {
       <div class="profile-stat-card">
         <img src="camada.png" alt="Camada" class="profile-stat-icon" />
         <span class="profile-stat-title">Camada</span>
-        <span class="profile-stat-value">—</span>
+        <span class="profile-stat-value"><?= htmlspecialchars($targetCamada['nome_camada']) ?></span>
       </div>
       <div class="profile-stat-card">
         <img src="../img/rank-icon.png" alt="Ranking" class="profile-stat-icon" />

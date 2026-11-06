@@ -25,6 +25,7 @@ try {
   $userlevel = getUserLevel($pdo, $_SESSION['user']);
   $userFollowing = getFollowingCount($pdo, $_SESSION['user']);
   $userfollowers = getFollowersCount($pdo, $_SESSION['user']);
+  $userCamada = getCamadaPorXP($pdo, $userpoints);
   // XP necessário para o nível ATUAL e para o PRÓXIMO (cumulativo)
   $xpNivelAtual = xpNecessario($userlevel);
   $xpProximoNivel = xpNecessario($userlevel + 1);
@@ -130,10 +131,10 @@ try {
             <span class="extra-value">24</span>
           </div>
 
-          <div class="extra-card">
+          <div class="extra-card" id="btn-camada" style="cursor: pointer;" title="Abrir Árvore de Camadas">
             <img src="camada.png" alt="Camada" class="extra-icon" />
             <span class="extra-title">Camada</span>
-            <span class="extra-value">Núcleo</span>
+            <span class="extra-value" id="user-current-camada"><?php echo htmlspecialchars($userCamada['nome_camada']); ?></span>
           </div>
 
           <div class="extra-card" id="btn-ranking" style="cursor: pointer;">
@@ -338,6 +339,56 @@ try {
         </div>
 
         <div class="ranking-my-position" id="my-ranking-container">
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================
+       MODAL DE JORNADA DAS CAMADAS
+    ========================================= -->
+    <div id="camadas-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-card camadas-modal-content">
+        <div class="modal-header camadas-modal-header">
+          <div class="camadas-header-title">
+            <span class="camadas-header-icon">🌌</span>
+            <div>
+              <h3 id="camadas-modal-title">Jornada das Camadas</h3>
+              <span class="camadas-header-subtitle">Evolução Cósmica e Exploração do Universo</span>
+            </div>
+          </div>
+          <button id="close-camadas" class="close-btn" aria-label="Fechar modal">&times;</button>
+        </div>
+
+        <!-- Resumo da Camada Atual e Progresso -->
+        <div class="camadas-user-summary" id="camadas-user-summary">
+          <div class="summary-left">
+            <span class="summary-label">Sua Camada Atual</span>
+            <div class="summary-camada-row">
+              <span class="summary-camada" id="summary-camada-nome"><?php echo htmlspecialchars($userCamada['nome_camada']); ?></span>
+              <span class="summary-badge-current" id="summary-badge-current">Nível <?php echo $userlevel; ?></span>
+            </div>
+            <span class="summary-xp-info" id="summary-xp-info">XP Total: <?php echo formatarXP($userpoints); ?> XP</span>
+          </div>
+          <div class="summary-right" id="summary-next-box">
+            <div class="summary-next-text" id="summary-next-text">Calculando progresso...</div>
+            <div class="summary-next-bar-track">
+              <div class="summary-next-bar-fill" id="summary-next-bar-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Corpo rolável: Árvore Vertical de Camadas -->
+        <div class="modal-body camadas-body" id="camadas-body">
+          <div class="camadas-tree-container" id="camadas-tree-container">
+            <div class="camadas-loading" style="text-align: center; padding: 30px; color: #a09bba;">
+              <span style="display: block; font-size: 24px; margin-bottom: 8px;">⏳</span>
+              Mapeando camadas do Universo...
+            </div>
+          </div>
+        </div>
+
+        <div class="camadas-modal-footer">
+          <span class="camadas-footer-tip">⚡ As estatísticas representam os exploradores elegíveis com e-mail verificado.</span>
         </div>
       </div>
     </div>
