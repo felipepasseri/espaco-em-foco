@@ -297,6 +297,8 @@
     z-index: 9999;
     opacity: 1;
     transition: opacity 0.3s ease;
+    padding: 20px 16px;
+    box-sizing: border-box;
 }
 
 .modal-overlay.hidden {
@@ -314,6 +316,7 @@
     flex-direction: column;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(85, 43, 226, 0.3);
+    box-sizing: border-box;
 }
 
 .modal-header {
@@ -566,3 +569,454 @@
 .rank-1 { background: rgba(255, 215, 0, 0.2); color: #FFD700; border-color: #FFD700; }
 .rank-2 { background: rgba(192, 192, 192, 0.2); color: #C0C0C0; border-color: #C0C0C0; }
 .rank-3 { background: rgba(205, 127, 50, 0.2); color: #CD7F32; border-color: #CD7F32; }
+
+
+/* =========================================
+   MODAL DE JORNADA DAS CAMADAS
+========================================= */
+.camadas-modal-content {
+    max-width: 680px;
+    width: 100%;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #150d38 0%, #0b0722 70%);
+    border: 1px solid rgba(124, 77, 255, 0.4);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(85, 43, 226, 0.2);
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.camadas-modal-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(11, 7, 34, 0.7);
+}
+
+.camadas-header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.camadas-header-icon {
+    font-size: 28px;
+    filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.6));
+}
+
+.camadas-header-title h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.camadas-header-subtitle {
+    font-size: 12px;
+    color: #a09bba;
+    display: block;
+    margin-top: 2px;
+}
+
+/* Resumo do usuário no topo */
+.camadas-user-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: rgba(85, 43, 226, 0.12);
+    border-bottom: 1px solid rgba(85, 43, 226, 0.25);
+    gap: 20px;
+}
+
+.summary-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a09bba;
+    font-weight: 600;
+}
+
+.summary-camada-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.summary-camada {
+    font-size: 20px;
+    font-weight: 800;
+    color: #00e5ff;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.summary-badge-current {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: rgba(255, 174, 0, 0.18);
+    color: #FFAE00;
+    border: 1px solid rgba(255, 174, 0, 0.4);
+}
+
+.summary-xp-info {
+    font-size: 12px;
+    color: #c9c3e2;
+}
+
+.summary-right {
+    flex: 1;
+    max-width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.summary-next-text {
+    font-size: 12px;
+    color: #c9c3e2;
+    text-align: right;
+}
+
+.summary-next-bar-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.summary-next-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c4dff, #00e5ff);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.7);
+    border-radius: 6px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Corpo do Modal e Árvore */
+.camadas-body {
+    padding: 24px 20px;
+    overflow-y: auto;
+    max-height: calc(88vh - 200px);
+}
+
+.camadas-tree-container {
+    width: 100%;
+}
+
+.camadas-tree {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 10px 0;
+}
+
+/* Cada item da árvore (camada + conector) */
+.camada-item {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Conector vertical entre camadas */
+.camada-connector {
+    width: 56px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin: -1px 0;
+}
+
+.connector-track {
+    width: 5px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* A barra enche de baixo para cima */
+.connector-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(0deg, #552be2, #00e5ff);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+    border-radius: 3px;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Cartão da Camada */
+.camada-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    backdrop-filter: blur(8px);
+}
+
+.camada-card:hover {
+    transform: translateX(4px);
+}
+
+/* Estado: Desbloqueada */
+.camada-card.unlocked {
+    background: rgba(85, 43, 226, 0.16);
+    border-color: rgba(0, 229, 255, 0.35);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 15px rgba(85, 43, 226, 0.15);
+}
+
+/* Estado: Camada Atual */
+.camada-card.current {
+    background: linear-gradient(135deg, rgba(85, 43, 226, 0.35) 0%, rgba(0, 229, 255, 0.15) 100%);
+    border: 2px solid #00e5ff;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.35), inset 0 0 20px rgba(0, 229, 255, 0.15);
+    transform: scale(1.015);
+}
+
+.camada-card.current:hover {
+    transform: scale(1.02) translateX(4px);
+}
+
+/* Estado: Bloqueada */
+.camada-card.locked {
+    background: rgba(14, 10, 36, 0.4);
+    border-color: rgba(255, 255, 255, 0.05);
+    opacity: 0.65;
+}
+
+.camada-card.locked .camada-icon-box {
+    filter: grayscale(80%) brightness(0.6);
+}
+
+/* Container do Ícone */
+.camada-icon-box {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: rgba(11, 7, 34, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.camada-card.unlocked .camada-icon-box {
+    border-color: rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
+}
+
+.camada-card.current .camada-icon-box {
+    border-color: #FFAE00;
+    box-shadow: 0 0 20px rgba(255, 174, 0, 0.4);
+    animation: pulse-icon 2.5s infinite alternate;
+}
+
+@keyframes pulse-icon {
+    0% { transform: scale(1); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
+    100% { transform: scale(1.06); box-shadow: 0 0 25px rgba(255, 174, 0, 0.6); }
+}
+
+.camada-svg {
+    width: 44px;
+    height: 44px;
+    display: block;
+}
+
+/* Conteúdo da Camada */
+.camada-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.camada-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.camada-nome {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.3px;
+}
+
+.camada-card.current .camada-nome {
+    color: #00e5ff;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+}
+
+.camada-xp-req {
+    font-size: 12px;
+    color: #FFAE00;
+    font-weight: 600;
+    background: rgba(255, 174, 0, 0.1);
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 174, 0, 0.2);
+}
+
+.camada-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+/* Estatística de Exploradores */
+.camada-stat-explorers {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #c9c3e2;
+}
+
+.camada-stat-explorers .stat-pct {
+    font-weight: 700;
+    color: #00e5ff;
+}
+
+.camada-stat-icon-mini {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* Status Badges */
+.camada-status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.camada-status-badge.unlocked {
+    background: rgba(0, 229, 255, 0.15);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.camada-status-badge.current {
+    background: rgba(255, 174, 0, 0.2);
+    color: #FFAE00;
+    border: 1px solid #FFAE00;
+    box-shadow: 0 0 10px rgba(255, 174, 0, 0.3);
+}
+
+.camada-status-badge.locked {
+    background: rgba(255, 255, 255, 0.05);
+    color: #a09bba;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Footer do Modal */
+.camadas-modal-footer {
+    padding: 12px 24px;
+    background: rgba(11, 7, 34, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+}
+
+.camadas-footer-tip {
+    font-size: 11px;
+    color: #a09bba;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .modal-overlay {
+        padding: 16px 12px;
+    }
+
+    .camadas-modal-content {
+        max-height: 94vh;
+        width: 100%;
+        margin: 0 auto;
+        border-radius: 14px;
+    }
+
+    .camadas-modal-header {
+        padding: 14px 16px;
+    }
+
+    .camadas-user-summary {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+    }
+
+    .camadas-body {
+        padding: 16px 12px;
+        overflow-x: hidden;
+    }
+
+    .summary-right {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .summary-next-text {
+        text-align: left;
+    }
+
+    .camada-card {
+        padding: 12px 14px;
+        gap: 12px;
+    }
+
+    .camada-icon-box {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+    }
+
+    .camada-svg {
+        width: 36px;
+        height: 36px;
+    }
+
+    .camada-connector {
+        width: 46px;
+        height: 30px;
+    }
+
+    .camada-nome {
+        font-size: 14px;
+    }
+}

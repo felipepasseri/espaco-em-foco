@@ -97,3 +97,18 @@ function getArticleCooldown($pdo, $email, $id_artigo) {
 
     return false; // Cooldown já passou
 }
+
+
+// Busca a camada atual do usuário baseado no XP acumulado
+function getCamadaPorXP($pdo, $xpTotal)
+{
+    $stmt = $pdo->prepare('SELECT id AS id_camada, nome_camada, xp_necessario FROM camadas WHERE xp_necessario <= :xp ORDER BY xp_necessario DESC, id DESC LIMIT 1;');
+    $stmt->execute(['xp' => (int) $xpTotal]);
+    $camada = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$camada) {
+        return ['id_camada' => 1, 'nome_camada' => 'Núcleo', 'xp_necessario' => 0];
+    }
+
+    return $camada;
+}
