@@ -7,6 +7,9 @@ if (!isset($_SESSION['user']) || !isset($_GET['type'])) {
     exit();
 }
 
+require_once __DIR__ . '/../login/verify-user.php';
+verificarUsuario($_SESSION['user']);
+
 require_once __DIR__ . '/../config.php';
 $email = $_SESSION['user'];
 $type = $_GET['type'];

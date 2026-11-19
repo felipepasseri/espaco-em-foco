@@ -7,6 +7,9 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
+require_once __DIR__ . '/../login/verify-user.php';
+verificarUsuario($_SESSION['user']);
+
 require_once __DIR__ . '/../config.php';
 
 $email = $_SESSION['user'];

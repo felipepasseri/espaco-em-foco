@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 if (!isset($_SESSION['user'])) {
     echo json_encode([
@@ -12,16 +12,22 @@ if (!isset($_SESSION['user'])) {
 }
 
 require_once '../config.php';
+require_once '../login/verify-user.php';
 require_once '../email.php';
 
 try {
-
     $pdo = getDB();
+
+    // Validação de permissão de Administrador
+    $userroles = verificarUsuario($_SESSION['user']);
+    if (!$userroles || $userroles['codTypeRoles'] != 1) {
+        throw new Exception('Acesso restrito a administradores.');
+    }
 
     $id = $_POST['id'] ?? null;
     $acao = $_POST['acao'] ?? null;
-    $observacao = $_POST['observacao'] ?? null;
-
+    $observacao = trim($_POST['observacao'] ?? '');
+    $dataFimRaw = $_POST['data_fim'] ?? null;
 
     if (!$id) {
         throw new Exception('ID da denúncia não informado.');
@@ -31,201 +37,140 @@ try {
         throw new Exception('Nenhuma ação selecionada.');
     }
 
-    if (!$observacao) {
-        throw new Exception('Observação não informada.');
+    if (empty($observacao)) {
+        throw new Exception('A observação do administrador é obrigatória.');
     }
-
 
     $acoesPermitidas = [
         'aviso_email',
-        'banir_7_dias',
-        'banir_permanente'
+        'banir_permanente',
+        'banir_personalizado'
     ];
 
-
     if (!in_array($acao, $acoesPermitidas)) {
-        throw new Exception('Ação inválida.');
+        throw new Exception('Ação selecionada é inválida.');
     }
 
-
-    /*
-     * Busca a denúncia
-     */
-
+    // Busca a denúncia
     $sql = "SELECT * FROM denuncias WHERE id = ?";
-
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
-
     $denuncia = $stmt->fetch(PDO::FETCH_ASSOC);
-
 
     if (!$denuncia) {
         throw new Exception('Denúncia não encontrada.');
     }
 
-
-    /*
-     * Nome do usuário denunciado
-     */
-
     $nomeUsuario = $denuncia['nome_usuario_alvo'];
 
-
-    /*
-     * Define a ação que será salva
-     */
-
-    switch ($acao) {
-
-        case 'aviso_email':
-            $acaoBanco = 'Aviso por email';
-            break;
-
-        case 'banir_7_dias':
-            $acaoBanco = 'Banido por 7 dias';
-            break;
-
-        case 'banir_permanente':
-            $acaoBanco = 'Banido permanentemente';
-            break;
-
-        default:
-            throw new Exception('Ação inválida.');
-    }
-
-
-    /*
-     * Marca a denúncia como aprovada/resolvida
-     */
-
-    $sql = "UPDATE denuncias
-            SET status = 'Aprovado'
-            WHERE id = ?";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-
-
-    /*
-     * Busca o e-mail do usuário
-     */
-
-    $sql = "SELECT email FROM user WHERE nomeDeUsuario = ?";
-
+    // Busca o e-mail do usuário alvo
+    $sql = "SELECT email, nome FROM user WHERE nomeDeUsuario = ?";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$nomeUsuario]);
-
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$usuario['email']) {
-        throw new Exception('Usuário não encontrado.');
+    if (!$usuario || empty($usuario['email'])) {
+        throw new Exception("Usuário alvo '{$nomeUsuario}' não encontrado no sistema.");
     }
 
-
-    $email = $usuario['email'];
-
-
-    /*
-     * Monta a mensagem
-     */
+    $emailAlvo = $usuario['email'];
+    $adminEmail = $_SESSION['user'];
 
     $mensagem = "Olá, " . $nomeUsuario . ".\n\n";
+    $mensagem .= "A equipe do Espaço em Foco analisou uma ocorrência relacionada à sua conta e determinou a seguinte medida administrativa:\n\n";
 
-    $mensagem .= "A equipe do Espaço em Foco veio te informar que, devido a uma má conduta e/ou descumprimento das regras da plataforma, ";
+    $resolucaoAcao = '';
 
-
-    /*
-     * Banimento de 7 dias
-     */
-
-    if ($acao === 'banir_7_dias') {
-
-        $dataFim = date('d/m/Y', strtotime('+7 days'));
-
-        $mensagem .= "você foi banido por 7 dias e não poderá utilizar nosso site até o dia "
-            . $dataFim
-            . ".\n\n";
-
-        $sql = "INSERT INTO banimentos
-            (email, tipo_banimento, data_inicio, data_fim)
-            VALUES (?, '7_dias', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))
-            ON DUPLICATE KEY UPDATE
-                tipo_banimento = '7_dias',
-                data_inicio = NOW(),
-                data_fim = DATE_ADD(NOW(), INTERVAL 7 DAY)";
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$email]);
-    }
-
-
-    /*
-     * Banimento permanente
-     */
-
-    if ($acao === 'banir_permanente') {
-        $mensagem .= "você foi banido permanentemente do nosso site e não poderá utilizar ou criar outra conta.\n\n";
-
-        $sql = "INSERT INTO banimentos
-            (email, tipo_banimento, data_inicio, data_fim)
-            VALUES (?, 'permanente', NOW(), NULL)
-            ON DUPLICATE KEY UPDATE
-                tipo_banimento = 'permanente',
-                data_inicio = NOW(),
-                data_fim = NULL";
-
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$email]);
-    }
-
-
-    /*
-     * Aviso por e-mail
-     */
-
+    // ==========================================
+    // OPÇÃO 1: AVISO POR E-MAIL (Sem banimento)
+    // ==========================================
     if ($acao === 'aviso_email') {
-        $mensagem .= "este e-mail está sendo enviado como um aviso prévio. Caso sejam recebidas novas denúncias contra você, punições maiores poderão ser aplicadas.\n\n";
+        $resolucaoAcao = 'Aviso por e-mail';
+        $mensagem .= "Tipo de Ação: AVISO EDUCATIVO\n";
+        $mensagem .= "Este e-mail é uma advertência formal sobre conduta e regras da plataforma. Caso novas infrações ocorram, medidas disciplinares mais severas poderão ser aplicadas.\n\n";
     }
 
+    // ==========================================
+    // OPÇÃO 2: BANIMENTO PERMANENTE
+    // ==========================================
+    if ($acao === 'banir_permanente') {
+        $resolucaoAcao = 'Banimento permanente';
+        $mensagem .= "Tipo de Ação: BANIMENTO PERMANENTE\n";
+        $mensagem .= "Sua conta foi banida permanentemente da nossa plataforma por violação das diretrizes da comunidade. O acesso aos recursos foi revogado por tempo indeterminado.\n\n";
 
-    /*
-     * Observação do administrador
-     */
+        // Registra banimento permanente
+        $sqlBan = "INSERT INTO banimentos 
+            (email, tipo_banimento, motivo, admin_responsavel, id_denuncia, data_inicio, data_fim, ativo)
+            VALUES (?, 'permanente', ?, ?, ?, NOW(), NULL, 1)";
+        $stmtBan = $pdo->prepare($sqlBan);
+        $stmtBan->execute([$emailAlvo, $observacao, $adminEmail, $id]);
+    }
 
-    $mensagem .= "Observação da equipe:\n";
+    // ==========================================
+    // OPÇÃO 3: BANIMENTO PERSONALIZADO
+    // ==========================================
+    if ($acao === 'banir_personalizado') {
+        if (empty($dataFimRaw)) {
+            throw new Exception('Informe a data e horário de término do banimento.');
+        }
+
+        $timestampFim = strtotime($dataFimRaw);
+        if (!$timestampFim || $timestampFim <= time()) {
+            throw new Exception('A data de término do banimento deve ser uma data futura.');
+        }
+
+        $dataFimSql = date('Y-m-d H:i:s', $timestampFim);
+        $dataFimFormatada = date('d/m/Y \à\s H:i', $timestampFim);
+
+        $resolucaoAcao = 'Banimento temporário';
+        $mensagem .= "Tipo de Ação: BANIMENTO TEMPORÁRIO\n";
+        $mensagem .= "Sua conta foi temporariamente suspensa por violação das diretrizes da comunidade. Seu acesso será restabelecido automaticamente em: " . $dataFimFormatada . ".\n\n";
+
+        // Registra banimento personalizado
+        $sqlBan = "INSERT INTO banimentos 
+            (email, tipo_banimento, motivo, admin_responsavel, id_denuncia, data_inicio, data_fim, ativo)
+            VALUES (?, 'temporario', ?, ?, ?, NOW(), ?, 1)";
+        $stmtBan = $pdo->prepare($sqlBan);
+        $stmtBan->execute([$emailAlvo, $observacao, $adminEmail, $id, $dataFimSql]);
+    }
+
+    // Observação do administrador
+    $mensagem .= "Justificativa da Administração:\n";
     $mensagem .= $observacao . "\n\n";
+    $mensagem .= "Atenciosamente,\nEquipe de Moderação - Espaço em Foco";
 
-    $mensagem .= "Atenciosamente,\n";
-    $mensagem .= "Equipe Espaço em Foco";
+    // Atualiza status da denúncia para resolvida/aprovada
+    $sqlDenuncia = "UPDATE denuncias
+                    SET status = 'Aprovado',
+                        resolucao_acao = ?,
+                        resolucao_obs = ?,
+                        data_resolucao = NOW(),
+                        admin_responsavel = ?
+                    WHERE id = ?";
+    $stmtDenuncia = $pdo->prepare($sqlDenuncia);
+    $stmtDenuncia->execute([$resolucaoAcao, $observacao, $adminEmail, $id]);
 
-
-    /*
-     * Envia o e-mail
-     */
-
-    mandarEmail(
-        $nomeUsuario,
-        $email,
-        "Punição Espaço em Foco",
-        $mensagem
-    );
-
-
-    /*
-     * Retorna resposta para o JavaScript
-     */
+    // Envio do e-mail com fallback seguro
+    $emailStatus = 'E-mail enviado ao usuário.';
+    try {
+        mandarEmail(
+            $nomeUsuario,
+            $emailAlvo,
+            "Notificação Disciplinar - Espaço em Foco",
+            $mensagem
+        );
+    } catch (Throwable $eMail) {
+        error_log("Aviso: Falha ao enviar e-mail disciplinar para {$emailAlvo}: " . $eMail->getMessage());
+        $emailStatus = 'Ação registrada, mas o envio do e-mail falhou (servidor de e-mail indisponível).';
+    }
 
     echo json_encode([
         'sucesso' => true,
-        'mensagem' => 'Denúncia resolvida e e-mail enviado com sucesso.'
+        'mensagem' => "Denúncia resolvida com sucesso ({$resolucaoAcao}). {$emailStatus}"
     ]);
 
-
 } catch (Throwable $e) {
-
     http_response_code(400);
-
     echo json_encode([
         'sucesso' => false,
         'erro' => $e->getMessage()

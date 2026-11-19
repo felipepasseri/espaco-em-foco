@@ -50,5 +50,6 @@ try {
     $_SESSION['erro'] = $e->getMessage();
 }
 
-header("Location: adicionaCard.php");
+$destino = !empty($_POST['redirect']) ? $_POST['redirect'] : 'home-adm.php';
+header("Location: " . $destino);
 exit;

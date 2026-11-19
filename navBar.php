@@ -69,7 +69,7 @@ if (isset($_SESSION['user'])) {
 
                 if ($userroles['codTypeRoles'] == 1) { ?>
                     <li>
-                        <a href="https://www.espacoemfoco.online/admScreen/home-adm.php" class="button"><span>Admin</span></a>
+                        <a href="/admScreen/home-adm.php" class="button"><span>Admin</span></a>
                     </li>
                 <?php } 
             } ?>    

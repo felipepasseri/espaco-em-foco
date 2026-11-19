@@ -4,6 +4,8 @@ if (!isset($_SESSION['user'])) {
   header("Location: ../index.php");
   exit();
 }
+require_once __DIR__ . '/../login/verify-user.php';
+$userroles = verificarUsuario($_SESSION['user']);
 require_once __DIR__ . '/../config.php';
 
 $postId = $_GET['id'] ?? null;
