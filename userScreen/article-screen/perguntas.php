@@ -5,6 +5,9 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
+require_once __DIR__ . '/../../login/verify-user.php';
+verificarUsuario($_SESSION['user']);
+
 $id_artigo = isset($_GET['id_artigo']) ? (int)$_GET['id_artigo'] : 0;
 if ($id_artigo === 0) {
     header("Location: ../home-user.php");

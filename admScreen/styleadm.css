@@ -1,133 +1,1048 @@
-/* Fundo escuro do modal */
-.modal {
-    display: none;
+/* ==========================================================================
+   PAINEL ADMINISTRATIVO (ADM) - IDENTIDADE VISUAL CÓSMICA
+   ========================================================================== */
 
-    position: fixed;
-    z-index: 1000;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.7);
-
-    align-items: center;
-    justify-content: center;
+.adm-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px 60px 20px;
 }
 
-/* Modal aberto */
-.modal.aberto {
-    display: flex;
-}
-
-/* Caixa do modal */
-.modal-conteudo {
-    width: 700px;
-    max-width: 90%;
-
-    max-height: 85vh;
-
-    background-color: rgb(20, 1, 39);
-
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-
+/* =========================================
+   HERO / CABEÇALHO DO ADMINISTRADOR
+========================================= */
+.adm-dashboard-hero {
     display: flex;
     flex-direction: column;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
-.modal-header {
-    display: flex;
+.adm-user-info {
+    position: relative;
+    background: radial-gradient(circle at 50% 0%, #150d38 0%, #0b0722 75%);
+    border-radius: 20px;
+    border: 1px solid rgba(85, 43, 226, 0.35);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(85, 43, 226, 0.15);
+    overflow: hidden;
+}
 
+.adm-profile-row {
+    display: flex;
+    align-items: center;
+    padding: 0 30px 20px 30px;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.adm-badge-wrap {
+    margin-top: 6px;
+}
+
+.adm-shield-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(85, 43, 226, 0.25);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+}
+
+.adm-quick-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.adm-header-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 16px 30px;
+    background: rgba(4, 2, 15, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.adm-header-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.adm-stat-kpi-val {
+    font-size: 22px;
+    font-weight: 800;
+    color: #00e5ff;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+}
+
+.adm-stat-kpi-lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #a09bba;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* =========================================
+   GRID DE KPIS INTERATIVOS
+========================================= */
+.adm-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    width: 100%;
+}
+
+.adm-kpi-card {
+    cursor: pointer;
+    background: rgba(11, 7, 34, 0.7);
+    border: 1px solid rgba(85, 43, 226, 0.25);
+    border-radius: 16px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.25s ease;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.adm-kpi-card:hover {
+    transform: translateY(-4px);
+    border-color: #00e5ff;
+    box-shadow: 0 8px 25px rgba(0, 229, 255, 0.25);
+}
+
+.adm-kpi-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.adm-kpi-sub {
+    font-size: 11px;
+    color: #a09bba;
+    margin-top: 2px;
+}
+
+.adm-kpi-card.kpi-alerta {
+    border-color: rgba(255, 51, 102, 0.5);
+    box-shadow: 0 0 15px rgba(255, 51, 102, 0.2);
+}
+
+.adm-kpi-card.kpi-alerta .extra-value {
+    color: #ff3366;
+    text-shadow: 0 0 8px rgba(255, 51, 102, 0.4);
+}
+
+/* =========================================
+   BARRA DE ABAS
+========================================= */
+.adm-tabs-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(11, 7, 34, 0.75);
+    border: 1px solid rgba(85, 43, 226, 0.3);
+    border-radius: 16px;
+    padding: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.adm-tab-btn {
+    flex: 1;
+    min-width: 160px;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    color: #a09bba;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.adm-tab-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.adm-tab-btn.active {
+    background: linear-gradient(135deg, rgba(85, 43, 226, 0.5) 0%, rgba(0, 229, 255, 0.25) 100%);
+    color: #fff;
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(85, 43, 226, 0.3);
+}
+
+.tab-badge {
+    background: #ff3366;
+    color: #fff;
+    font-size: 11px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-weight: 800;
+}
+
+.tab-badge-neutral {
+    background: rgba(255, 255, 255, 0.12);
+    color: #c9c3e2;
+}
+
+/* =========================================
+   CONTEÚDO DAS ABAS
+========================================= */
+.adm-tab-content {
+    display: none;
+    animation: fadeInTab 0.3s ease-out;
+}
+
+.adm-tab-content.active {
+    display: block;
+}
+
+@keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.adm-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.adm-section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.3px;
+}
+
+.adm-section-subtitle {
+    font-size: 13px;
+    color: #a09bba;
+    margin-top: 4px;
+}
+
+.adm-header-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* Filtros Pills */
+.adm-filter-pills {
+    display: flex;
+    gap: 6px;
+    background: rgba(11, 7, 34, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4px;
+    border-radius: 25px;
+    flex-wrap: wrap;
+}
+
+.filter-pill {
+    padding: 6px 14px;
+    background: transparent;
+    border: none;
+    color: #a09bba;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-pill:hover {
+    color: #fff;
+}
+
+.filter-pill.active {
+    background: rgba(85, 43, 226, 0.4);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.4);
+}
+
+/* =========================================
+   CARDS DE LISTAGEM (GRID)
+========================================= */
+.adm-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 18px;
+}
+
+.adm-item-card {
+    background: rgba(11, 7, 34, 0.75);
+    border: 1px solid rgba(85, 43, 226, 0.25);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.adm-item-card:hover {
+    border-color: rgba(0, 229, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px rgba(85, 43, 226, 0.2);
+}
+
+.adm-card-header {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-
-    padding: 20px;
-
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.modal-header h2 {
-    margin: 0;
+.adm-card-id {
+    font-size: 12px;
+    font-weight: 700;
+    color: #a09bba;
 }
 
-.fechar-modal {
-    border: none;
-    background: none;
-    color: white;
-
-    font-size: 30px;
-
-    cursor: pointer;
+.adm-status-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
 }
 
-.modal-body {
-    padding: 20px;
-
-    overflow-y: auto;
+.status-analise {
+    background: rgba(255, 174, 0, 0.15);
+    color: #FFAE00;
+    border: 1px solid rgba(255, 174, 0, 0.35);
 }
 
-.campo {
-    margin-bottom: 20px;
+.status-aprovado {
+    background: rgba(0, 229, 255, 0.15);
+    color: #00e5ff;
+    border: 1px solid rgba(0, 229, 255, 0.35);
 }
 
-.campo strong {
-    display: block;
+.status-reprovado {
+    background: rgba(255, 51, 102, 0.15);
+    color: #ff3366;
+    border: 1px solid rgba(255, 51, 102, 0.35);
+}
 
-    margin-bottom: 5px;
+.status-ban-ativo {
+    background: rgba(255, 51, 102, 0.2);
+    color: #ff3366;
+    border: 1px solid rgba(255, 51, 102, 0.4);
+    box-shadow: 0 0 10px rgba(255, 51, 102, 0.2);
+}
 
+.status-ban-expirado {
+    background: rgba(255, 255, 255, 0.06);
+    color: #a09bba;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.status-ban-revogado {
+    background: rgba(85, 43, 226, 0.2);
+    color: #a67cff;
+    border: 1px solid rgba(85, 43, 226, 0.4);
+}
+
+.adm-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 13px;
+    flex: 1;
+}
+
+.adm-info-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.adm-info-label {
+    color: #a09bba;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.adm-info-user {
+    color: #00e5ff;
     font-size: 14px;
 }
 
-.campo p {
+.adm-user-email {
+    display: block;
+    font-size: 11px;
+    color: #a09bba;
+}
+
+.adm-target-type {
+    font-size: 11px;
+    color: #a09bba;
+}
+
+.adm-cat-tag {
+    background: rgba(85, 43, 226, 0.2);
+    color: #c9c3e2;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    border: 1px solid rgba(85, 43, 226, 0.3);
+}
+
+.adm-reason-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 4px;
+}
+
+.adm-reason-box p {
+    color: #c9c3e2;
+    font-size: 12px;
+    line-height: 1.5;
+    margin-top: 4px;
+    word-break: break-word;
+}
+
+.adm-resolution-box {
+    background: rgba(0, 229, 255, 0.05);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 6px;
+}
+
+.adm-res-obs {
+    font-size: 12px;
+    color: #fff;
+    font-style: italic;
+    margin-top: 4px;
+}
+
+.adm-res-date {
+    display: block;
+    font-size: 10px;
+    color: #a09bba;
+    margin-top: 4px;
+}
+
+.adm-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: wrap;
+}
+
+.adm-footer-note {
+    font-size: 11px;
+    color: #a09bba;
+    font-style: italic;
+}
+
+.adm-info-meta {
+    font-size: 11px;
+    color: #a09bba;
+    margin-top: 4px;
+}
+
+/* Banimentos específicos */
+.adm-ban-user-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.adm-mini-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(0, 229, 255, 0.4);
+}
+
+.adm-ban-tipo-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.tipo-permanente {
+    background: rgba(255, 51, 102, 0.15);
+    color: #ff3366;
+    border: 1px solid rgba(255, 51, 102, 0.3);
+}
+
+.tipo-temporario {
+    background: rgba(255, 174, 0, 0.15);
+    color: #FFAE00;
+    border: 1px solid rgba(255, 174, 0, 0.3);
+}
+
+/* Posts e Artigos */
+.adm-post-topic-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: #00e5ff;
+}
+
+.adm-post-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.adm-post-preview {
+    font-size: 12px;
+    color: #c9c3e2;
+    line-height: 1.5;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.adm-post-date {
+    font-size: 11px;
+    color: #a09bba;
+}
+
+/* Tópicos Grid */
+.adm-topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.adm-topic-card {
+    background: rgba(11, 7, 34, 0.75);
+    border: 1px solid rgba(85, 43, 226, 0.25);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s ease;
+}
+
+.adm-topic-card:hover {
+    border-color: #00e5ff;
+    transform: translateY(-3px);
+}
+
+.adm-topic-img-wrap {
+    height: 140px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 12px;
+}
+
+.adm-topic-cat-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(4, 2, 15, 0.8);
+    backdrop-filter: blur(4px);
+    color: #00e5ff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 229, 255, 0.4);
+}
+
+.adm-topic-body {
+    padding: 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.adm-topic-body h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.adm-topic-body p {
+    font-size: 12px;
+    color: #a09bba;
+    line-height: 1.5;
+}
+
+.adm-topic-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(4, 2, 15, 0.3);
+}
+
+/* Empty States */
+.adm-empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    background: rgba(11, 7, 34, 0.5);
+    border-radius: 20px;
+    border: 1px dashed rgba(85, 43, 226, 0.3);
+}
+
+.empty-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.adm-empty-state h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.adm-empty-state p {
+    font-size: 13px;
+    color: #a09bba;
+}
+
+/* =========================================
+   BOTÕES ADMINISTRATIVOS
+========================================= */
+.btn-adm-primary {
+    background: linear-gradient(135deg, #552be2 0%, #00e5ff 100%);
+    color: #fff;
+    border: none;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(85, 43, 226, 0.35);
+}
+
+.btn-adm-primary:hover {
+    box-shadow: 0 6px 20px rgba(0, 229, 255, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-adm-outline {
+    background: transparent;
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #00e5ff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.btn-adm-outline:hover {
+    background: rgba(0, 229, 255, 0.12);
+    border-color: #00e5ff;
+}
+
+.btn-adm-ghost {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #c9c3e2;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.btn-adm-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.btn-adm-danger {
+    background: rgba(255, 51, 102, 0.15);
+    border: 1px solid rgba(255, 51, 102, 0.4);
+    color: #ff3366;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-adm-danger:hover {
+    background: #ff3366;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255, 51, 102, 0.4);
+}
+
+.btn-adm-success {
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #00e5ff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-adm-success:hover {
+    background: #00e5ff;
+    color: #04001F;
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4);
+}
+
+.btn-adm-action {
+    flex: 1;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(85, 43, 226, 0.7) 0%, rgba(0, 229, 255, 0.4) 100%);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 9px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-adm-action:hover {
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+/* =========================================
+   MODAIS ADMINISTRATIVOS (ESTILO GLASSMORPHISM)
+========================================= */
+.adm-modal-box {
+    max-width: 640px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #170d3d 0%, #0b0722 75%);
+    border: 1px solid rgba(85, 43, 226, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(85, 43, 226, 0.2);
+    border-radius: 18px;
+    margin: 0 auto;
+}
+
+.adm-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(11, 7, 34, 0.85);
+}
+
+.adm-modal-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
     margin: 0;
 }
 
-.descricao {
-    padding: 15px;
-
-    background-color: #f5f5f5;
-
-    border-radius: 8px;
-
-    min-height: 80px;
+.adm-modal-subtitle {
+    font-size: 12px;
+    color: #a09bba;
+    display: block;
+    margin-top: 3px;
 }
 
-.modal-footer {
+.adm-modal-body {
+    padding: 22px 24px;
+    overflow-y: auto;
     display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: calc(85vh - 140px);
+}
 
+.adm-modal-footer {
+    display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(11, 7, 34, 0.9);
+}
 
+/* Detalhes de denúncia dentro do modal */
+.adm-modal-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.adm-detail-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #a09bba;
+}
+
+.detail-sub {
+    font-size: 11px;
+    color: #a09bba;
+}
+
+.adm-modal-reason {
+    margin-top: 0;
+}
+
+/* Opções de Resolução (Radio Cards) */
+.adm-radio-options {
+    display: flex;
+    flex-direction: column;
     gap: 10px;
-
-    padding: 20px;
-
-    border-top: 1px solid #ddd;
 }
 
-.modal-footer button {
-    padding: 10px 18px;
-
-    border: none;
-
-    border-radius: 6px;
-
+.adm-radio-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 14px 16px;
     cursor: pointer;
-
-    font-weight: bold;
+    transition: all 0.2s ease;
 }
 
-.btn-recusar {
-    background-color: #dc3545;
-    color: white;
+.adm-radio-card:hover {
+    border-color: rgba(0, 229, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.btn-resolver {
-    background-color: #28a745;
-    color: white;
+.adm-radio-card input[type="radio"] {
+    margin-top: 4px;
+    cursor: pointer;
+    accent-color: #00e5ff;
+}
+
+.adm-radio-card:has(input[type="radio"]:checked) {
+    background: rgba(85, 43, 226, 0.2);
+    border-color: #00e5ff;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+}
+
+.radio-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.radio-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.radio-icon {
+    font-size: 16px;
+}
+
+.radio-card-content p {
+    font-size: 12px;
+    color: #a09bba;
+    line-height: 1.4;
+}
+
+/* Campo dinâmico de data */
+.campo-data-ban {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-data-ban.hidden {
+    display: none !important;
+}
+
+/* Formulários */
+.adm-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.adm-input,
+.adm-textarea {
+    width: 100%;
+    background: rgba(4, 2, 15, 0.6);
+    border: 1px solid rgba(85, 43, 226, 0.35);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.adm-input:focus,
+.adm-textarea:focus {
+    outline: none;
+    border-color: #00e5ff;
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+}
+
+.adm-full-content-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 18px 20px;
+    color: #c9c3e2;
+    font-size: 14px;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+@media (max-width: 900px) {
+    .adm-profile-row {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .adm-quick-actions {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    .adm-modal-details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .adm-container {
+        padding: 14px 12px 50px 12px;
+    }
+
+    .adm-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .adm-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .adm-modal-box {
+        max-height: 94vh;
+        width: 100%;
+        border-radius: 14px;
+    }
+
+    .adm-modal-header {
+        padding: 14px 16px;
+    }
+
+    .adm-modal-body {
+        padding: 16px 14px;
+    }
+
+    .adm-modal-footer {
+        padding: 12px 16px;
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .adm-modal-footer button {
+        width: 100%;
+        justify-content: center;
+    }
 }
